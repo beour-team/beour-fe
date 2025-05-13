@@ -1,35 +1,29 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Route, Routes } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+// 테스트용 으로 적어둔거에요!!
+function Home() {
+  return <h1 className="text-2xl font-bold">홈 화면</h1>;
 }
 
-export default App
+function Login() {
+  return (
+    <h1 className="text-2xl text-gray-500 border border-black">로그인 화면</h1>
+  );
+}
+
+function App() {
+  return (
+    <>
+      <Routes>
+        {/* 아래 두개 지우셔도 무방합니다 */}
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </>
+  );
+}
+
+export default App;
+
+// 폴더 구조는 필요할까봐 다 넣어놨습니다.
+// 불필요하다 싶은건 말씀해주세요
