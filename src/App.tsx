@@ -1,23 +1,23 @@
 import { Route, Routes } from "react-router-dom";
+import Layout from "./layouts/webApp-layout/Layout";
+import Contents from "./layouts/contents-layout/Contents";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
   return <h1 className="text-2xl font-bold">홈 화면</h1>;
 }
 
-function Login() {
-  return (
-    <h1 className="text-2xl text-gray-500 border border-black">로그인 화면</h1>
-  );
-}
-
 function App() {
   return (
     <>
       <Routes>
-        {/* 아래 두개 지우셔도 무방합니다 */}
-        <Route path="/" element={<Home />} />
-        <Route path="/login" element={<Login />} />
+        {/* 웹앱 사이즈의 레이아웃입니다 */}
+        <Route element={<Layout />}>
+          {/* 컨텐츠를 담을 레이아웃입니다 */}
+          <Route element={<Contents />}>
+            <Route path="/" element={<Home />} />
+          </Route>
+        </Route>
       </Routes>
     </>
   );
