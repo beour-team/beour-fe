@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const SpacecardUI: React.FC = () => {
-  return (
-    <div>SpacecardUI</div>
-  )
-}
+  return <div>SpacecardUI</div>;
+};
 
-export default SpacecardUI
+export default SpacecardUI;
