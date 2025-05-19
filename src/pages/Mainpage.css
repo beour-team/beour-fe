@@ -1,28 +1,28 @@
 .box .overlap-group {
-    background-color: #2a2a2e;
-    height: 75px;
-    position: relative;
-    width: 394px;
+  background-color: #2a2a2e;
+  height: 75px;
+  position: relative;
+  width: 394px;
 }
 
 .box .text-wrapper {
-    color: #ffffff;
-    font-family: "Pretendard-Bold", Helvetica;
-    font-size: 24px;
-    font-weight: 700;
-    left: 20px;
-    letter-spacing: 0;
-    line-height: 35px;
-    position: absolute;
-    top: 19px;
-    white-space: nowrap;
-    width: 82px;
+  color: #ffffff;
+  font-family: "Pretendard-Bold", Helvetica;
+  font-size: 24px;
+  font-weight: 700;
+  left: 20px;
+  letter-spacing: 0;
+  line-height: 35px;
+  position: absolute;
+  top: 19px;
+  white-space: nowrap;
+  width: 82px;
 }
 
 .box .group {
-    height: 16px;
-    left: 357px;
-    position: absolute;
-    top: 28px;
-    width: 20px;
+  height: 16px;
+  left: 357px;
+  position: absolute;
+  top: 28px;
+  width: 20px;
 }

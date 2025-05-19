@@ -1,5 +1,5 @@
-import React from 'react';
-import './Mainpage.css';
+import React from "react";
+import "./Mainpage.css";
 
 const Mainpage: React.FC = () => {
   return (
