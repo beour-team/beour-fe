@@ -3,6 +3,7 @@ import Layout from "./layouts/webApp-layout/Layout";
 import Contents from "./layouts/contents-layout/Contents";
 import Login from "./pages/login/Login";
 import Mainpage from "./pages/Mainpage";
+import SignUp from "./pages/signup/Signup";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -18,6 +19,7 @@ function App() {
           {/* 컨텐츠를 담을 레이아웃입니다 */}
           <Route element={<Contents />}>
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
             <Route path="/" element={<Home />} />
             <Route path="/main" element={<Mainpage />} />
           </Route>
