@@ -168,3 +168,12 @@ body {
   height: 100vh;
   font-family: "Pretendard-Regular", sans-serif;
 }
+
+/* 스크롤바 숨김용 */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

@@ -1,8 +1,6 @@
 import { useKeenSlider } from "keen-slider/react";
 import "keen-slider/keen-slider.min.css";
-import banner1 from "../assets/bannerImg.png";
-import banner2 from "../assets/bannerImg.png";
-import banner3 from "../assets/bannerImg.png";
+import { BannerData } from "../constants/BannerData";
 
 const Banner = () => {
   const [sliderRef] = useKeenSlider<HTMLDivElement>({
@@ -14,19 +12,13 @@ const Banner = () => {
     },
   });
 
-  const banners = [
-    { src: banner1, text: "공간 자랑 이벤트 진행중" },
-    { src: banner2, text: "텍스트2" },
-    { src: banner3, text: "텍스트3" },
-  ];
-
   return (
     <div className="py-[1rem] cursor-pointer">
       <div ref={sliderRef} className="keen-slider rounded-lg overflow-hidden">
-        {banners.map((banner, index) => (
+        {BannerData.map((banner, index) => (
           <div
             key={index}
-            className="keen-slider__slide relative w-full aspect-[394/101]"
+            className="keen-slider__slide relative w-full aspect-[394/140]"
           >
             <img
               src={banner.src}

@@ -7,7 +7,7 @@ import GuestFooter from "../components/GuestFooter";
 
 const GuestMainPage = () => {
   return (
-    <div className="px-[1vw] pb-[12rem]">
+    <div className="px-[3vw] pb-[8rem]">
       <GuestHeader /> {/*헤더*/}
       <HelloProfile />
       {/*안녕하세요 인사부분-호스트 같이 사용가능할 것 같아요!*/}
