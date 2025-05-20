@@ -3,9 +3,10 @@
 @tailwind utilities;
 
 @font-face {
-  font-family: "Pretendard";
-  font-weight: 300 700;
-  src: url("/assets/fonts/PretendardVariable.woff2") format("woff-variations");
+  font-family: "Pretendard-Regular";
+  src: url("https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff")
+    format("woff");
+  font-style: normal;
 }
 
 :root {
@@ -165,4 +166,5 @@ textarea {
 body {
   width: 100vw;
   height: 100vh;
+  font-family: "Pretendard-Regular", sans-serif;
 }
