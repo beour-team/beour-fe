@@ -13,7 +13,7 @@ const Banner = () => {
   });
 
   return (
-    <div className="py-[1rem] cursor-pointer">
+    <div className="py-[1rem]">
       <div ref={sliderRef} className="keen-slider rounded-lg overflow-hidden">
         {BannerData.map((banner, index) => (
           <div

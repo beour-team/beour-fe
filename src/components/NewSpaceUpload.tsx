@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { FaStar, FaRegStar } from "react-icons/fa"; //react-icons
+import { useNavigate } from "react-router-dom";
+import { FaStar, FaRegStar } from "react-icons/fa";
 
 type NewSpace = {
   thumbnail_url: string;
@@ -10,25 +11,32 @@ type NewSpace = {
 
 type NewSpaceUploadProps = {
   space: NewSpace;
-  index: number;
+  spaceId: number;
 };
 
-const NewSpaceUpload = ({ space, index }: NewSpaceUploadProps) => {
+const NewSpaceUpload = ({ space, spaceId }: NewSpaceUploadProps) => {
   const [isFavorite, setIsFavorite] = useState(false);
+  const nav = useNavigate();
 
   const toggleFavorite = () => {
     setIsFavorite((prev) => !prev);
   };
 
+  const goToDetail = () => {
+    nav(`/space/detail/${spaceId}`);
+  };
+
+  //시간이 된다면 여기 스크롤말고 다른 방법으로 바꿔보기
   return (
     <div
-      key={index}
+      key={spaceId}
       className="relative aspect-squre w-[20.4rem] h-[20rem] overflow-hidden flex-shrink-0"
     >
       <img
         src={space.thumbnail_url}
-        alt={`새 공간 ${index + 1}`}
+        alt={`새 공간 ${spaceId + 1}`}
         className="rounded-[1.2rem] object-cover w-full h-full"
+        onClick={goToDetail}
       />
       <button
         onClick={toggleFavorite}

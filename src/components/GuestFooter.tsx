@@ -1,13 +1,15 @@
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const footerItems = [
-  { label: "홈", path: "/space" }, //엔드포인트 백엔드 api랑 맞추기
+  { label: "홈", path: "/guest" },
   { label: "내 주변", path: "/nearby" },
   { label: "나의 예약", path: "/reservations" },
   { label: "마이페이지", path: "/guestpage" },
 ];
 
 const GuestFooter = () => {
+  const nav = useNavigate();
+
   return (
     <footer className="fixed bottom-0 left-0 w-full bg-transparent z-50">
       <div
@@ -27,7 +29,7 @@ const GuestFooter = () => {
             key={item.path}
             className="flex flex-col items-center cursor-pointer"
             onClick={() => {
-              // 페이지 이동 로직 (useNavigate 사용)
+              nav(item.path);
             }}
           >
             <div className="w-[2rem] h-[2rem] bg-[#eaeaea] rounded-full mb-3"></div>

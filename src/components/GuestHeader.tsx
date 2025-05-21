@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import menuIcon from "../assets/menuIcon.png";
+import { IoIosSearch } from "react-icons/io";
 
 const GuestHeader = () => {
   const nav = useNavigate();
@@ -7,17 +7,19 @@ const GuestHeader = () => {
   return (
     <div className="flex items-center justify-between h-[9vh] mt-[0.5vh]">
       <div className="flex items-center gap-[1vw]">
-        <div className="font-black text-[2.4rem] leading-none cursor-pointer">
+        <div
+          onClick={() => nav("/guest")}
+          className="font-black text-[2.4rem] leading-none cursor-pointer"
+        >
           Be:our
         </div>
         <div className="inline-block font-regular text-[0.9rem] mx-[1rem] px-[2.5vw] py-[1vh] bg-black rounded-full text-white">
           게스트 모드
         </div>
       </div>
-      <img
-        src={menuIcon}
-        alt="메뉴 아이콘"
-        className="w-[25px] cursor-pointer"
+      <IoIosSearch
+        size={25}
+        className="cursor-pointer"
         onClick={() => nav("/search")}
       />
     </div>

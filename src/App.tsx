@@ -18,7 +18,7 @@ function App() {
           {/* 컨텐츠를 담을 레이아웃입니다 */}
           <Route element={<Contents />}>
             <Route path="/" element={<Home />} />
-            <Route path="/spaces" element={<GuestMainPage />} />{" "}
+            <Route path="/guest" element={<GuestMainPage />} />{" "}
             {/* 게스트 메인화면 엔드포인트 뭔가요 */}
             <Route path="/search" element={<GuestSearchPage />} />
           </Route>
