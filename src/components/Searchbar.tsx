@@ -13,12 +13,15 @@ const Searchbar = () => {
   };
 
   return (
-    <div className="my-[3rem]">
+    <div className="mt-[3rem]">
       <div className="flex items-center gap-3">
         <div className="text-[#A9A9A9] text-[4rem]">
-          <FiChevronLeft className="cursor-pointer" onClick={() => nav(-1)} />
+          <FiChevronLeft
+            className="cursor-pointer"
+            onClick={() => nav("/guest")}
+          />
         </div>
-        <div className="relative w-full max-w-[90%]">
+        <div className="relative w-full max-w-[95%]">
           <input
             type="search"
             value={value}
