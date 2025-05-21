@@ -1,59 +1,60 @@
 import newspace1 from "../assets/newspace1.png";
 import newspace2 from "../assets/newspace2.png";
 
-export const newSpaces = [
+//백엔드 api 변수명에 맞추기
+export const NewSpacesData = [
   {
-    src: newspace1,
-    location: "금천구 가산동",
+    thumbnail_url: newspace1,
+    location: "금천구 가산동", //여기 백엔드 데이터 필요 (api명세서에서 안보여요)
     name: "모임 공간 르씨엘 1호점",
-    price: "1000 원/시간",
+    price_per_hour: 1000,
   },
   {
-    src: newspace2,
+    thumbnail_url: newspace2,
     location: "금천구 가산동",
     name: "모임 공간 르씨엘 1호점",
-    price: "1000 원/시간",
+    price_per_hour: 1000,
   },
   {
-    src: newspace1,
+    thumbnail_url: newspace1,
     location: "금천구 가산동",
     name: "모임 공간 르씨엘 1호점",
-    price: "1000 원/시간",
+    price_per_hour: 1000,
   },
   {
-    src: newspace1,
+    thumbnail_url: newspace1,
     location: "금천구 가산동",
     name: "모임 공간 르씨엘 1호점",
-    price: "1000 원/시간",
+    price_per_hour: 1000,
   },
   {
-    src: newspace1,
+    thumbnail_url: newspace1,
     location: "금천구 가산동",
     name: "모임 공간 르씨엘 1호점",
-    price: "1000 원/시간",
+    price_per_hour: 1000,
   },
   {
-    src: newspace2,
+    thumbnail_url: newspace2,
     location: "금천구 가산동",
     name: "모임 공간 르씨엘 1호점",
-    price: "1000 원/시간",
+    price_per_hour: 1000,
   },
   {
-    src: newspace2,
+    thumbnail_url: newspace2,
     location: "금천구 가산동",
     name: "모임 공간 르씨엘 1호점",
-    price: "1000 원/시간",
+    price_per_hour: 1000,
   },
   {
-    src: newspace2,
+    thumbnail_url: newspace2,
     location: "금천구 가산동",
     name: "모임 공간 르씨엘 1호점",
-    price: "1000 원/시간",
+    price_per_hour: 1000,
   },
   {
-    src: newspace2,
+    thumbnail_url: newspace2,
     location: "금천구 가산동",
     name: "모임 공간 르씨엘 1호점",
-    price: "1000 원/시간",
+    price_per_hour: 1000,
   },
 ];

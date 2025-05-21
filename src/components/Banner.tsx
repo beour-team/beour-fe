@@ -21,12 +21,12 @@ const Banner = () => {
             className="keen-slider__slide relative w-full aspect-[394/140]"
           >
             <img
-              src={banner.src}
+              src={banner.image_url}
               alt={`배너 ${index + 1}`}
               className="w-full object-cover"
             />
             <div className="absolute bottom-[2rem] left-[2rem] text-white text-[1.5rem] font-regular drop-shadow-md">
-              {banner.text}
+              {banner.title}
             </div>
           </div>
         ))}

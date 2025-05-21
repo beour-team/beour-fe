@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Layout from "./layouts/webApp-layout/Layout";
 import Contents from "./layouts/contents-layout/Contents";
 import GuestMainPage from "./pages/GuestMainPage";
+import GuestSearchPage from "./pages/GuestSearchPage";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -17,7 +18,9 @@ function App() {
           {/* 컨텐츠를 담을 레이아웃입니다 */}
           <Route element={<Contents />}>
             <Route path="/" element={<Home />} />
-            <Route path="/spaces" element={<GuestMainPage />} />
+            <Route path="/spaces" element={<GuestMainPage />} />{" "}
+            {/* 게스트 메인화면 엔드포인트 뭔가요 */}
+            <Route path="/search" element={<GuestSearchPage />} />
           </Route>
         </Route>
       </Routes>

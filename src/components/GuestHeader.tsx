@@ -1,6 +1,9 @@
+import { useNavigate } from "react-router-dom";
 import menuIcon from "../assets/menuIcon.png";
 
 const GuestHeader = () => {
+  const nav = useNavigate();
+
   return (
     <div className="flex items-center justify-between h-[9vh] mt-[0.5vh]">
       <div className="flex items-center gap-[1vw]">
@@ -15,6 +18,7 @@ const GuestHeader = () => {
         src={menuIcon}
         alt="메뉴 아이콘"
         className="w-[25px] cursor-pointer"
+        onClick={() => nav("/search")}
       />
     </div>
   );

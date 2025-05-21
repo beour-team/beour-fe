@@ -1,5 +1,5 @@
 import NewSpaceUpload from "./NewSpaceUpload";
-import { newSpaces } from "../constants/newSpaces";
+import { NewSpacesData } from "../constants/NewSpacesData";
 const NewSpace = () => {
   return (
     <div>
@@ -11,8 +11,8 @@ const NewSpace = () => {
           {`더보기 >`}
         </div>
       </div>
-      <div className="overflow-x-auto flex gap-6 scrollbar-hide">
-        {newSpaces.map((space, index) => (
+      <div className="overflow-x-auto flex gap-6 scrollbar-hide cursor-pointer">
+        {NewSpacesData.map((space, index) => (
           <NewSpaceUpload key={index} space={space} index={index} />
         ))}
       </div>
