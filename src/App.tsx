@@ -4,6 +4,7 @@ import Contents from "./layouts/contents-layout/Contents";
 import GuestMainPage from "./pages/GuestMainPage";
 import GuestSearchPage from "./pages/GuestSearchPage";
 import GuestResultPage from "./pages/GuestResultPage";
+import GuestFilterPage from "./pages/GuestFilterPage";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -23,6 +24,7 @@ function App() {
             {/* 게스트 메인화면 엔드포인트 뭔가요 */}
             <Route path="/search" element={<GuestSearchPage />} />
             <Route path="/spaces" element={<GuestResultPage />} />
+            <Route path="/filter" element={<GuestFilterPage />} />
           </Route>
         </Route>
       </Routes>
