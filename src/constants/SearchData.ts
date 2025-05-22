@@ -10,7 +10,7 @@ export type SearchResultItem = {
 
   rating: number;
   guest_count: number; //다른 api 참조함
-
+  spaceId: number;
   // description: string;
   // reservation_notice: string;
   // location_description: string;
@@ -29,6 +29,7 @@ export const SearchData: Record<string, SearchResultItem[]> = {
 
       rating: 4.3,
       guest_count: 3,
+      spaceId: 1000,
 
       // description: "보드게임과 콘솔게임이 있는 파티룸",
       // reservation_notice: "예약은 최소 하루 전까지 가능합니다.",
@@ -44,6 +45,7 @@ export const SearchData: Record<string, SearchResultItem[]> = {
       price_per_hour: 99000,
       rating: 4.3,
       guest_count: 3,
+      spaceId: 1001,
     },
     {
       name: "게임 파티룸 플레이앤 삼성역점",
@@ -54,6 +56,7 @@ export const SearchData: Record<string, SearchResultItem[]> = {
       price_per_hour: 99000,
       rating: 4.3,
       guest_count: 3,
+      spaceId: 1002,
     },
     {
       name: "게임 파티룸 플레이앤 삼성역점",
@@ -64,6 +67,7 @@ export const SearchData: Record<string, SearchResultItem[]> = {
       price_per_hour: 99000,
       rating: 4.3,
       guest_count: 3,
+      spaceId: 1003,
     },
   ],
 };

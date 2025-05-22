@@ -1,10 +1,12 @@
-import { HiAdjustmentsHorizontal } from "react-icons/hi2";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { HiAdjustmentsHorizontal } from "react-icons/hi2";
 import { SlArrowDown } from "react-icons/sl";
 
 const ResultToolbar = ({ totalCount }: { totalCount: number }) => {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("추천순");
+  const nav = useNavigate();
 
   const handleSelect = (value: string) => {
     setSelected(value);
@@ -44,7 +46,10 @@ const ResultToolbar = ({ totalCount }: { totalCount: number }) => {
             </div>
           )}
         </div>
-        <div className="flex items-center cursor-pointer rounded-[2rem] bg-[#E9EBEE] px-[1.2rem] py-[0.7rem]">
+        <div
+          className="flex items-center cursor-pointer rounded-[2rem] bg-[#E9EBEE] px-[1.2rem] py-[0.7rem]"
+          onClick={() => nav("/filter")}
+        >
           <HiAdjustmentsHorizontal
             size={15}
             className="text-[#9D9D9D] mr-[0.2rem]"

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { FaStar, FaRegStar } from "react-icons/fa";
+import FavoriteIcon from "./FavoriteIcon";
 
 type NewSpace = {
   thumbnail_url: string;
@@ -42,11 +42,7 @@ const NewSpaceUpload = ({ space, spaceId }: NewSpaceUploadProps) => {
         onClick={toggleFavorite}
         className="absolute top-[1rem] right-[1rem] z-10"
       >
-        {isFavorite ? (
-          <FaStar className="text-white text-[2.3rem]" />
-        ) : (
-          <FaRegStar className="text-white text-[2.3rem]" />
-        )}
+        <FavoriteIcon isFavorite={isFavorite} />
       </button>
       <div className="absolute bottom-[1.3rem] left-[1rem] text-white text-shadow-sm">
         <div className="text-[1rem] font-thin">{space.location}</div>
