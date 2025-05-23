@@ -28,6 +28,7 @@ const SignUpForm: React.FC = () => {
         setIsOpen(false);
       }
     };
+
     // 전체 문서에서 마우스 클릭이 발생할때마다 실행되는 이벤트 리스너
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
