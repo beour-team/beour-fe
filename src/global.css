@@ -183,3 +183,15 @@ input[type="search"]::-webkit-search-cancel-button {
   -webkit-appearance: none;
   display: none;
 }
+
+/* 월 넘기는 네비게이션 버튼 스타일 (TimePicker) */
+.rdp-chevron {
+  fill: #000000 !important;
+  padding-bottom: 0.2rem;
+}
+
+[class*="rdp-caption_label"] {
+  font-size: 1.5rem;
+  color: #000;
+  padding-bottom: 0.5rem;
+}
