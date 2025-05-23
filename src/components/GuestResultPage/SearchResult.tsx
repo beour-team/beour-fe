@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { SearchResultItem } from "../constants/SearchData";
+import type { SearchResultItem } from "../../constants/SearchData";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
 import { GoStarFill } from "react-icons/go";
-import FavoriteIcon from "./FavoriteIcon";
+import FavoriteIcon from "../FavoriteIcon";
 
 interface SearchResultsProps {
   results?: SearchResultItem[];

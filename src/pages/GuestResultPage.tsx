@@ -1,8 +1,8 @@
 import { useLocation } from "react-router-dom";
 import { SearchData } from "../constants/SearchData";
-import Searchbar from "../components/Searchbar";
-import ResultToolbar from "../components/ResultToolbar";
-import SearchResult from "../components/SearchResult";
+import Searchbar from "../components/GuestResultPage/Searchbar";
+import ResultToolbar from "../components/GuestResultPage/ResultToolbar";
+import SearchResult from "../components/GuestResultPage/SearchResult";
 
 //임시데이터(삼성역으로만 검색해야 나옴)로 만든 결과화면
 const GuestResultPage = () => {

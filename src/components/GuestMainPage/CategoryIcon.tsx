@@ -1,5 +1,5 @@
 //스페이스클라우드에는 용도별이 이 형태로 되어있지 않아서
-// 임의로 space_category로만 이동하게 구현했습니다.
+// 임의로 space_category로만 이동하게 구현
 import { useNavigate } from "react-router-dom";
 
 type CategoryIconProps = {

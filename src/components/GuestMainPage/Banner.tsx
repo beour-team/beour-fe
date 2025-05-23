@@ -1,6 +1,7 @@
-import { useKeenSlider } from "keen-slider/react";
+// yarn add keen-slider 라이브러리 설치 필요
+import { useKeenSlider } from "keen-slider/react"; //keen-slider 라이브러리 사용
 import "keen-slider/keen-slider.min.css";
-import { BannerData } from "../constants/BannerData";
+import { BannerData } from "../../constants/BannerData";
 
 const Banner = () => {
   const [sliderRef] = useKeenSlider<HTMLDivElement>({

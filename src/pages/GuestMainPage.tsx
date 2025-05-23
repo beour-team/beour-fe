@@ -1,8 +1,8 @@
 import GuestHeader from "../components/GuestHeader";
-import HelloProfile from "../components/HelloProfile";
-import Banner from "../components/Banner";
-import SpaceType from "../components/SpaceType";
-import NewSpace from "../components/NewSpace";
+import HelloProfile from "../components/GuestMainPage/HelloProfile";
+import Banner from "../components/GuestMainPage/Banner";
+import SpaceType from "../components/GuestMainPage/SpaceType";
+import NewSpace from "../components/GuestMainPage/NewSpace";
 import GuestFooter from "../components/GuestFooter";
 
 const GuestMainPage = () => {

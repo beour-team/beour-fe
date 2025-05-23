@@ -1,16 +1,14 @@
-import GuestFooter from "../components/GuestFooter";
-import Filterbar from "../components/Filterbar";
-import FilterText from "../components/FilterText";
+import Filterbar from "../components/GuestFilterPage/Filterbar";
+import FilterText from "../components/GuestFilterPage/FilterText";
 
 const GuestFilterPage = () => {
   return (
     <div className="mx-[1vw] my-[2vh]">
-      <Filterbar />
+      <Filterbar /> {/* < 필터 */}
       <div className="mx-[2vw]">
-        <FilterText />
-        <div>재설정, 적용버튼</div>
-        <GuestFooter />
+        <FilterText /> {/* 필터 내용 */}
       </div>
+      <div>재설정, 적용버튼</div> {/* 재설정, 적용하기 */}
     </div>
   );
 };

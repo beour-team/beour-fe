@@ -1,5 +1,6 @@
 import NewSpaceUpload from "./NewSpaceUpload";
-import { NewSpacesData } from "../constants/NewSpacesData";
+import { NewSpacesData } from "../../constants/NewSpacesData";
+
 const NewSpace = () => {
   return (
     <div>
