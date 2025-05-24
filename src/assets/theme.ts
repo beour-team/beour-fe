@@ -3,5 +3,6 @@ import checkedBox from "./img/checkedBox.svg";
 import warning from "./img/warning.svg";
 import underArrow from "./img/underArrow.svg";
 import topArrow from "./img/topArrow.svg";
+import menu from "./img/menu.svg";
 
-export { checkBox, checkedBox, warning, underArrow, topArrow };
+export { checkBox, checkedBox, warning, underArrow, topArrow, menu };
