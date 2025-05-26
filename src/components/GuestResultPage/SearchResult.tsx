@@ -27,19 +27,12 @@ const SearchResult = ({ results }: SearchResultsProps) => {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[1rem]">
+    <div className="flex flex-col gap-[1rem]">
       {results.map((item, index) => {
-        const columns = 3;
-        const rows = Math.ceil(results.length / columns);
-        const lastRowStartIndex = (rows - 1) * columns;
-        const isLastRow = index >= lastRowStartIndex;
-
         return (
           <div
             key={index}
-            className={`pb-[2rem] pt-[1rem] flex gap-[1rem] cursor-pointer border-b border-[#ECECEC] ${
-              isLastRow ? "border-b-0" : ""
-            }`}
+            className="pb-[2rem] pt-[1rem] flex gap-[1rem] cursor-pointer border-b border-[#ECECEC]"
             onClick={() => goToDetail(item.spaceId)}
           >
             <div className="relative overflow-hidden flex-shrink-0">

@@ -5,24 +5,30 @@ import { useState } from "react";
 
 const PriceSlider = () => {
   const [value, setValue] = useState<number[]>([0, 1000000]);
-  const handleChange = (event: Event, newValue: number | number[]) => {
+  const handleChange = (_event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
   };
 
   return (
     <div>
-      <div className="font-semibold text-[1.6rem] my-[1.3rem]">
+      <div className="font-semibold text-[1.8rem] my-[1.3rem]">
         {value[0].toLocaleString()}원 ~ {value[1].toLocaleString()}원
       </div>
       <Slider
         value={value}
         onChange={handleChange}
-        valueLabelDisplay="auto"
         min={0}
         max={150000}
         step={1000}
         sx={{
-          color: "#000000",
+          color: "#6B96F9",
+          "& .MuiSlider-rail": {
+            backgroundColor: "#DCE1E9", // 범위 외 트랙 색상
+          },
+          "& .MuiSlider-thumb": {
+            width: 15,
+            height: 15,
+          },
         }}
       />
     </div>

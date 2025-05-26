@@ -2,7 +2,7 @@
 import { useState } from "react";
 
 const CapacitySelector = () => {
-  const [count, setCount] = useState(3);
+  const [count, setCount] = useState(1);
 
   const increase = () => {
     if (count < 20) setCount(count + 1); //최대 20명까지 제한 (수정 가능)
@@ -14,7 +14,9 @@ const CapacitySelector = () => {
 
   return (
     <div className="mb-[4rem] flex items-center justify-between ">
-      <div className="text-[1.4rem]">최대 {count}인 수용 공간을 원해요</div>
+      <div className="text-[1.4rem] font-semibold">
+        최대 {count}인 수용 공간을 원해요
+      </div>
       <div className=" flex items-center justify-center border-[2px] border-[#F2F2F2] rounded-[1rem] bg-white">
         <button
           onClick={decrease}

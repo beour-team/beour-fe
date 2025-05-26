@@ -11,7 +11,7 @@ interface DateTimePickerProps {
 
 const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
   const [selectedDate, setSelectedDate] = useState<Date>(); // 선택한 날짜 저장
-  const [selectedTime, setSelectedTime] = useState<string | null>(null); // 선택한 시간 저장
+  const [selectedTime, setSelectedTime] = useState<string[]>([]); // 선택한 시간 저장
   const [allDay, setAllDay] = useState(false); // 일정 무관 체크박스 상태
   const [anyTime, setAnyTime] = useState(false); // 시간 무관 체크박스 상태
 
@@ -63,7 +63,7 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
 
   return (
     // 임시로 색깔지정해둠 바꾸기 (흰색으로 하면 안보임)
-    <div className="fixed bottom-0  bg-white rounded-t-2xl shadow-xl p-[3rem]">
+    <div className="fixed bottom-0 bg-white rounded-t-2xl shadow-xl p-[3rem] max-h-[90rem] overflow-y-auto w-[40rem] left-1/2 -translate-x-1/2">
       <div className="flex items-center justify-between mb-[2rem]">
         <span className="text-[1.3rem] font-semibold">
           대여 일자를 선택해주세요
@@ -85,31 +85,34 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
 
       {/* 캘린더 */}
       {!allDay && (
-        <DayPicker
-          mode="single"
-          selected={selectedDate} // 선택한 날짜 하이라이트
-          onSelect={setSelectedDate}
-          locale={ko}
-          weekStartsOn={0}
-          modifiersClassNames={{
-            selected: "bg-black text-white rounded-[5rem]",
-            today: "text-black font-bold",
-          }}
-          styles={{
-            caption: { textAlign: "start", marginBottom: "0.5rem" },
-            day: {
-              width: "w-full",
-              height: "3rem",
-              lineHeight: "2.2rem",
-              fontSize: "1.4rem",
-            },
-            weekday: {
-              fontSize: "1.2rem",
-              fontWeight: "600",
-              color: "#9D9D9D",
-            },
-          }}
-        />
+        <div className="flex justify-center">
+          <DayPicker
+            mode="single"
+            selected={selectedDate} // 선택한 날짜 하이라이트
+            onSelect={setSelectedDate}
+            locale={ko}
+            weekStartsOn={0}
+            disabled={{ before: new Date() }}
+            modifiersClassNames={{
+              selected: "bg-black text-white rounded-[5rem]",
+              today: "text-black font-bold",
+            }}
+            styles={{
+              caption: { textAlign: "start", marginBottom: "0.5rem" },
+              day: {
+                width: "w-full",
+                height: "3rem",
+                lineHeight: "2.2rem",
+                fontSize: "1.4rem",
+              },
+              weekday: {
+                fontSize: "1.2rem",
+                fontWeight: "600",
+                color: "#9D9D9D",
+              },
+            }}
+          />
+        </div>
       )}
 
       {/* 시간 선택 버튼 */}
@@ -126,7 +129,7 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
                 checked={anyTime}
                 onChange={(e) => {
                   setAnyTime(e.target.checked);
-                  if (e.target.checked) setSelectedTime(null);
+                  if (e.target.checked) setSelectedTime([]);
                 }}
                 className="w-6 h-6 border-[#8D8D93] accent-[#000000] transition"
               />
@@ -136,17 +139,21 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
           <div className="overflow-x-auto max-w-full">
             <div
               ref={scrollRef}
-              className="flex gap-2 mb-2 whitespace-nowrap overflow-x-auto no-scrollbar"
+              className="flex gap-2 mb-2 whitespace-nowrap overflow-x-auto scrollbar-hide"
             >
               {hours.map((hour) => (
                 <button
                   key={hour}
                   onClick={() => {
-                    setSelectedTime(hour);
+                    if (selectedTime.includes(hour)) {
+                      setSelectedTime(selectedTime.filter((t) => t !== hour));
+                    } else {
+                      setSelectedTime([...selectedTime, hour]);
+                    }
                     setAnyTime(false); //시간 무관 해제
                   }}
                   className={`min-w-[6rem] px-3 py-[1.7rem] rounded-md text-[1rem] ${
-                    selectedTime === hour
+                    selectedTime.includes(hour)
                       ? "bg-black text-white"
                       : "bg-[#D9D9D9]"
                   }`}
@@ -167,7 +174,7 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
             : selectedDate
             ? ` ${format(selectedDate, "yyyy. MM. dd (E)", {
                 locale: ko,
-              })} ${anyTime ? "시간 무관" : selectedTime || ""}`
+              })} ${anyTime ? "시간 무관" : selectedTime.join(", ") || ""}`
             : " 선택 안됨"}
         </div>
         <button

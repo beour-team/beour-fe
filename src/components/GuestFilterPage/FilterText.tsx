@@ -3,11 +3,12 @@ import DateTimePicker from "./DateTimePicker";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import PriceSlider from "./PriceSlider";
 import CapacitySelector from "./CapacitySelector";
+import SpaceTypeBtn from "./SpaceTypeBtn";
+import UseTypeBtn from "./UseTypeBtn";
 
 const FilterText = () => {
   const [showPicker, setShowPicker] = useState(false);
-  const [dateTimeText, setDateTimeText] =
-    useState("대여 날짜/시간을 선택해주세요");
+  const [dateTimeText, setDateTimeText] = useState("");
 
   return (
     <div className="my-[2rem]">
@@ -20,7 +21,7 @@ const FilterText = () => {
             value={dateTimeText}
             onClick={() => setShowPicker(true)}
             readOnly
-            className={`bg-[#F2F2F2] rounded-[0.7rem] text-[1.3rem] w-full h-[4.5rem] cursor-pointer px-8 font-regular appearance-none
+            className={`bg-[#F2F2F2] rounded-[0.7rem] text-[1.3rem] w-full h-[4.5rem] cursor-pointer px-8 font-regular appearance-none placeholder:text-[#B0B0B0]
   ${dateTimeText ? "text-[#000000]" : "text-[#B0B0B0]"} `} // 선택 시 검정색 글자로 바뀌게
           />
           <FaRegCalendarAlt className="absolute right-7 top-1/2 transform -translate-y-1/2 text-[#B0B0B0] text-[1.6rem] pointer-events-none" />
@@ -52,11 +53,13 @@ const FilterText = () => {
           <CapacitySelector />
         </div>
       </div>
-      <div className="my-[1rem]">
-        <div className="text-[#818181] text-[1.3rem]">공간유형</div>
+      <div className="mt-[1rem] mb-[5rem]">
+        <div className="text-[#818181] text-[1.3rem] pb-[1.5rem]">공간유형</div>
+        <SpaceTypeBtn />
       </div>
-      <div className="my-[1rem]">
-        <div className="text-[#818181] text-[1.3rem]">용도</div>
+      <div className="my-[1rem] mb-[5rem]">
+        <div className="text-[#818181] text-[1.3rem] pb-[1.5rem]">용도</div>
+        <UseTypeBtn />
       </div>
     </div>
   );

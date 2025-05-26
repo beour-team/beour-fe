@@ -1,4 +1,4 @@
-import mockimg from "../assets/newspace1.png";
+import { newspace } from "../assets/theme";
 
 export type SearchResultItem = {
   name: string;
@@ -24,7 +24,7 @@ export const SearchData: Record<string, SearchResultItem[]> = {
       category: "파티룸",
       use: "모임",
       address: "삼성동",
-      thumbnail_url: mockimg,
+      thumbnail_url: newspace,
       price_per_hour: 99000,
 
       rating: 4.3,
@@ -41,7 +41,7 @@ export const SearchData: Record<string, SearchResultItem[]> = {
       category: "파티룸",
       use: "모임",
       address: "삼성동",
-      thumbnail_url: mockimg,
+      thumbnail_url: newspace,
       price_per_hour: 99000,
       rating: 4.3,
       guest_count: 3,
@@ -52,7 +52,7 @@ export const SearchData: Record<string, SearchResultItem[]> = {
       category: "파티룸",
       use: "모임",
       address: "삼성동",
-      thumbnail_url: mockimg,
+      thumbnail_url: newspace,
       price_per_hour: 99000,
       rating: 4.3,
       guest_count: 3,
@@ -63,7 +63,7 @@ export const SearchData: Record<string, SearchResultItem[]> = {
       category: "파티룸",
       use: "모임",
       address: "삼성동",
-      thumbnail_url: mockimg,
+      thumbnail_url: newspace,
       price_per_hour: 99000,
       rating: 4.3,
       guest_count: 3,

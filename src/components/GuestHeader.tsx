@@ -13,7 +13,7 @@ const GuestHeader = () => {
         >
           Be:our
         </div>
-        <div className="inline-block font-regular text-[0.9rem] mx-[1rem] px-[2.5vw] py-[1vh] bg-black rounded-full text-white">
+        <div className="inline-block font-regular text-[0.9rem] mx-[1rem] px-[1.3rem] py-[1rem] bg-black rounded-full text-white">
           게스트 모드
         </div>
       </div>

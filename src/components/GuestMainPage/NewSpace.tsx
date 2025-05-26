@@ -5,7 +5,7 @@ const NewSpace = () => {
   return (
     <div>
       <div className="flex justify-between items-center my-[1vh]">
-        <div className="text-[2.3rem] font-semibold py-[1.5vh]">
+        <div className="text-[2rem] font-semibold py-[1.5vh]">
           내 주변 새 공간
         </div>
       </div>

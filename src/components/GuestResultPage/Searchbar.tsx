@@ -13,9 +13,9 @@ const Searchbar = () => {
   };
 
   return (
-    <div className="mt-[3rem]">
-      <div className="flex items-center gap-3">
-        <div className="text-[#A9A9A9] text-[4rem]">
+    <div>
+      <div className="flex items-center gap-2">
+        <div className="text-[#A9A9A9] text-[3rem]">
           <FiChevronLeft
             className="cursor-pointer"
             onClick={() => nav("/guest")}

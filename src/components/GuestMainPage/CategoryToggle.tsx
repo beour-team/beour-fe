@@ -16,7 +16,7 @@ const CategoryToggle = ({ isToggled, setIsToggled }: CategoryToggleProps) => {
 
       <div
         className={`
-          absolute top-[0.15rem] left-0
+          absolute top-[0.2rem] left-0
           w-1/2 h-[34px] 
           rounded-full bg-white
           flex items-center justify-center 
