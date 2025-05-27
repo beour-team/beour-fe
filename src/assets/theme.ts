@@ -13,6 +13,10 @@ import newspace2 from "./img/newspace2.png";
 import streaming from "./img/streaming.png";
 import study from "./img/study.png";
 import practice from "./img/practice.png";
+import Tooltip from "./img/Tooltip.svg";
+import checkBox from "./img/checkBox.svg";
+import checkedBox from "./img/checkedBox.svg";
+import warning from "./img/warning.svg";
 
 export {
   nearby,
@@ -30,4 +34,8 @@ export {
   streaming,
   study,
   practice,
+  Tooltip,
+  checkBox,
+  checkedBox,
+  warning,
 };
