@@ -1,6 +1,11 @@
-import { useState } from "react";
+// import { useState } from "react";
 
-const SpaceTypeBtn = () => {
+interface SpaceTypeBtnProps {
+  spaceType: string[];
+  setSpaceType: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+const SpaceTypeBtn = ({ spaceType, setSpaceType }: SpaceTypeBtnProps) => {
   const buttonLabels = [
     "음식점",
     "파티룸",
@@ -9,12 +14,12 @@ const SpaceTypeBtn = () => {
     "공유주방",
     "게임방",
   ];
-  const [selected, setSelected] = useState<string[]>([]); //여러 개 선택되게
+  // const [spaceType, setspaceType] = useState<string[]>([]); //여러 개 선택되게
   const toggleSelection = (label: string) => {
-    if (selected.includes(label)) {
-      setSelected(selected.filter((item) => item !== label)); // 이미 선택된 항목이면 제거
+    if (spaceType.includes(label)) {
+      setSpaceType(spaceType.filter((item) => item !== label)); // 이미 선택된 항목이면 제거
     } else {
-      setSelected([...selected, label]); // 선택된 항목이 아니면 추가
+      setSpaceType([...spaceType, label]); // 선택된 항목이 아니면 추가
     }
   };
 
@@ -25,7 +30,7 @@ const SpaceTypeBtn = () => {
           key={label}
           onClick={() => toggleSelection(label)}
           className={`text-[1.3rem] px-7 py-[0.8rem] rounded-[1.4rem] ${
-            selected.includes(label)
+            spaceType.includes(label)
               ? "bg-[#6B96F9] text-white"
               : "bg-[#E9EBEE] text-[#9296A1]"
           }`}

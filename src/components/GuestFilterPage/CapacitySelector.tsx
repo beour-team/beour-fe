@@ -1,21 +1,26 @@
 // 인원수 -,+ 컴포넌트
-import { useState } from "react";
+// import { useState } from "react";
 
-const CapacitySelector = () => {
-  const [count, setCount] = useState(1);
+interface CapacitySelectorProps {
+  capacity: number;
+  setCapacity: React.Dispatch<React.SetStateAction<number>>;
+}
+
+const CapacitySelector = ({ capacity, setCapacity }: CapacitySelectorProps) => {
+  // const [capacity, setcapacity] = useState(1);
 
   const increase = () => {
-    if (count < 20) setCount(count + 1); //최대 20명까지 제한 (수정 가능)
+    if (capacity < 20) setCapacity(capacity + 1); //최대 20명까지 제한 (수정 가능)
   };
 
   const decrease = () => {
-    if (count > 1) setCount(count - 1);
+    if (capacity > 1) setCapacity(capacity - 1);
   };
 
   return (
     <div className="mb-[4rem] flex items-center justify-between ">
       <div className="text-[1.4rem] font-semibold">
-        최대 {count}인 수용 공간을 원해요
+        최대 {capacity}인 수용 공간을 원해요
       </div>
       <div className=" flex items-center justify-center border-[2px] border-[#F2F2F2] rounded-[1rem] bg-white">
         <button
@@ -25,7 +30,7 @@ const CapacitySelector = () => {
           -
         </button>
         <div className="flex items-center justify-center w-[3rem] bg-white rounded-[0.6rem]">
-          {count}
+          {capacity}
         </div>
         <button
           onClick={increase}

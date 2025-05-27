@@ -4,6 +4,7 @@ import "react-day-picker/dist/style.css";
 import { useState, useRef, useEffect } from "react";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
+import { formatTimeRanges } from "../../utils/format-time-range";
 
 interface DateTimePickerProps {
   onComplete: (text: string) => void;
@@ -56,14 +57,15 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
       const formatted = format(selectedDate, "yyyy. MM. dd (E)", {
         locale: ko,
       });
-      text = `${formatted} ${anyTime ? "시간 무관" : selectedTime || ""}`;
+      const timeText = anyTime ? "시간 무관" : formatTimeRanges(selectedTime);
+      text = `${formatted} ${timeText}`;
     }
     onComplete(text);
   };
 
   return (
     // 임시로 색깔지정해둠 바꾸기 (흰색으로 하면 안보임)
-    <div className="fixed bottom-0 bg-white rounded-t-2xl shadow-xl p-[3rem] max-h-[90rem] overflow-y-auto w-[40rem] left-1/2 -translate-x-1/2">
+    <div className="fixed bottom-0 bg-white rounded-t-2xl shadow-xl p-[3rem] h-[79rem] overflow-y-auto w-[40rem] left-1/2 -translate-x-1/2 z-50">
       <div className="flex items-center justify-between mb-[2rem]">
         <span className="text-[1.3rem] font-semibold">
           대여 일자를 선택해주세요
@@ -174,7 +176,7 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
             : selectedDate
             ? ` ${format(selectedDate, "yyyy. MM. dd (E)", {
                 locale: ko,
-              })} ${anyTime ? "시간 무관" : selectedTime.join(", ") || ""}`
+              })} ${anyTime ? "시간 무관" : formatTimeRanges(selectedTime)}`
             : " 선택 안됨"}
         </div>
         <button

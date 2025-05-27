@@ -1,6 +1,11 @@
-import { useState } from "react";
+// import { useState } from "react";
 
-const UseTypeBtn = () => {
+interface UseTypeBtnProps {
+  useType: string[];
+  setUseType: React.Dispatch<React.SetStateAction<string[]>>;
+}
+
+const UseTypeBtn = ({ useType, setUseType }: UseTypeBtnProps) => {
   const buttonLabels = [
     "음식점",
     "파티룸",
@@ -9,12 +14,12 @@ const UseTypeBtn = () => {
     "공유주방",
     "게임방",
   ];
-  const [selected, setSelected] = useState<string[]>([]);
+  // const [useType, setuseType] = useState<string[]>([]);
   const toggleSelection = (label: string) => {
-    if (selected.includes(label)) {
-      setSelected(selected.filter((item) => item !== label));
+    if (useType.includes(label)) {
+      setUseType(useType.filter((item) => item !== label));
     } else {
-      setSelected([...selected, label]);
+      setUseType([...useType, label]);
     }
   };
 
@@ -25,7 +30,7 @@ const UseTypeBtn = () => {
           key={label}
           onClick={() => toggleSelection(label)}
           className={`text-[1.3rem] px-7 py-[0.8rem] rounded-[1.4rem] ${
-            selected.includes(label)
+            useType.includes(label)
               ? "bg-black text-white"
               : "bg-[#E9EBEE] text-[#9296A1]"
           }`}

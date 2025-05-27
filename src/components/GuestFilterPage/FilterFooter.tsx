@@ -1,9 +1,13 @@
 import { IoRefreshOutline } from "react-icons/io5";
 
-const FilterFooter = () => {
+interface FilterFooterProps {
+  onReset: () => void;
+}
+
+const FilterFooter = ({ onReset }: FilterFooterProps) => {
   return (
     <div className="flex items-center justify-around gap-[1rem] my-[1rem]">
-      <div className="flex items-center gap-2 cursor-pointer">
+      <div className="flex items-center gap-2 cursor-pointer" onClick={onReset}>
         <IoRefreshOutline size={18} className="text-[#3D3D3D]" />
         <div className="text-[1.3rem] text-[#3D3D3D]">재설정</div>
       </div>

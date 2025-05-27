@@ -1,21 +1,26 @@
 // yarn add @mui/material @emotion/react @emotion/styled
 // mui 슬라이더 라이브러리 설치 필요
 import Slider from "@mui/material/Slider";
-import { useState } from "react";
+// import { useState } from "react";
 
-const PriceSlider = () => {
-  const [value, setValue] = useState<number[]>([0, 1000000]);
-  const handleChange = (_event: Event, newValue: number | number[]) => {
-    setValue(newValue as number[]);
+interface PriceSliderProps {
+  priceRange: [number, number];
+  setPriceRange: React.Dispatch<React.SetStateAction<[number, number]>>;
+}
+
+const PriceSlider = ({ priceRange, setPriceRange }: PriceSliderProps) => {
+  // const [value, setValue] = useState<number[]>([0, 1000000]);
+  const handleChange = (_event: Event, newpriceRange: number | number[]) => {
+    setPriceRange(newpriceRange as [number, number]);
   };
 
   return (
     <div>
       <div className="font-semibold text-[1.8rem] my-[1.3rem]">
-        {value[0].toLocaleString()}원 ~ {value[1].toLocaleString()}원
+        {priceRange[0].toLocaleString()}원 ~ {priceRange[1].toLocaleString()}원
       </div>
       <Slider
-        value={value}
+        value={priceRange}
         onChange={handleChange}
         min={0}
         max={150000}
