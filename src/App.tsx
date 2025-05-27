@@ -7,6 +7,8 @@ import GuestResultPage from "./pages/GuestResultPage";
 import GuestFilterPage from "./pages/GuestFilterPage";
 import Login from "./pages/login/Login";
 import Mainpage from "./pages/Mainpage";
+import SignUp from "./pages/signup/SignUp";
+import MypageHost from "./pages/mypage/host/MypageHost";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -22,6 +24,8 @@ function App() {
           {/* 컨텐츠를 담을 레이아웃입니다 */}
           <Route element={<Contents />}>
             <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<SignUp />} />
+            <Route path="/mypagehost" element={<MypageHost />} />
             <Route path="/" element={<Home />} />
             <Route path="/guest" element={<GuestMainPage />} />
             <Route path="/search" element={<GuestSearchPage />} />
