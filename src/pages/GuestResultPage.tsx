@@ -1,5 +1,5 @@
 import { useLocation } from "react-router-dom";
-import { SearchData } from "../constants/SearchData";
+import { SearchData } from "../constants/searh-data";
 import Searchbar from "../components/GuestResultPage/Searchbar";
 import ResultToolbar from "../components/GuestResultPage/ResultToolbar";
 import SearchResult from "../components/GuestResultPage/SearchResult";

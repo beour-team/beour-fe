@@ -1,5 +1,5 @@
 import CategoryIcon from "./CategoryIcon";
-import { SpaceCategoryData } from "../../constants/SpaceCategoryData";
+import { SpaceCategoryData } from "../../constants/space-category-data";
 
 const SpaceCategory = () => {
   return (
