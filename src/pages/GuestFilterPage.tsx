@@ -23,24 +23,26 @@ const GuestFilterPage = () => {
   };
 
   return (
-    <div className="mx-[0.3rem] my-[2rem]">
-      <Filterbar /> {/* < 필터 */}
+    <div className="my-[2rem]">
       <div className="mx-[1rem]">
-        <FilterText
-          dateTimeText={dateTimeText}
-          setDateTimeText={setDateTimeText}
-          priceRange={priceRange}
-          setPriceRange={setPriceRange}
-          region={region}
-          setRegion={setRegion}
-          capacity={capacity}
-          setCapacity={setCapacity}
-          spaceType={spaceType}
-          setSpaceType={setSpaceType}
-          useType={useType}
-          setUseType={setUseType}
-        />{" "}
-        {/* 필터 내용 */}
+        <Filterbar /> {/* < 필터 */}
+        <div className="mx-[1rem]">
+          <FilterText
+            dateTimeText={dateTimeText}
+            setDateTimeText={setDateTimeText}
+            priceRange={priceRange}
+            setPriceRange={setPriceRange}
+            region={region}
+            setRegion={setRegion}
+            capacity={capacity}
+            setCapacity={setCapacity}
+            spaceType={spaceType}
+            setSpaceType={setSpaceType}
+            useType={useType}
+            setUseType={setUseType}
+          />{" "}
+          {/* 필터 내용 */}
+        </div>
       </div>
       <div className="w-full h-px bg-[#E0E0E0]" />
       <FilterFooter onReset={handleResetAll} />

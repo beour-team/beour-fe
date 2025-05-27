@@ -23,8 +23,7 @@ function App() {
           <Route element={<Contents />}>
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Home />} />
-            <Route path="/guest" element={<GuestMainPage />} />{" "}
-            {/* 게스트 메인화면 엔드포인트 뭔가요 */}
+            <Route path="/guest" element={<GuestMainPage />} />
             <Route path="/search" element={<GuestSearchPage />} />
             <Route path="/spaces" element={<GuestResultPage />} />
             <Route path="/filter" element={<GuestFilterPage />} />

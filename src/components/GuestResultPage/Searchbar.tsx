@@ -21,7 +21,7 @@ const Searchbar = () => {
             onClick={() => nav("/guest")}
           />
         </div>
-        <div className="relative w-full max-w-[95%]">
+        <div className="relative w-full max-w-[89%]">
           <input
             type="search"
             value={value}

@@ -11,7 +11,7 @@ const GuestResultPage = () => {
   const results = query ? SearchData[query] : undefined;
 
   return (
-    <div className="mx-[0.3rem] my-[2rem]">
+    <div className="mx-[1rem] my-[2rem]">
       <Searchbar />
       <div className="mx-[1rem]">
         <ResultToolbar totalCount={results?.length ?? 0} />
