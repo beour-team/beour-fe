@@ -1,6 +1,10 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "./layouts/webApp-layout/Layout";
 import Contents from "./layouts/contents-layout/Contents";
+import GuestMainPage from "./pages/GuestMainPage";
+import GuestSearchPage from "./pages/GuestSearchPage";
+import GuestResultPage from "./pages/GuestResultPage";
+import GuestFilterPage from "./pages/GuestFilterPage";
 import Login from "./pages/login/Login";
 import Mainpage from "./pages/Mainpage";
 import MypageHost from "./pages/mypage/host/MypageHost";
@@ -25,6 +29,10 @@ function App() {
             <Route path="/mypagehost" element={<MypageHost />} />
             <Route path="/editprofilehost" element={<EditProfileHost />} />
             <Route path="/" element={<Home />} />
+            <Route path="/guest" element={<GuestMainPage />} />
+            <Route path="/search" element={<GuestSearchPage />} />
+            <Route path="/spaces" element={<GuestResultPage />} />
+            <Route path="/filter" element={<GuestFilterPage />} />
             <Route path="/main" element={<Mainpage />} />
           </Route>
         </Route>
