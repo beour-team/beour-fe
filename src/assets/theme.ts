@@ -20,6 +20,9 @@ import warning from "./img/warning.svg";
 import underArrow from "./img/underArrow.svg";
 import topArrow from "./img/topArrow.svg";
 import rightArrow from "./img/rightArrow.svg";
+import leftArrow from "./img/leftArrow.svg";
+import cancel from "./img/cancel.svg";
+import eyeOpen from "./img/eyeOpen.svg";
 
 export {
   nearby,
@@ -44,4 +47,7 @@ export {
   underArrow,
   topArrow,
   rightArrow,
+  leftArrow,
+  cancel,
+  eyeOpen,
 };
