@@ -68,3 +68,13 @@ export const zodSignUp = z
     path: ["confirmPassword"],
     message: PASSWORD_CONFIRM_INVALID,
   });
+
+export const zodEditProfile = z.object({
+  password: z.string(),
+  confirmPassword: z.string(),
+  name: z.string(),
+  nickname: z.string(),
+  email: z.string(),
+  phone: z.string(),
+  emailDomain: z.string(),
+});
