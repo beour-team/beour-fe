@@ -11,6 +11,13 @@ export default {
             lineHeight: "3.5rem",
           },
         ],
+        "13-SemiBold": [
+          "1.3rem",
+          {
+            fontWeight: 600,
+            lineHeight: "3.5rem",
+          },
+        ],
         "14-Medium": [
           "1.4rem",
           {

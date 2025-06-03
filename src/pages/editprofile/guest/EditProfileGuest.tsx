@@ -1,17 +1,30 @@
 import { useEffect, useRef, useState } from "react";
-import { topArrow, underArrow } from "../../assets/theme";
 import { useForm, type SubmitHandler } from "react-hook-form";
-import type { SignUpData } from "../../types/SignUp";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { zodSignUp } from "../../utils/zod/zodValidation";
-import { options } from "../../constants/domain/domain";
+import {
+  cancel,
+  eyeOpen,
+  leftArrow,
+  topArrow,
+  underArrow,
+} from "../../../assets/theme";
+import type { EditProfile } from "../../../types/EditProfile";
+import { zodEditProfile } from "../../../utils/zod/zodValidation";
 
-const SignUpForm: React.FC = () => {
+const EditProfileHost: React.FC = () => {
+  // 비밀번호 보이기 기능
+  const [showPassword, setShowPassword] = useState<boolean>(true);
+  // 비밀번호 보이기 기능
+  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(true);
+
   // 드롭다운 리스트 상태 관리
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   // 드롭다운 리스트 선택 상태 관리
   const [selected, setSelected] = useState<string>("");
+
+  // 드롭다운 리스트 데이터
+  const options = ["gmail.com", "naver.com", "nate.com", "daum.net"];
 
   // 드롭다운 ref 생성
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -40,15 +53,21 @@ const SignUpForm: React.FC = () => {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors, isValid },
-  } = useForm<SignUpData>({
-    resolver: zodResolver(zodSignUp),
+  } = useForm<EditProfile>({
+    resolver: zodResolver(zodEditProfile),
     mode: "onChange",
   });
 
+  // password 인풋 값 실시간 감지
+  const passwordWatch = watch("password");
+  // password 인풋 값 실시간 감지
+  const confirmPasswordWatch = watch("confirmPassword");
+
   // SubmitHandler 는 type Helper 로 폼에서 제출하는 데이터를 검사하는 함수
   // React-Hook-Form 이 typeScript 에서 타입을 검사할때 쓰라고 만든 규칙
-  const onSubmit: SubmitHandler<SignUpData> = async (data) => {
+  const onSubmit: SubmitHandler<EditProfile> = async (data) => {
     // emailDomain 제거
     const { ...rest } = data;
     // 제출된 이메일과 도메인을 합쳐서 보관
@@ -65,57 +84,20 @@ const SignUpForm: React.FC = () => {
 
   console.log("에러 :", errors);
   return (
-    <div className="h-full">
+    <div className="h-full px-[2rem] min-h-screen">
+      <div className="h-[7.5rem] flex w-full items-center justify-between">
+        <div className="w-[2.4rem] h-[2.4rem] ">
+          <img className="mr-[0.8rem]" src={leftArrow} alt="뒤로가기 아이콘" />
+        </div>
+        <p className="text-18-SemiBold">내 정보 수정</p>
+        <div className="w-[2.4rem] h-[2.4rem]"></div>
+      </div>
+      <div></div>
       <form
-        className="flex flex-col h-full justify-between"
+        className="flex flex-col h-auto justify-between gap-[2rem]"
         onSubmit={handleSubmit(onSubmit)}
       >
         <div className="flex flex-col gap-[1.6rem]">
-          <div className="flex flex-col ">
-            <label className="text-[1.3rem] font-semibold">아이디</label>
-            <div className="flex gap-[0.8rem]">
-              <input
-                className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.4rem] bg-[#f2f2f2]"
-                placeholder="아이디를 입력해주세요"
-                type="text"
-                {...register("id")}
-              />
-              <button className="bg-[#D0D0D0] text-[1.4rem] text-[#868686] px-[2rem] py-[1.2rem] rounded-[1rem] min-w-[9.2rem]">
-                중복 확인
-              </button>
-            </div>
-          </div>
-
-          <div className="flex flex-col ">
-            <label className="text-[1.3rem] font-semibold">비밀번호</label>
-            <div className="flex flex-col gap-[0.8rem]">
-              <input
-                className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.4rem] bg-[#f2f2f2]"
-                placeholder="비밀번호를 입력해주세요"
-                type="password"
-                {...register("password")}
-              />
-              <input
-                className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.4rem] bg-[#f2f2f2]"
-                placeholder="비밀번호를 다시 입력해주세요"
-                type="password"
-                {...register("confirmPassword")}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col ">
-            <label className="text-[1.3rem] font-semibold">이름</label>
-            <div className="flex gap-[0.8rem]">
-              <input
-                className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.4rem] bg-[#f2f2f2]"
-                placeholder="실명을 입력해주세요"
-                type="text"
-                {...register("name")}
-              />
-            </div>
-          </div>
-
           <div className="flex flex-col ">
             <label className="text-[1.3rem] font-semibold">닉네임</label>
             <div className="flex gap-[0.8rem]">
@@ -128,6 +110,78 @@ const SignUpForm: React.FC = () => {
               <button className="bg-[#D0D0D0] text-[1.4rem] text-[#868686] px-[2rem] py-[1.2rem] rounded-[1rem] min-w-[9.2rem]">
                 중복 확인
               </button>
+            </div>
+          </div>
+
+          <div className="flex flex-col ">
+            <label className="text-[1.3rem] font-semibold">비밀번호</label>
+            <div className="flex flex-col gap-[0.8rem]">
+              <div className="relative">
+                <input
+                  className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.4rem] bg-[#f2f2f2]"
+                  placeholder="비밀번호를 입력해주세요"
+                  type={showPassword ? "password" : "text"}
+                  {...register("password")}
+                />
+                {passwordWatch && (
+                  <div className="flex gap-[0.8rem] items-center absolute top-[1.4rem] right-[1.3rem]">
+                    <img
+                      src={cancel}
+                      alt="취소 아이콘"
+                      onClick={() => {
+                        // 비밀번호 초기화
+                        setValue("password", "");
+                      }}
+                    />
+                    <img
+                      className="pt-[0.2rem] cursor-pointer"
+                      src={eyeOpen}
+                      alt="눈 아이콘"
+                      // 비밀번호 보이기 토글 기능
+                      onClick={() => setShowPassword((prev) => !prev)}
+                    />
+                  </div>
+                )}
+              </div>
+              <div className="relative">
+                <input
+                  className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.4rem] bg-[#f2f2f2]"
+                  placeholder="비밀번호를 다시 입력해주세요"
+                  type={showConfirmPassword ? "password" : "text"}
+                  {...register("confirmPassword")}
+                />
+                {confirmPasswordWatch && (
+                  <div className="flex gap-[0.8rem] items-center absolute top-[1.4rem] right-[1.3rem]">
+                    <img
+                      src={cancel}
+                      alt="취소 아이콘"
+                      onClick={() => {
+                        // 비밀번호 확인 초기화
+                        setValue("confirmPassword", "");
+                      }}
+                    />
+                    <img
+                      className="pt-[0.2rem] cursor-pointer"
+                      src={eyeOpen}
+                      alt="눈 아이콘"
+                      // 비밀번호 확인 보이기 토글 기능
+                      onClick={() => setShowConfirmPassword((prev) => !prev)}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col ">
+            <label className="text-[1.3rem] font-semibold">이름</label>
+            <div className="flex gap-[0.8rem]">
+              <input
+                className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.4rem] bg-[#f2f2f2]"
+                placeholder="실명을 입력해주세요"
+                type="text"
+                {...register("name")}
+              />
             </div>
           </div>
 
@@ -209,11 +263,11 @@ const SignUpForm: React.FC = () => {
               : "bg-[#D9D9D9] text-black cursor-not-allowed"
           }`}
         >
-          입력 완료
+          변경 완료
         </button>
       </form>
     </div>
   );
 };
 
-export default SignUpForm;
+export default EditProfileHost;
