@@ -38,8 +38,6 @@ const FilterText = ({
   setUseType,
 }: FilterTextProps) => {
   const [showPicker, setShowPicker] = useState(false);
-  // const [dateTimeText, setDateTimeText] = useState("");
-  // const [regionText, setRegionText] = useState("");
   const [showRegionInput, setShowRegionInput] = useState(false);
   return (
     <div className="my-[2rem]">

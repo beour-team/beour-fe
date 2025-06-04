@@ -1,7 +1,7 @@
 import { useState } from "react";
-import Filterbar from "../components/GuestFilterPage/Filterbar";
-import FilterText from "../components/GuestFilterPage/FilterText";
-import FilterFooter from "../components/GuestFilterPage/FilterFooter";
+import Filterbar from "../../components/GuestFilterPage/Filterbar";
+import FilterText from "../../components/GuestFilterPage/FilterText";
+import FilterFooter from "../../components/GuestFilterPage/FilterFooter";
 
 const GuestFilterPage = () => {
   //필터 재설정 위한 상태 관리

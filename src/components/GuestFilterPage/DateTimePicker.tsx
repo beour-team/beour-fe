@@ -65,7 +65,7 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
 
   return (
     // 임시로 색깔지정해둠 바꾸기 (흰색으로 하면 안보임)
-    <div className="fixed bottom-0 bg-white rounded-t-2xl shadow-xl p-[3rem] h-[79rem] overflow-y-auto w-[40rem] left-1/2 -translate-x-1/2 z-50">
+    <div className="fixed bottom-0 bg-white rounded-t-2xl shadow-xl p-[3rem] h-[79rem] overflow-y-auto w-[39rem] left-[51%] -translate-x-1/2 z-50">
       <div className="flex items-center justify-between mb-[2rem]">
         <span className="text-[1.3rem] font-semibold">
           대여 일자를 선택해주세요
