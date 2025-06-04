@@ -7,9 +7,10 @@ import GuestResultPage from "./pages/guest-main/GuestResultPage";
 import GuestFilterPage from "./pages/guest-main/GuestFilterPage";
 import Login from "./pages/login/Login";
 import Mainpage from "./pages/Mainpage";
-import SignUp from "./pages/signup/SignUp";
 import MypageHost from "./pages/mypage/host/MypageHost";
 import GuestMapPage from "./pages/map/GuestMapPage";
+import EditProfileHost from "./pages/editprofile/host/EditProfileHost";
+import SignUp from "./pages/signup/SignUp";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -27,6 +28,7 @@ function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/mypagehost" element={<MypageHost />} />
+            <Route path="/editprofilehost" element={<EditProfileHost />} />
             <Route path="/" element={<Home />} />
             <Route path="/guest" element={<GuestMainPage />} />
             <Route path="/search" element={<GuestSearchPage />} />
