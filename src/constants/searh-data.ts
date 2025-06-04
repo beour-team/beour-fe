@@ -1,20 +1,17 @@
 import { newspace } from "../assets/theme";
 
 export type SearchResultItem = {
+  spaceId: number;
   name: string;
+  thumbnail_url: string;
+  address: string;
+  guest_count: number;
+  rating: number;
   category: string;
   use: string;
-  address: string;
-  thumbnail_url: string;
   price_per_hour: number;
-
-  rating: number;
-  guest_count: number; //다른 api 참조함
-  spaceId: number;
-  // description: string;
-  // reservation_notice: string;
-  // location_description: string;
-  // website_url: string;
+  lat: number;
+  lng: number;
 };
 
 export const SearchData: Record<string, SearchResultItem[]> = {
@@ -26,48 +23,50 @@ export const SearchData: Record<string, SearchResultItem[]> = {
       address: "삼성동",
       thumbnail_url: newspace,
       price_per_hour: 99000,
-
       rating: 4.3,
       guest_count: 3,
       spaceId: 1000,
-
-      // description: "보드게임과 콘솔게임이 있는 파티룸",
-      // reservation_notice: "예약은 최소 하루 전까지 가능합니다.",
-      // location_description: "2호선 삼성역 도보 5분 거리",
-      // website_url: "https://example.com",
+      lat: 37.508844,
+      lng: 127.06316,
     },
     {
-      name: "게임 파티룸 플레이앤 삼성역점",
+      name: "게임 파티룸 플레이앤 홍대역점",
       category: "파티룸",
       use: "모임",
-      address: "삼성동",
+      address: "홍대동",
       thumbnail_url: newspace,
-      price_per_hour: 99000,
-      rating: 4.3,
-      guest_count: 3,
+      price_per_hour: 89000,
+      rating: 4.1,
+      guest_count: 4,
       spaceId: 1001,
+      lat: 37.557434302,
+      lng: 126.926960224,
     },
     {
-      name: "게임 파티룸 플레이앤 삼성역점",
+      name: "게임 파티룸 플레이앤 잠실역점",
       category: "파티룸",
       use: "모임",
-      address: "삼성동",
+      address: "잠실동",
       thumbnail_url: newspace,
-      price_per_hour: 99000,
-      rating: 4.3,
-      guest_count: 3,
+      price_per_hour: 90000,
+      rating: 4.5,
+      guest_count: 2,
       spaceId: 1002,
+      lat: 37.513664,
+      lng: 127.101701,
     },
     {
-      name: "게임 파티룸 플레이앤 삼성역점",
+      name: "게임 파티룸 플레이앤 강남역점",
       category: "파티룸",
       use: "모임",
-      address: "삼성동",
+      address: "강남동",
       thumbnail_url: newspace,
-      price_per_hour: 99000,
-      rating: 4.3,
-      guest_count: 3,
+      price_per_hour: 59000,
+      rating: 5,
+      guest_count: 5,
       spaceId: 1003,
+      lat: 37.498095,
+      lng: 127.02761,
     },
   ],
 };

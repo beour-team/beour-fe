@@ -37,7 +37,7 @@ const RegionInput = ({ onComplete, initialValue }: RegionInputProps) => {
   };
 
   return (
-    <div className="fixed bottom-0 bg-white rounded-t-2xl shadow-xl p-[3rem] h-[79rem] w-[40rem] left-1/2 -translate-x-1/2 overflow-y-auto z-50">
+    <div className="fixed bottom-0 bg-white rounded-t-2xl shadow-xl p-[3rem] h-[79rem] w-[39rem] left-[51%] -translate-x-1/2 overflow-y-auto z-50">
       <div>
         <input
           ref={inputRef}

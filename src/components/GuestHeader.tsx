@@ -5,7 +5,7 @@ const GuestHeader = () => {
   const nav = useNavigate();
 
   return (
-    <div className="flex items-center justify-between h-[9vh] mt-[0.5vh]">
+    <div className="flex items-center justify-between h-[9rem] mt-[0.5rem]">
       <div className="flex items-center gap-[1vw]">
         <div
           onClick={() => nav("/guest")}

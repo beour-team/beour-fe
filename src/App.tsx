@@ -1,13 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "./layouts/webApp-layout/Layout";
 import Contents from "./layouts/contents-layout/Contents";
-import GuestMainPage from "./pages/GuestMainPage";
-import GuestSearchPage from "./pages/GuestSearchPage";
-import GuestResultPage from "./pages/GuestResultPage";
-import GuestFilterPage from "./pages/GuestFilterPage";
+import GuestMainPage from "./pages/guest-main/GuestMainPage";
+import GuestSearchPage from "./pages/guest-main/GuestSearchPage";
+import GuestResultPage from "./pages/guest-main/GuestResultPage";
+import GuestFilterPage from "./pages/guest-main/GuestFilterPage";
 import Login from "./pages/login/Login";
 import Mainpage from "./pages/Mainpage";
 import MypageHost from "./pages/mypage/host/MypageHost";
+import GuestMapPage from "./pages/map/GuestMapPage";
 import EditProfileHost from "./pages/editprofile/host/EditProfileHost";
 import SignUp from "./pages/signup/SignUp";
 
@@ -34,6 +35,7 @@ function App() {
             <Route path="/spaces" element={<GuestResultPage />} />
             <Route path="/filter" element={<GuestFilterPage />} />
             <Route path="/main" element={<Mainpage />} />
+            <Route path="/nearby" element={<GuestMapPage />} />
           </Route>
         </Route>
       </Routes>
