@@ -11,9 +11,10 @@ const SpaceList = () => {
         총 {SPACELIST.length}개
       </div>
       {SPACELIST.map((space) => (
-        <div className="w-full flex gap-[1.2rem] border-b border-[#ECECEC] pb-[2.7rem]">
+        <div className="w-full flex gap-[1.2rem] border-b border-[#ECECEC] py-[2.7rem] ">
           <div className="h-[8.2rem] min-w-[8.2rem] rounded-[1.2rem] bg-[#E9EBEE]"></div>
-          <div className="w-full">
+
+          <div className="w-full flex flex-col gap-[1.4rem]">
             <h2 className="text-18-SemiBold">{space.name}</h2>
             <div className="flex gap-[1.2rem]">
               <div className="flex items-center text-13-Medium gap-[0.6rem]">
