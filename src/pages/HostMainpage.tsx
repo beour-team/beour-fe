@@ -10,8 +10,9 @@ const HostMainPage: React.FC = () => {
     <div>
       <HostHeader /> {/* 배너부분  */}
       <HelloProfile /> {/* 환영문구  */} 
-      <Banner />
-      <HostReserveList />
+      <Banner /> {/* 광고배너  */} 
+      <HostReserveList /> {/* 예약내역  */} 
+      <HostFooter /> {/* 푸터 */}
     </div>
   );
 };

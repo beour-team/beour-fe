@@ -1,6 +1,6 @@
 const HostReserveList = () => {
   return (
-    <div className="bg-white rounded-2xl p-6 w-full flex flex-col space-y-3">
+    <div className="bg-white rounded-2xl p-6 w-full flex flex-col space-y-2">
       {/* 1. 이름 + 상태 버튼 */}
       <div className="flex items-start justify-between">
         <span className="text-2xl font-bold text-gray-900">강유진</span>

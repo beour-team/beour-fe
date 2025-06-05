@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 
 const footerItems = [
-  { label: "홈", path: "/host" },
-  { label: "내 주변", path: "/nearby" },
-  { label: "나의 예약", path: "/reservations" },
+  { label: "홈", path: "/hostmain" },
+  { label: "예약 캘린더", path: "/hostreservation" },
+  { label: "채팅", path: "/hostchat" },
   { label: "마이페이지", path: "/hostpage" },
 ];
 
@@ -14,13 +14,7 @@ const HostFooter = () => {
     <footer className="fixed bottom-0 left-0 w-full bg-transparent z-50">
       <div
         className="
-      max-w-full
-      sm:max-w-[580px]
-      md:max-w-[780px]
-      lg:max-w-[1150px]
-      xl:max-w-[1250px]
-      mx-auto
-      h-[7vh]
+      h-[9vh] mt-[0.5vh] px-[2vw]
       flex justify-around items-center py-3 bg-white
       "
       >

@@ -10,8 +10,8 @@ const Banner = () => {
   ];
 
   return (
-    <div className="w-full h-40 md:h-56 px-[2vw] mb-6">
-      {/* ✅ 라운딩과 overflow는 Swiper에 적용 */}
+    <div className="w-full h-34 md:h-56 px-[2vw] mb-6">
+      {/* 라운딩과 overflow는 Swiper에 적용 */}
       <Swiper
         modules={[Autoplay, Pagination]}
         autoplay={{ delay: 3000 }}

@@ -1,13 +1,17 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SpaceListDown from "./SpaceListDown.jsx";
+import SpaceListDown from "./SpaceListDown";
 import ReservationCard from "./ReservationCard";
 
 const HostReserveList = () => {
   const nav = useNavigate();
   const today = "2025년 5월 7일";
-  const options = ["스윗라운지", "회의실", "전체"];
+  const options: string[] = ["스윗라운지", "회의실", "전체"];
 
-  const handleSelect = (option) => {
+  const [selected, setSelected] = useState<string>(options[0]);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+
+  const handleSelect = (option: string) => {
     setSelected(option);
     setIsOpen(false);
   };
@@ -19,7 +23,7 @@ const HostReserveList = () => {
         <div className="flex items-center">
           <h2 className="text-lg font-bold mr-2">오늘의 예약</h2>
           <span className="text-sm font-medium mr-2">{today}</span>
-          <SpaceListDown />
+          <SpaceListDown selected={selected} onSelect={handleSelect} />
         </div>
 
         {/* 하단: 총 건수, 필터 아이콘 */}
@@ -43,7 +47,10 @@ const HostReserveList = () => {
         </div>
       </div>
 
-      <ReservationCard />
+      <div className="flex flex-col space-y-6">
+        <ReservationCard />
+        <ReservationCard />
+      </div>
     </div>
   );
 };

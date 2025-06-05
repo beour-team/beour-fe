@@ -4,6 +4,8 @@ import Contents from "./layouts/contents-layout/Contents";
 import Login from "./pages/login/Login";
 import HostMainpage from "./pages/HostMainpage";
 import SignUp from "./pages/signup/Signup";
+import HostSpaceRegister from "./pages/HostSpaceRegister";
+import HostSpaceRegisterInfo from "./pages/HostSpaceRegisterInfo";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -22,6 +24,8 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/" element={<Home />} />
             <Route path="/hostmain" element={<HostMainpage />} />
+            <Route path="/hostspaceregister" element={<HostSpaceRegister />} />
+            <Route path="/hostspaceregisterinfo" element={<HostSpaceRegisterInfo />} />
           </Route>
         </Route>
       </Routes>
