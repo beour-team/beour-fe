@@ -38,14 +38,14 @@ const GuestFooter = () => {
   const currentPath = location.pathname;
 
   return (
-    <footer className="fixed bottom-0 left-3 w-full bg-transparent z-50 flex justify-center">
+    <footer className="fixed bottom-0 left-0 w-full bg-transparent z-50 flex justify-center">
       <div
         className="
       w-full
-      max-w-[43rem]
+      max-w-[41rem]
       min-w-[32rem]
       mx-auto
-      h-[7vh]
+      h-[7rem]
       flex justify-around items-center 
       bg-white 
       "
