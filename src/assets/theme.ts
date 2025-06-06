@@ -23,6 +23,9 @@ import rightArrow from "./img/rightArrow.svg";
 import leftArrow from "./img/leftArrow.svg";
 import cancel from "./img/cancel.svg";
 import eyeOpen from "./img/eyeOpen.svg";
+import spot from "./img/spot.svg";
+import star from "./img/Star.svg";
+import people from "./img/people.svg";
 
 export {
   nearby,
@@ -50,4 +53,7 @@ export {
   leftArrow,
   cancel,
   eyeOpen,
+  spot,
+  star,
+  people,
 };

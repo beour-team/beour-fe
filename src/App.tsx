@@ -11,6 +11,7 @@ import MypageHost from "./pages/mypage/host/MypageHost";
 import GuestMapPage from "./pages/map/GuestMapPage";
 import EditProfileHost from "./pages/editprofile/host/EditProfileHost";
 import SignUp from "./pages/signup/SignUp";
+import SpaceList from "./pages/spacelist/SpaceList";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -29,6 +30,7 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/mypagehost" element={<MypageHost />} />
             <Route path="/editprofilehost" element={<EditProfileHost />} />
+            <Route path="/spacelist" element={<SpaceList />} />
             <Route path="/" element={<Home />} />
             <Route path="/guest" element={<GuestMainPage />} />
             <Route path="/search" element={<GuestSearchPage />} />
