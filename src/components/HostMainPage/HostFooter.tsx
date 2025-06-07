@@ -11,7 +11,7 @@ const HostFooter = () => {
   const nav = useNavigate();
 
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-transparent z-50">
+    <footer className="fixed bottom-0 left-1/2 -translate-x-1/2 w-[43rem]">
       <div
         className="
       h-[9vh] mt-[0.5vh] px-[2vw]

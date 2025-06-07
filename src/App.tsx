@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import Layout from "./layouts/webApp-layout/Layout";
 import Contents from "./layouts/contents-layout/Contents";
 import Login from "./pages/login/Login";
-import HostMainpage from "./pages/HostMainpage";
+import HostMainpage from "./pages/host-main/HostMainpage";
 import SignUp from "./pages/signup/Signup";
 import HostSpaceRegister from "./pages/HostSpaceRegister";
 import HostSpaceRegisterInfo from "./pages/HostSpaceRegisterInfo";

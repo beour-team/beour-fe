@@ -1,9 +1,9 @@
 import React from "react";
-import HostHeader from "../components/HostMainPage/HostHeader";
-import HostFooter from "../components/HostMainPage/HostFooter";
-import HostReserveList from "../components/HostMainPage/HostReserveList";
-import HelloProfile from "../components/HostMainPage/HelloProfile";
-import Banner from "../components/HostMainPage/Banner";
+import HostHeader from "../../components/HostMainPage/HostHeader";
+import HostFooter from "../../components/HostMainPage/HostFooter";
+import HostReserveList from "../../components/HostMainPage/HostReserveList";
+import HelloProfile from "../../components/HostMainPage/HelloProfile";
+import Banner from "../../components/HostMainPage/Banner";
 
 const HostMainPage: React.FC = () => {
   return (
