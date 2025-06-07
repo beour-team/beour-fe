@@ -203,3 +203,21 @@ select {
   -moz-appearance: none; /* 파이어폭스 화살표 없애기 */
   appearance: none; /* 화살표 없애기 */
 }
+
+/* 그라데이션 효과 */
+.tag-fade {
+  position: relative;
+}
+.tag-fade::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  /* width: 8px; 원하는 만큼 조절 */
+  height: 100%;
+  pointer-events: none;
+}
+
+.fade-right {
+  background: linear-gradient(to left, #fff 40%, rgba(255, 255, 255, 0) 100%);
+}

@@ -33,6 +33,7 @@
     "react-router-dom": "^7.6.0",
     "scheduler": "^0.26.0",
     "swiper": "^11.2.8",
+    "tailwind-scrollbar-hide": "^4.0.0",
     "yarn": "^1.22.22",
     "zod": "^3.24.4"
   },

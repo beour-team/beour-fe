@@ -25,6 +25,7 @@ import cancel from "./img/cancel.svg";
 import eyeOpen from "./img/eyeOpen.svg";
 import spot from "./img/spot.svg";
 import star from "./img/Star.svg";
+import BlackStar from "./img/BlackStar.svg";
 import people from "./img/people.svg";
 
 export {
@@ -56,4 +57,5 @@ export {
   spot,
   star,
   people,
+  BlackStar,
 };
