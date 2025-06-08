@@ -10,7 +10,7 @@ const Banner = () => {
   ];
 
   return (
-    <div className="w-full h-34 md:h-56 px-[2vw] mb-6">
+    <div className="w-full h-34 md:h-56 px-[2rem] mb-6">
       {/* 라운딩과 overflow는 Swiper에 적용 */}
       <Swiper
         modules={[Autoplay, Pagination]}

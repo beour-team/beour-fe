@@ -17,7 +17,7 @@ const HostReserveList = () => {
   };
 
   return (
-    <div className="px-[2vw] min-h-screen bg-[#ECEEF1] px-4 py-6">
+    <div className="px-[2rem] min-h-screen bg-[#ECEEF1] px-4 py-6">
       <div className="pb-[2rem]">
         {/* 상단: 제목, 날짜, 라운지 버튼 */}
         <div className="flex items-center">

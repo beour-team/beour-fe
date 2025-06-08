@@ -13,7 +13,6 @@ import HostSpaceRegisterInfo from "./pages/HostSpaceRegisterInfo";
 import MypageHost from "./pages/mypage/host/MypageHost";
 import GuestMapPage from "./pages/map/GuestMapPage";
 import EditProfileHost from "./pages/editprofile/host/EditProfileHost";
-import SignUp from "./pages/signup/SignUp";
 import SpaceList from "./pages/spacelist/SpaceList";
 import Review from "./pages/review/host/Review";
 
@@ -44,7 +43,6 @@ function App() {
             <Route path="/search" element={<GuestSearchPage />} />
             <Route path="/spaces" element={<GuestResultPage />} />
             <Route path="/filter" element={<GuestFilterPage />} />
-            <Route path="/main" element={<Mainpage />} />
             <Route path="/nearby" element={<GuestMapPage />} />
           </Route>
         </Route>
