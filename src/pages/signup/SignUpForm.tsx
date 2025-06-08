@@ -4,6 +4,7 @@ import { useForm, type SubmitHandler } from "react-hook-form";
 import type { SignUpData } from "../../types/SignUp";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { zodSignUp } from "../../utils/zod/zodValidation";
+import { options } from "../../constants/domain/domain";
 
 const SignUpForm: React.FC = () => {
   // 드롭다운 리스트 상태 관리
@@ -11,9 +12,6 @@ const SignUpForm: React.FC = () => {
 
   // 드롭다운 리스트 선택 상태 관리
   const [selected, setSelected] = useState<string>("");
-
-  // 드롭다운 리스트 데이터
-  const options = ["gmail.com", "naver.com", "nate.com", "daum.net"];
 
   // 드롭다운 ref 생성
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -28,6 +26,7 @@ const SignUpForm: React.FC = () => {
         setIsOpen(false);
       }
     };
+
     // 전체 문서에서 마우스 클릭이 발생할때마다 실행되는 이벤트 리스너
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
