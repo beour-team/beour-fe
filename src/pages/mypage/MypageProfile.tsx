@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { myPageSpace } from "../../constants/mypage/mypage-space";
 
 const MypageProfile = () => {
@@ -14,9 +15,12 @@ const MypageProfile = () => {
               </span>
             </div>
             <div>
-              <button className="text-13-Medium text-[#868686]">
+              <Link
+                to={"/editprofilehost"}
+                className="text-13-Medium text-[#868686]"
+              >
                 내 정보 수정 &gt;
-              </button>
+              </Link>
             </div>
           </div>
           <div className="flex items-center">
