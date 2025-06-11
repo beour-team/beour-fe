@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from "react";
 import { Map, CustomOverlayMap } from "react-kakao-maps-sdk";
-import Searchbar from "../GuestResultPage/Searchbar";
-import SearchResultCard from "../GuestResultPage/SearchResultCard";
+import Searchbar from "../Searchbar";
+import SearchResultCard from "../../pages/guest-main/result-guest/SearchResultCard";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import type { SearchResultItem } from "../../constants/searh-data";
 import { AnimatePresence, motion } from "framer-motion"; //yarn add framer-motion 설치해주세요

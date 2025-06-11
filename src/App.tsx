@@ -1,16 +1,17 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "./layouts/webApp-layout/Layout";
 import Contents from "./layouts/contents-layout/Contents";
-import GuestMainPage from "./pages/guest-main/GuestMainPage";
-import GuestSearchPage from "./pages/guest-main/GuestSearchPage";
-import GuestResultPage from "./pages/guest-main/GuestResultPage";
-import GuestFilterPage from "./pages/guest-main/GuestFilterPage";
+import GuestMainPage from "./pages/guest-main/main-guest/GuestMainPage";
+import GuestSearchPage from "./pages/guest-main/search-guest/GuestSearchPage";
+import GuestResultPage from "./pages/guest-main/result-guest/GuestResultPage";
+import GuestFilterPage from "./pages/guest-main/filter/GuestFilterPage";
 import Login from "./pages/login/Login";
 import Mainpage from "./pages/Mainpage";
 import MypageHost from "./pages/mypage/host/MypageHost";
 import GuestMapPage from "./pages/map/GuestMapPage";
 import EditProfileHost from "./pages/editprofile/host/EditProfileHost";
 import SignUp from "./pages/signup/SignUp";
+import GuestReservePage from "./pages/guest-reservation/GuestReservePage";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -32,10 +33,11 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/guest" element={<GuestMainPage />} />
             <Route path="/search" element={<GuestSearchPage />} />
-            <Route path="/spaces" element={<GuestResultPage />} />
+            <Route path="/space/search" element={<GuestResultPage />} />
             <Route path="/filter" element={<GuestFilterPage />} />
             <Route path="/main" element={<Mainpage />} />
             <Route path="/nearby" element={<GuestMapPage />} />
+            <Route path="/reservations" element={<GuestReservePage />} />
           </Route>
         </Route>
       </Routes>
