@@ -20,6 +20,7 @@ import warning from "./img/warning.svg";
 import underArrow from "./img/underArrow.svg";
 import topArrow from "./img/topArrow.svg";
 import rightArrow from "./img/rightArrow.svg";
+import banner2 from "./img/banner2.png";
 
 export {
   nearby,
@@ -31,6 +32,7 @@ export {
   reservations,
   reservations_click,
   banner,
+  banner2,
   party,
   newspace,
   newspace2,
