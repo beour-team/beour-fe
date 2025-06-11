@@ -7,6 +7,7 @@ import home_click from "./img/home_click.png";
 import reservations from "./img/reservations.png";
 import reservations_click from "./img/reservations_click.png";
 import banner from "./img/bannerImg.png";
+import banner2 from "./img/banner2.png";
 import newspace from "./img/newspace1.png";
 import newspace2 from "./img/newspace2.png";
 import art from "./img/art.svg";
@@ -32,7 +33,6 @@ import dish from "./img/dish.svg";
 import barista from "./img/barista.svg";
 import fleamarket from "./img/fleamarket.svg";
 import film from "./img/film.svg";
-import banner2 from "./img/banner2.png";
 
 export {
   nearby,
