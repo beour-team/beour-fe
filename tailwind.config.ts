@@ -114,5 +114,9 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    require("daisyui"),
+    require("@tailwindcss/line-clamp"),
+    require("tailwind-scrollbar-hide"),
+  ],
 };

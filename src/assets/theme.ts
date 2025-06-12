@@ -27,6 +27,10 @@ import rightArrow from "./img/rightArrow.svg";
 import leftArrow from "./img/leftArrow.svg";
 import cancel from "./img/cancel.svg";
 import eyeOpen from "./img/eyeOpen.svg";
+import spot from "./img/spot.svg";
+import star from "./img/Star.svg";
+import BlackStar from "./img/BlackStar.svg";
+import people from "./img/people.svg";
 import notification from "./img/notification.svg";
 import group from "./img/group.svg";
 import dish from "./img/dish.svg";
@@ -73,6 +77,10 @@ export {
   leftArrow,
   cancel,
   eyeOpen,
+  spot,
+  star,
+  people,
+  BlackStar,
   notification,
   group,
   barista,

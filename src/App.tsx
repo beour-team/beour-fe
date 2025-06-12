@@ -6,11 +6,16 @@ import GuestSearchPage from "./pages/guest-main/search-guest/GuestSearchPage";
 import GuestResultPage from "./pages/guest-main/result-guest/GuestResultPage";
 import GuestFilterPage from "./pages/guest-main/filter/GuestFilterPage";
 import Login from "./pages/login/Login";
-import Mainpage from "./pages/Mainpage";
+import HostMainpage from "./pages/host-main/HostMainpage";
+import SignUp from "./pages/signup/Signup";
+import HostSpaceRegister from "./pages/HostSpaceRegister";
+import HostSpaceRegisterInfo from "./pages/HostSpaceRegisterInfo";
 import MypageHost from "./pages/mypage/host/MypageHost";
 import GuestMapPage from "./pages/map/GuestMapPage";
 import EditProfileHost from "./pages/editprofile/host/EditProfileHost";
-import SignUp from "./pages/signup/SignUp";
+import SpaceList from "./pages/spacelist/SpaceList";
+import Review from "./pages/review/host/Review";
+import WishSpace from "./pages/wishspace/WishSpace";
 import GuestReservePage from "./pages/guest-reservation/GuestReservePage";
 
 // 테스트용 으로 적어둔거에요!!
@@ -30,12 +35,20 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/mypagehost" element={<MypageHost />} />
             <Route path="/editprofilehost" element={<EditProfileHost />} />
+            <Route path="/spacelist" element={<SpaceList />} />
+            <Route path="/reviewhost" element={<Review />} />
+            <Route path="/wishspace" element={<WishSpace />} />
             <Route path="/" element={<Home />} />
+            <Route path="/hostmain" element={<HostMainpage />} />
+            <Route path="/hostspaceregister" element={<HostSpaceRegister />} />
+            <Route
+              path="/hostspaceregisterinfo"
+              element={<HostSpaceRegisterInfo />}
+            />
             <Route path="/guest" element={<GuestMainPage />} />
             <Route path="/search" element={<GuestSearchPage />} />
             <Route path="/space/search" element={<GuestResultPage />} />
             <Route path="/filter" element={<GuestFilterPage />} />
-            <Route path="/main" element={<Mainpage />} />
             <Route path="/nearby" element={<GuestMapPage />} />
             <Route path="/reservations" element={<GuestReservePage />} />
           </Route>

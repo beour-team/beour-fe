@@ -7,10 +7,14 @@ import { warning } from "../../assets/theme";
 import { Link } from "react-router-dom";
 import HostLoginForm from "./HostLoginForm";
 import GuestLoginForm from "./GuestLoginForm";
+import { useLogin } from "../../hooks/Login/useLogin";
 
 const Login: React.FC = () => {
   // 게스트와 호스트 폼을 나누는 탭 상태 관리
   const [activeTab, setActiveTab] = useState("guest");
+
+  // 로그인 mutation
+  const loginMutation = useLogin();
 
   // react-hook-form 과 zod 연결
   // 유효성 검사를 위한 스키마는 utils > zod > zodValidation 에 저장
@@ -25,7 +29,17 @@ const Login: React.FC = () => {
   // SubmitHandler 는 type Helper 로 폼에서 제출하는 데이터를 검사하는 함수
   // React-Hook-Form 이 typeScript 에서 타입을 검사할때 쓰라고 만든 규칙
   const onSubmit: SubmitHandler<LoginData> = async (data) => {
-    console.log("제출된 form 데이터 :", data);
+    console.log("입력된 로그인 데이터:", data);
+
+    // 역할 가져오기
+    const role = activeTab === "guest" ? "GUEST" : "HOST";
+
+    // 로그인에 필요한 데이터 입력
+    loginMutation.mutate({
+      loginId: data.id,
+      password: data.password,
+      role,
+    });
   };
 
   return (
