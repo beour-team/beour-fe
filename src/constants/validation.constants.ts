@@ -29,3 +29,29 @@ export const EMAIL_REQUIRED = "이메일을 입력해주세요.";
 export const EMAIL_FORMAT = "이메일 형식을 확인해주세요.";
 export const EMAIL_CHECK_REQUIRED = "이메일 중복 확인을 진행해주세요.";
 export const EMAIL_CHECK_SUCCESS = "사용 가능한 이메일입니다.";
+
+//공간명
+export const SPACE_NAME_REQUIRED = "공간명을 입력해주세요.";
+
+//수용 인원
+export const SPACE_CAPACITY_REQUIRED = "수용 인원을 입력해주세요.";
+export const SPACE_CAPACITY_MIN = "최소 수용 인원은 1명입니다.";
+
+//가격
+export const PRICE_REQUIRED = "가격을 입력해주세요.";
+export const PRICE_FORMAT = "올바른 가격을 입력해주세요.";
+
+// 주소
+export const ADDRESS_REQUIRED = "주소를 입력해주세요.";
+
+//공간 설명
+export const SPACE_DESCRIPTION_REQUIRED = "공간 설명을 입력해주세요.";
+export const SPACE_DESCRIPTION_LENGTH = "공간 설명은 최대 2000자 이내로 입력해주세요"
+
+//주의 사항
+export const SPACE_NOTICE_REQUIRED = "주의 사항을 입력해주세요.";
+export const SPACE_NOTICE_LENGTH = "주의 사항은 최대 500자 이내로 입력해주세요";
+
+//환불 정책
+export const REFUND_POLICY_REQUIRED = "환불 정책을 입력해주세요.";
+export const REFUND_POLICY_LENGTH = "환불 정책은 최대 500자 이내로 입력해주세요";

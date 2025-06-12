@@ -27,6 +27,8 @@ import spot from "./img/spot.svg";
 import star from "./img/Star.svg";
 import BlackStar from "./img/BlackStar.svg";
 import people from "./img/people.svg";
+import cancel_dark from "./img/cancel_dark.png"
+import error from "./img/error.svg";
 
 export {
   nearby,
@@ -58,4 +60,6 @@ export {
   star,
   people,
   BlackStar,
+  cancel_dark,
+  error,
 };
