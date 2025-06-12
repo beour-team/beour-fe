@@ -1,3 +1,7 @@
+import daisyui from "daisyui";
+import lineClamp from "@tailwindcss/line-clamp";
+import scrollbarHide from "tailwind-scrollbar-hide";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
@@ -114,9 +118,5 @@ export default {
       },
     },
   },
-  plugins: [
-    require("daisyui"),
-    require("@tailwindcss/line-clamp"),
-    require("tailwind-scrollbar-hide"),
-  ],
+  plugins: [daisyui, lineClamp, scrollbarHide],
 };
