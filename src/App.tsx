@@ -7,7 +7,7 @@ import GuestResultPage from "./pages/guest-main/result-guest/GuestResultPage";
 import GuestFilterPage from "./pages/guest-main/filter/GuestFilterPage";
 import Login from "./pages/login/Login";
 import HostMainpage from "./pages/host-main/HostMainpage";
-import SignUp from "./pages/signup/Signup";
+import SignUp from "./pages/signup/SignUp";
 import HostSpaceRegister from "./pages/HostSpaceRegister";
 import HostSpaceRegisterInfo from "./pages/HostSpaceRegisterInfo";
 import MypageHost from "./pages/mypage/host/MypageHost";
@@ -16,7 +16,6 @@ import EditProfileHost from "./pages/editprofile/host/EditProfileHost";
 import SpaceList from "./pages/spacelist/SpaceList";
 import Review from "./pages/review/host/Review";
 import WishSpace from "./pages/wishspace/WishSpace";
-import GuestReservePage from "./pages/guest-reservation/GuestReservePage";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -47,10 +46,9 @@ function App() {
             />
             <Route path="/guest" element={<GuestMainPage />} />
             <Route path="/search" element={<GuestSearchPage />} />
-            <Route path="/space/search" element={<GuestResultPage />} />
+            <Route path="/spaces" element={<GuestResultPage />} />
             <Route path="/filter" element={<GuestFilterPage />} />
             <Route path="/nearby" element={<GuestMapPage />} />
-            <Route path="/reservations" element={<GuestReservePage />} />
           </Route>
         </Route>
       </Routes>
