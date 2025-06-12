@@ -19,22 +19,25 @@ const CapacitySelector = ({ capacity, setCapacity }: CapacitySelectorProps) => {
 
   return (
     <div className="mb-[4rem] flex items-center justify-between ">
-      <div className="text-[1.4rem] font-semibold">
+      <div className="text-16-SemiBold">
         최대 {capacity}인 수용 공간을 원해요
       </div>
-      <div className=" flex items-center justify-center border-[2px] border-[#F2F2F2] rounded-[1rem] bg-white">
+
+      <div className="flex items-center justify-center border-[3.5px] border-cr-200 rounded-[1rem] bg-cr-200 px-1">
         <button
           onClick={decrease}
-          className="w-10 h-10 rounded-[0.6rem] bg-[#F2F2F2] text-xl font-bold hover:bg-gray-300 text-[#C6C6C6]"
+          className="w-10 h-10 flex items-center justify-center text-[1.6rem] font-bold text-cr-500"
         >
           -
         </button>
-        <div className="flex items-center justify-center w-[3rem] bg-white rounded-[0.6rem]">
+
+        <div className="flex items-center justify-center w-[3.4rem] h-10 bg-white rounded-[0.7rem] mx-2 text-14-SemiBold">
           {capacity}
         </div>
+
         <button
           onClick={increase}
-          className="w-10 h-10 rounded-[0.6rem] bg-[#F2F2F2] text-xl font-bold hover:bg-gray-300 text-[#C6C6C6]"
+          className="w-10 h-10 flex items-center justify-center text-[1.6rem] font-bold text-cr-500"
         >
           +
         </button>

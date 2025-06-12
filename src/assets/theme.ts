@@ -1,11 +1,11 @@
-import nearby from "./img/nearby.png";
-import nearby_click from "./img/nearby_click.png";
-import guest from "./img/guest.png";
-import guest_click from "./img/guest_click.png";
-import home from "./img/home.png";
-import home_click from "./img/home_click.png";
-import reservations from "./img/reservations.png";
-import reservations_click from "./img/reservations_click.png";
+import nearby from "./img/nearby.svg";
+import nearby_click from "./img/nearby_click.svg";
+import guest from "./img/guest.svg";
+import guest_click from "./img/guest_click.svg";
+import home from "./img/home.svg";
+import home_click from "./img/home_click.svg";
+import reservations from "./img/reservations.svg";
+import reservations_click from "./img/reservations_click.svg";
 import banner from "./img/bannerImg.png";
 import banner2 from "./img/banner2.png";
 import newspace from "./img/newspace1.png";
@@ -33,6 +33,15 @@ import dish from "./img/dish.svg";
 import barista from "./img/barista.svg";
 import fleamarket from "./img/fleamarket.svg";
 import film from "./img/film.svg";
+import bluePlace from "./img/blueplace.svg";
+import space1 from "./img/space.png";
+import space2 from "./img/space2.png";
+import space3 from "./img/space3.png";
+import space4 from "./img/space4.png";
+import space5 from "./img/space5.png";
+import placemark from "./img/placemark.svg";
+import calendar from "./img/calendar.svg";
+import area from "./img/area.svg";
 
 export {
   nearby,
@@ -70,4 +79,13 @@ export {
   fleamarket,
   dish,
   film,
+  bluePlace,
+  space1,
+  space2,
+  space3,
+  space4,
+  placemark,
+  space5,
+  calendar,
+  area,
 };

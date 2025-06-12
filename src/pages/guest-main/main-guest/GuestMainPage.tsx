@@ -6,6 +6,7 @@ import SpaceType from "./SpaceType";
 import NewSpace from "./NewSpace";
 import GuestFooter from "../../../components/GuestFooter";
 import Searchbar from "../../../components/Searchbar";
+import RecentReview from "./RecentReView";
 
 const GuestMainPage = () => {
   const nav = useNavigate();
@@ -22,6 +23,7 @@ const GuestMainPage = () => {
       <SpaceType /> {/* 공간 둘러보기  */}
       <NewSpace /> {/* 내 주변 새 공간 */}
       <GuestFooter />
+      <RecentReview />
     </div>
   );
 };

@@ -25,6 +25,7 @@ const GuestFilterPage = () => {
     setUseType([]);
   };
 
+  //적용하기 버튼 누른 후
   const handleApply = () => {
     const params = new URLSearchParams();
     if (region) params.set("region", region);
@@ -34,7 +35,7 @@ const GuestFilterPage = () => {
     spaceType.forEach((type) => params.append("spaceType", type));
     useType.forEach((type) => params.append("useType", type));
 
-    nav(`space/search?${params.toString()}`);
+    nav(`/space/search?${params.toString()}`);
   };
 
   return (

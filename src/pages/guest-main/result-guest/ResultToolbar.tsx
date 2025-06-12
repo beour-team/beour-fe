@@ -15,31 +15,33 @@ const ResultToolbar = ({ totalCount }: { totalCount: number }) => {
 
   return (
     <div className="flex justify-between items-center my-4">
-      <div className="text-[#656565] text-[1.1rem]">총 {totalCount}개</div>
+      <div className="text-13-Medium text-cr-600">총 {totalCount}개</div>
       <div className="relative flex items-center space-x-4">
         <div className="relative inline-block">
           <button
             onClick={() => setOpen(!open)}
-            className="flex items-center cursor-pointer rounded-[2rem] bg-[#E9EBEE] px-[1.2rem] py-[0.7rem] min-w-[6rem]"
+            className="flex items-center cursor-pointer rounded-[2rem] bg-cr-200 px-[1.2rem] py-[1.2rem]"
           >
-            <span className="text-[#313131] text-[1.1rem]">{selected}</span>
+            <span className="text-cr-800 text-13-SemiBold pl-[0.5rem]">
+              {selected}
+            </span>
             <SlArrowDown
               size={13}
-              className="ml-2 text-[#A9A9A9] pointer-events-none"
+              className="ml-2 text-cr-500 pointer-events-none"
             />
           </button>
 
           {open && (
-            <div className="absolute mt-2 w-full rounded-md bg-white shadow-md z-10">
+            <div className="absolute mt-[1rem] w-full rounded-[1rem] bg-white z-10 border border-cr-300 ">
               <div
                 onClick={() => handleSelect("추천순")}
-                className="px-7 py-3 hover:bg-[#d8d9da] cursor-pointer text-[1.1rem] text-[#313131]"
+                className="px-4 py-[1rem] hover:bg-cr-100 cursor-pointer text-14-Medium"
               >
                 추천순
               </div>
               <div
                 onClick={() => handleSelect("인기순")}
-                className="px-7 py-3 hover:bg-[#d8d9da] cursor-pointer text-[1.1rem] text-[#313131]"
+                className="px-4 py-[1rem] hover:bg-cr-100 cursor-pointer text-14-Medium"
               >
                 인기순
               </div>
@@ -47,14 +49,14 @@ const ResultToolbar = ({ totalCount }: { totalCount: number }) => {
           )}
         </div>
         <div
-          className="flex items-center cursor-pointer rounded-[2rem] bg-[#E9EBEE] px-[1.2rem] py-[0.7rem]"
+          className="flex items-center cursor-pointer rounded-[2rem] bg-cr-200 px-[1.2rem] py-[0.7rem]"
           onClick={() => nav("/filter")}
         >
           <HiAdjustmentsHorizontal
-            size={15}
-            className="text-[#9D9D9D] mr-[0.2rem]"
+            size={22}
+            className="text-cr-500 mr-[0.2rem]"
           />
-          <span className="text-[#313131] text-[1.1rem]">필터</span>
+          <span className="text-cr-800 text-13-SemiBold">필터</span>
         </div>
       </div>
     </div>

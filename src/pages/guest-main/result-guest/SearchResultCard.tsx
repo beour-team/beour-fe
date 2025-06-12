@@ -21,14 +21,14 @@ const SearchResultCard = ({ item }: SearchResultCardProps) => {
 
   return (
     <div
-      className="pb-[2rem] pt-[1rem] flex gap-[2rem] cursor-pointer border-b border-[#ECECEC]"
-      onClick={() => nav(`/space/detail/${item.spaceId}`)}
+      className="py-[1rem] flex gap-[2rem] cursor-pointer border-b border-[#ECECEC]"
+      onClick={() => nav(`/space/${item.id}`)}
     >
-      <div className="relative overflow-hidden flex-shrink-0">
+      <div className="relative overflow-hidden flex-shrink-0 pb-[1rem]">
         <img
           src={item.thumbnail_url}
           alt={item.name}
-          className="w-[17rem] h-[18rem] object-cover rounded-[1rem]"
+          className="w-[12.7rem] h-[15.8rem] object-cover rounded-[1rem]"
         />
         <button
           onClick={toggleFavorite}
@@ -38,40 +38,40 @@ const SearchResultCard = ({ item }: SearchResultCardProps) => {
         </button>
       </div>
 
-      <div className="flex flex-col justify-between py-2 h-[18rem]">
-        <div>
-          <div className="text-[1.5rem] font-semibold pb-[1rem] text-[#313131]">
-            {item.name}
-          </div>
+      <div className="flex flex-col justify-between py-2 ">
+        <div className="text-18-SemiBold pb-[1.4rem]">{item.name}</div>
 
-          <div className="flex items-center text-[1.2rem] pb-[1rem] gap-5">
-            <div className="flex gap-[0.4rem] items-center">
-              <FaMapMarkerAlt size={14} className="text-[#666666]" />
-              <span className="text-[#505050]">{item.address}</span>
-            </div>
-            <div className="flex gap-[0.4rem] items-center">
-              <IoPersonSharp size={14} className="text-[#666666]" />
-              <span className="text-[#505050]">최대 {item.guest_count}인</span>
-            </div>
+        <div className="flex items-center text-[1.2rem] pb-[1.4rem] gap-4">
+          <div className="flex gap-[0.4rem] items-center">
+            <FaMapMarkerAlt className="text-cr-700 text-[1.5rem]" />
+            <span className="text-cr-600 text-13-Medium">{item.address}</span>
           </div>
-
-          <div className="flex text-[1.2rem] pb-[0.8rem] gap-[0.4rem] items-center">
-            <GoStarFill className="text-[#FFCC00]" />
-            <span className="font-semibold">{item.rating}</span>
-          </div>
-
-          <div className="flex gap-3 items-center">
-            <div className="rounded-[2rem] bg-[#E9EBEE] px-[1.1rem] py-[0.6rem] text-[#9D9D9D]">
-              {item.category}
-            </div>
-            <div className="rounded-[2rem] bg-[#E9EBEE] px-[1.1rem] py-[0.6rem] text-[#9D9D9D]">
-              {item.use}
-            </div>
+          <div className="flex gap-[0.4rem] items-center">
+            <IoPersonSharp className="text-cr-700 text-[1.5rem]" />
+            <span className="text-[#505050]">최대 {item.max_capacity}인</span>
           </div>
         </div>
 
-        <div className="font-black text-[#313131] text-[1.7rem] text-right">
-          {item.price_per_hour} 원/시간
+        <div className="flex text-[1.2rem] pb-[1rem] gap-[0.4rem] items-center">
+          <GoStarFill className="text-cr-yellow text-[1.5rem]" />
+          <span className="text-13-Bold">{item.avg_rating}</span>
+        </div>
+
+        <div className="w-full overflow-hidden">
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide max-w-full">
+            {item.tags.map((tag, index) => (
+              <div
+                key={index}
+                className="flex-shrink-0 flex items-center justify-center rounded-[4.9rem] bg-cr-primary px-4 py-1 min-w-[4.4rem] h-[2.5rem]"
+              >
+                <span className="text-cr-blue text-13-Medium">{tag}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="text-18-ExtraBold text-right pt-[1.5rem]">
+          {item.price_per_hour}원/시간
         </div>
       </div>
     </div>

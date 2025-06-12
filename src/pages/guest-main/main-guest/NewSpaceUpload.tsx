@@ -1,12 +1,11 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import FavoriteIcon from "../../../components/FavoriteIcon";
+import { bluePlace } from "../../../assets/theme";
 
 type NewSpace = {
   thumbnail_url: string;
   location: string;
   name: string;
-  price_per_hour: number;
+  description: string;
 };
 
 type NewSpaceUploadProps = {
@@ -15,38 +14,38 @@ type NewSpaceUploadProps = {
 };
 
 const NewSpaceUpload = ({ space, spaceId }: NewSpaceUploadProps) => {
-  const [isFavorite, setIsFavorite] = useState(false);
   const nav = useNavigate();
 
-  const toggleFavorite = () => {
-    setIsFavorite((prev) => !prev);
-  };
-
   const goToDetail = () => {
-    nav(`/space/detail/${spaceId}`);
+    nav(`/space/${spaceId}`);
   };
 
   return (
     <div
       key={spaceId}
-      className="relative w-full min-w-0 aspect-[117/114] overflow-hidden rounded-[1.2rem]"
+      className="relative w-full min-w-0 aspect-[214/217] overflow-hidden rounded-[1.2rem]"
+      onClick={goToDetail}
     >
       <img
         src={space.thumbnail_url}
         alt={`새 공간 ${spaceId + 1}`}
         className="object-cover w-full h-full rounded-[1.2rem]"
-        onClick={goToDetail}
       />
-      <button
-        onClick={toggleFavorite}
-        className="absolute top-[1rem] right-[1rem] z-10"
-      >
-        <FavoriteIcon isFavorite={isFavorite} />
-      </button>
-      <div className="absolute bottom-[1.3rem] left-[1rem] text-white text-shadow-sm">
-        <div className="text-[1rem] font-thin">{space.location}</div>
-        <div className="text-[1.2rem] font-regular py-3">{space.name}</div>
-        <div className="text-[#ccc] pb-2">{space.price_per_hour} 원/시간</div>
+
+      <div className="absolute bottom-[1rem] left-[2rem] text-white">
+        <div className="flex items-end gap-2">
+          <img
+            src={bluePlace}
+            alt="파란색 장소마커"
+            className="w-[2rem] h-[2rem]"
+          />
+          <span className="text-12-Medium">
+            {space.location} / {space.name}
+          </span>
+        </div>
+        <div className="text-16-SemiBold py-3 whitespace-pre-line leading-[1.6]">
+          {space.description}
+        </div>
       </div>
     </div>
   );

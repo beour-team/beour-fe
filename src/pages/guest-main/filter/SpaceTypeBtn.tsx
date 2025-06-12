@@ -7,12 +7,12 @@ interface SpaceTypeBtnProps {
 
 const SpaceTypeBtn = ({ spaceType, setSpaceType }: SpaceTypeBtnProps) => {
   const buttonLabels = [
-    "음식점",
-    "파티룸",
-    "오피스",
-    "연습실",
-    "공유주방",
-    "게임방",
+    "카페",
+    "식당",
+    "쿠킹 공방",
+    "가죽 공방",
+    "의상 공방",
+    "기타",
   ];
   // const [spaceType, setspaceType] = useState<string[]>([]); //여러 개 선택되게
   const toggleSelection = (label: string) => {
@@ -29,10 +29,10 @@ const SpaceTypeBtn = ({ spaceType, setSpaceType }: SpaceTypeBtnProps) => {
         <button
           key={label}
           onClick={() => toggleSelection(label)}
-          className={`text-[1.3rem] px-7 py-[0.8rem] rounded-[1.4rem] ${
+          className={`text-14-Medium px-[2rem] py-[0.8rem] rounded-[1.4rem] ${
             spaceType.includes(label)
-              ? "bg-[#6B96F9] text-white"
-              : "bg-[#E9EBEE] text-[#9296A1]"
+              ? "bg-cr-blue text-white"
+              : "bg-cr-100 text-cr-500"
           }`}
         >
           {label}

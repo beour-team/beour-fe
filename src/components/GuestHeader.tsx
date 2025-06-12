@@ -20,7 +20,7 @@ const GuestHeader = () => {
         src={notification}
         alt="알림"
         className="w-[2rem] object-contain cursor-pointer"
-        onClick={() => nav("/")} //어디로 가야하죠
+        onClick={() => nav("/search")} //어디로 가야하죠
       />
     </div>
   );

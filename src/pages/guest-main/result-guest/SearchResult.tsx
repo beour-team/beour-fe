@@ -11,9 +11,9 @@ const SearchResult = ({ results }: SearchResultsProps) => {
   }
 
   return (
-    <div className="flex flex-col gap-[1rem]">
+    <div className="px-1">
       {results.map((item) => (
-        <SearchResultCard key={item.spaceId} item={item} />
+        <SearchResultCard key={item.id} item={item} />
       ))}
     </div>
   );

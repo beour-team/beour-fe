@@ -5,12 +5,19 @@ import { useNavigate } from "react-router-dom";
 type CategoryIconProps = {
   imgSrc: string;
   label: string;
+  categoryType?: "spacecategory" | "usecategory";
 };
 
-const CategoryIcon = ({ imgSrc, label }: CategoryIconProps) => {
+const CategoryIcon = ({
+  imgSrc,
+  label,
+  categoryType = "spacecategory",
+}: CategoryIconProps) => {
   const nav = useNavigate();
   const handleClick = () => {
-    nav(`/spaces/search/spacecategory?=${encodeURIComponent(label)}`);
+    const queryKey =
+      categoryType === "usecategory" ? "usecategory" : "spacecategory";
+    nav(`/space/search?${queryKey}=${encodeURIComponent(label)}`);
   };
 
   return (
@@ -19,7 +26,7 @@ const CategoryIcon = ({ imgSrc, label }: CategoryIconProps) => {
         <img
           src={imgSrc}
           alt={label}
-          className="max-w-[5rem] max-h-[4.3rem] object-contain"
+          className="max-w-[6rem] max-h-[4.6rem] object-contain"
         />
       </div>
       <span className="block text-center text-[1.2rem] font-medium pt-[1rem]">

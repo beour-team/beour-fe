@@ -7,12 +7,12 @@ interface UseTypeBtnProps {
 
 const UseTypeBtn = ({ useType, setUseType }: UseTypeBtnProps) => {
   const buttonLabels = [
-    "음식점",
-    "파티룸",
-    "오피스",
-    "연습실",
-    "공유주방",
-    "게임방",
+    "단체 모임",
+    "요리 연습",
+    "바리스타 실습",
+    "플리마켓",
+    "촬영",
+    "기타",
   ];
   // const [useType, setuseType] = useState<string[]>([]);
   const toggleSelection = (label: string) => {
@@ -29,10 +29,10 @@ const UseTypeBtn = ({ useType, setUseType }: UseTypeBtnProps) => {
         <button
           key={label}
           onClick={() => toggleSelection(label)}
-          className={`text-[1.3rem] px-7 py-[0.8rem] rounded-[1.4rem] ${
+          className={`text-14-Medium px-7 py-[0.8rem] rounded-[1.4rem] ${
             useType.includes(label)
-              ? "bg-black text-white"
-              : "bg-[#E9EBEE] text-[#9296A1]"
+              ? "bg-cr-blue text-white"
+              : "bg-cr-100 text-cr-500"
           }`}
         >
           {label}

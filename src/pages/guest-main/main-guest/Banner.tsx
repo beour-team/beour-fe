@@ -26,7 +26,7 @@ const Banner = () => {
               alt={`배너 ${index + 1}`}
               className="w-full object-cover"
             />
-            <div className="absolute bottom-[2rem] left-[2rem] text-white text-[1.5rem] font-regular drop-shadow-md">
+            <div className="absolute bottom-[2rem] left-[2rem] text-white text-[1.6rem] font-semibold drop-shadow-md">
               {banner.title}
             </div>
           </div>

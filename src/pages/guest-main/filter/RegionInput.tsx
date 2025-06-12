@@ -45,11 +45,11 @@ const RegionInput = ({ onComplete, initialValue }: RegionInputProps) => {
           value={input}
           onChange={handleChange}
           placeholder="가까운 역, 동네, 건물 입력"
-          className="bg-[#E9EBEE] rounded-[0.7rem] text-[1.3rem] w-full h-[3.6rem] px-5 font-regular appearance-none"
+          className="bg-cr-200 rounded-[0.7rem] text-[1.3rem] w-full h-[3.6rem] px-5 font-regular appearance-none"
         />
         <FiSearch
           size={20}
-          className="absolute right-[4rem] top-[4.8rem] -translate-y-1/2 text-[#B4B4B4] cursor-pointer"
+          className="absolute right-[4rem] top-[4.8rem] -translate-y-1/2 text-14-Medium text-cr-500 cursor-pointer"
         />
       </div>
       {suggestions.length > 0 && (
@@ -58,7 +58,7 @@ const RegionInput = ({ onComplete, initialValue }: RegionInputProps) => {
             <li
               key={idx}
               onClick={() => handleSelect(region)}
-              className="px-4 py-3 hover:bg-[#EFEFEF] cursor-pointer text-[1.1rem]"
+              className="px-4 py-5 hover:bg-cr-100 cursor-pointer text-14-SemiBold"
             >
               {region}
             </li>

@@ -16,7 +16,7 @@ const PriceSlider = ({ priceRange, setPriceRange }: PriceSliderProps) => {
 
   return (
     <div>
-      <div className="font-semibold text-[1.8rem] my-[1.3rem]">
+      <div className="text-20-Bold my-[1.3rem]">
         {priceRange[0].toLocaleString()}원 ~ {priceRange[1].toLocaleString()}원
       </div>
       <Slider

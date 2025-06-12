@@ -66,14 +66,14 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
   return (
     // 임시로 색깔지정해둠 바꾸기 (흰색으로 하면 안보임)
     <div className="fixed bottom-0 bg-white rounded-t-2xl shadow-xl p-[3rem] h-[79rem] overflow-y-auto w-[39rem] left-[51%] -translate-x-1/2 z-50">
-      <div className="flex items-center justify-between mb-[2rem]">
-        <span className="text-[1.3rem] font-semibold">
-          대여 일자를 선택해주세요
+      <div className="flex items-center justify-between mb-[1.7rem]">
+        <span className="text-14-SemiBold">
+          원하는 대여 일자를 선택해주세요
         </span>
 
+        {/* 일정무관 체크박스 */}
         <div className="">
-          {/* 일정무관 체크박스 */}
-          <label className="flex items-center gap-2 text-[1.2rem] text-[#8D8D93]">
+          <label className=" flex items-end gap-2 text-12-Medium text-cr-600">
             <input
               type="checkbox"
               checked={allDay}
@@ -96,7 +96,7 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
             weekStartsOn={0}
             disabled={{ before: new Date() }}
             modifiersClassNames={{
-              selected: "bg-black text-white rounded-[5rem]",
+              selected: "bg-cr-blue text-white rounded-full",
               today: "text-black font-bold",
             }}
             styles={{
@@ -105,12 +105,12 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
                 width: "w-full",
                 height: "3rem",
                 lineHeight: "2.2rem",
-                fontSize: "1.4rem",
+                fontSize: "1.5rem",
               },
               weekday: {
-                fontSize: "1.2rem",
-                fontWeight: "600",
-                color: "#9D9D9D",
+                fontSize: "1.5rem",
+                fontWeight: "500",
+                color: "#9296A1",
               },
             }}
           />
@@ -121,11 +121,11 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
       {!allDay && (
         <div className="mb-[5rem]">
           <div className="flex items-center justify-between">
-            <div className="font-semibold my-[3rem] text-[1.3rem]">
-              대여 시간을 선택해주세요
+            <div className="text-14-SemiBold my-[3rem]">
+              원하는 대여 시간을 선택해주세요
             </div>
             {/* 시간 무관 체크박스 */}
-            <label className="flex items-center gap-2 text-[1.2rem] text-[#8D8D93]">
+            <label className="flex items-end gap-2 text-12-Medium text-cr-600">
               <input
                 type="checkbox"
                 checked={anyTime}
@@ -154,10 +154,10 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
                     }
                     setAnyTime(false); //시간 무관 해제
                   }}
-                  className={`min-w-[6rem] px-3 py-[1.7rem] rounded-md text-[1rem] ${
+                  className={`min-w-[6rem] px-[1.2rem] py-[1.7rem] rounded-md text-12-Medium ${
                     selectedTime.includes(hour)
-                      ? "bg-black text-white"
-                      : "bg-[#D9D9D9]"
+                      ? "bg-cr-blue text-white"
+                      : "bg-cr-300"
                   }`}
                 >
                   {hour}
@@ -168,7 +168,7 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
         </div>
       )}
 
-      <div className="flex justify-between items-center border-t pt-4 my">
+      <div className="flex justify-between items-center border-t">
         <div className="text-[1.4rem] my-[2rem]">
           <div className="pb-[1.4rem]">대여일시</div>
           {allDay
@@ -180,7 +180,7 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
             : " 선택 안됨"}
         </div>
         <button
-          className="bg-black text-white px-[2.3rem] py-[1.7rem] rounded-[0.8rem] text-[1.3rem] font-regular"
+          className="bg-black text-white px-[2.8rem] py-[1.7rem] rounded-[1rem] text-16-Medium"
           onClick={handleComplete}
         >
           선택 완료

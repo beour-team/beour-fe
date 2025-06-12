@@ -1,9 +1,9 @@
 import { useState } from "react";
 import GuestFooter from "../../components/GuestFooter";
-import ReserveToggle from "../../components/GuestReservePage/ReserveToggle";
-import CurrentReservations from "../../components/GuestReservePage/CurrentResrvations";
-import PastReservations from "../../components/GuestReservePage/PastReservations";
-import CancelledReservations from "../../components/GuestReservePage/CancelledReservations";
+import ReserveToggle from "./ReserveToggle";
+import CurrentReservations from "./CurrentResrvations";
+import PastReservations from "./PastReservations";
+import CancelledReservations from "./CancelledReservations";
 
 type ReservationCategory = "current" | "past" | "cancel";
 

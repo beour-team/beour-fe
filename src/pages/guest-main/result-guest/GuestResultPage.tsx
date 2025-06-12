@@ -8,10 +8,8 @@ import BackButton from "../../../components/BackButton";
 //임시데이터(삼성역으로만 검색해야 나옴)로 만든 결과화면
 const GuestResultPage = () => {
   const location = useLocation();
-  // const query = new URLSearchParams(location.search).get("request");
-  // const results = query ? SearchData[query] : undefined;
-
   const params = new URLSearchParams(location.search);
+
   const region = params.get("region") || "";
   const min = Number(params.get("priceMin")) || 0;
   const max = Number(params.get("priceMax")) || 999999;
@@ -19,19 +17,13 @@ const GuestResultPage = () => {
   const spaceTypes = params.getAll("spaceType");
   const useTypes = params.getAll("useType");
 
-  const nav = useNavigate();
-  const handleSearch = (keyword: string) => {
-    nav(`/space/search?request=${encodeURIComponent(keyword)}`);
-  };
-
-  // const location = useLocation();
-
-  const rawData = SearchData["삼성역"] || [];
+  const keyword = params.get("request") || ""; // 검색어 추출
+  const rawData = SearchData[keyword] || []; // 필터링
 
   const filteredData = rawData.filter((item) => {
     const matchRegion = region ? item.address.includes(region) : true;
     const matchPrice = item.price_per_hour >= min && item.price_per_hour <= max;
-    const matchCapacity = item.guest_count >= capacity;
+    const matchCapacity = item.max_capacity >= capacity;
     const matchSpaceType =
       spaceTypes.length > 0 ? spaceTypes.includes(item.category) : true;
     const matchUseType =
@@ -45,6 +37,11 @@ const GuestResultPage = () => {
       matchUseType
     );
   });
+
+  const nav = useNavigate();
+  const handleSearch = (keyword: string) => {
+    nav(`/space/search?request=${encodeURIComponent(keyword)}`);
+  };
 
   return (
     <div className="ml-[1rem] mr-[2rem] my-[2rem]">

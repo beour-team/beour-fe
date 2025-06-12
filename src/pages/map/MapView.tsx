@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { Map, CustomOverlayMap } from "react-kakao-maps-sdk";
-import Searchbar from "../Searchbar";
+import Searchbar from "../../components/Searchbar";
 import SearchResultCard from "../../pages/guest-main/result-guest/SearchResultCard";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import type { SearchResultItem } from "../../constants/searh-data";
@@ -58,7 +58,7 @@ const MapView = () => {
   };
 
   return (
-    <div className="w-full h-[80rem] relative">
+    <div className="w-full h-[100rem] relative">
       <div className="absolute top-5 left-1/2 -translate-x-1/2 z-10 w-[80%] max-w-xl">
         <Searchbar onSearch={handleSearch} bgcolor="white" />
       </div>
@@ -87,24 +87,19 @@ const MapView = () => {
           {/* 공간리스트 표시 */}
           {filteredSpaces.map((space) => (
             <CustomOverlayMap
-              key={space.spaceId}
+              key={space.id}
               position={{ lat: space.lat, lng: space.lng }}
               yAnchor={1} //마커 하단이 기준점이 되도록
             >
               <div
                 onClick={() => setSelectedSpace(space)}
                 style={{
-                  color:
-                    selectedSpace?.spaceId === space.spaceId
-                      ? "#000000"
-                      : "#6B96F9",
+                  color: selectedSpace?.id === space.id ? "#000000" : "#6B96F9",
                   cursor: "pointer",
                   transition: "transform 0.2s",
                   transformOrigin: "bottom center",
                   transform:
-                    selectedSpace?.spaceId === space.spaceId
-                      ? "scale(1.25)"
-                      : "scale(1)",
+                    selectedSpace?.id === space.id ? "scale(1.25)" : "scale(1)",
                 }}
               >
                 <FaMapMarkerAlt size={27} />
