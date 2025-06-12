@@ -1,26 +1,26 @@
+//로고랑 알림창 있는 부분 (게스트,호스트 헤더)
 import { useNavigate } from "react-router-dom";
-import { IoIosSearch } from "react-icons/io";
+
+import { notification } from "../assets/theme";
 
 const GuestHeader = () => {
   const nav = useNavigate();
 
   return (
     <div className="flex items-center justify-between h-[9rem] mt-[0.5rem]">
-      <div className="flex items-center gap-[1vw]">
-        <div
-          onClick={() => nav("/guest")}
-          className="font-black text-[2.4rem] leading-none cursor-pointer"
-        >
-          Be:our
-        </div>
-        <div className="inline-block font-regular text-[0.9rem] mx-[1rem] px-[1.3rem] py-[1rem] bg-black rounded-full text-white">
-          게스트 모드
-        </div>
+      <div
+        onClick={() => nav("/guest")}
+        className="font-black text-[2rem] leading-none cursor-pointer"
+        style={{ fontFamily: `"Poppins", sans-serif` }}
+      >
+        Be:our
       </div>
-      <IoIosSearch
-        size={25}
-        className="cursor-pointer"
-        onClick={() => nav("/search")}
+
+      <img
+        src={notification}
+        alt="알림"
+        className="w-[2rem] object-contain cursor-pointer"
+        onClick={() => nav("/search")} //어디로 가야하죠
       />
     </div>
   );

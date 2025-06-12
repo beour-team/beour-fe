@@ -1,13 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 import Layout from "./layouts/webApp-layout/Layout";
 import Contents from "./layouts/contents-layout/Contents";
-import GuestMainPage from "./pages/guest-main/GuestMainPage";
-import GuestSearchPage from "./pages/guest-main/GuestSearchPage";
-import GuestResultPage from "./pages/guest-main/GuestResultPage";
-import GuestFilterPage from "./pages/guest-main/GuestFilterPage";
+import GuestMainPage from "./pages/guest-main/main-guest/GuestMainPage";
+import GuestSearchPage from "./pages/guest-main/search-guest/GuestSearchPage";
+import GuestResultPage from "./pages/guest-main/result-guest/GuestResultPage";
+import GuestFilterPage from "./pages/guest-main/filter/GuestFilterPage";
 import Login from "./pages/login/Login";
 import HostMainpage from "./pages/host-main/HostMainpage";
-import SignUp from "./pages/signup/Signup";
+import SignUp from "./pages/signup/SignUp";
 import HostSpaceRegister from "./pages/HostSpaceRegister";
 import HostSpaceRegisterInfo from "./pages/HostSpaceRegisterInfo";
 import MypageHost from "./pages/mypage/host/MypageHost";
@@ -40,7 +40,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/hostmain" element={<HostMainpage />} />
             <Route path="/hostspaceregister" element={<HostSpaceRegister />} />
-            <Route path="/hostspaceregisterinfo" element={<HostSpaceRegisterInfo />} />
+            <Route
+              path="/hostspaceregisterinfo"
+              element={<HostSpaceRegisterInfo />}
+            />
             <Route path="/guest" element={<GuestMainPage />} />
             <Route path="/search" element={<GuestSearchPage />} />
             <Route path="/spaces" element={<GuestResultPage />} />
