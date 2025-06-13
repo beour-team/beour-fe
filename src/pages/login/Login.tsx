@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 import HostLoginForm from "./HostLoginForm";
 import GuestLoginForm from "./GuestLoginForm";
 import { useLogin } from "../../hooks/Login/useLogin";
+import { PATHS } from "../../routes/paths";
 
 const Login: React.FC = () => {
   // 게스트와 호스트 폼을 나누는 탭 상태 관리
@@ -111,7 +112,7 @@ const Login: React.FC = () => {
           <p className="text-[1.2rem] ">아직 Be:our 회원이 아니신가요?</p>
 
           <Link
-            to="/join"
+            to={PATHS.SIGNUP}
             className="text-[1.2rem] underline font-bold cursor-pointer"
           >
             회원가입 하기 &gt;

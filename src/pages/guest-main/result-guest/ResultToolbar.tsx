@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { HiAdjustmentsHorizontal } from "react-icons/hi2";
 import { SlArrowDown } from "react-icons/sl";
+import { PATHS } from "../../../routes/paths";
 
 const ResultToolbar = ({ totalCount }: { totalCount: number }) => {
   const [open, setOpen] = useState(false);
@@ -50,7 +51,7 @@ const ResultToolbar = ({ totalCount }: { totalCount: number }) => {
         </div>
         <div
           className="flex items-center cursor-pointer rounded-[2rem] bg-cr-200 px-[1.2rem] py-[0.7rem]"
-          onClick={() => nav("/filter")}
+          onClick={() => nav(PATHS.GUEST.FILTER)}
         >
           <HiAdjustmentsHorizontal
             size={22}

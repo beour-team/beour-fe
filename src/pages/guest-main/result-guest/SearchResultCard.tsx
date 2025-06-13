@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { SearchResultItem } from "../../../constants/searh-data";
+import type { SearchResultItem } from "../../../constants/dummy-data/searh-data";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
 import { GoStarFill } from "react-icons/go";

@@ -1,5 +1,6 @@
 //로고랑 알림창 있는 부분 (게스트,호스트 헤더)
 import { useNavigate } from "react-router-dom";
+import { PATHS } from "../routes/paths";
 
 import { notification } from "../assets/theme";
 
@@ -9,7 +10,7 @@ const GuestHeader = () => {
   return (
     <div className="flex items-center justify-between h-[9rem] mt-[0.5rem]">
       <div
-        onClick={() => nav("/guest")}
+        onClick={() => nav(PATHS.GUEST.MAIN)}
         className="font-black text-[2rem] leading-none cursor-pointer"
         style={{ fontFamily: `"Poppins", sans-serif` }}
       >
@@ -20,7 +21,7 @@ const GuestHeader = () => {
         src={notification}
         alt="알림"
         className="w-[2rem] object-contain cursor-pointer"
-        onClick={() => nav("/search")} //어디로 가야하죠
+        onClick={() => nav(PATHS.GUEST.SEARCH)} //어디로 가야하죠
       />
     </div>
   );

@@ -1,6 +1,6 @@
-import { getDistance } from "../utils/get-distance";
-import { SearchData } from "../constants/searh-data";
-import type { SearchResultItem } from "../constants/searh-data";
+import { getDistance } from "./get-distance";
+import { SearchData } from "../constants/dummy-data/searh-data";
+import type { SearchResultItem } from "../constants/dummy-data/searh-data";
 
 export function searchSpaces(
   keyword: string,

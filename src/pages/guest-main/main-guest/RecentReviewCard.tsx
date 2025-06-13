@@ -1,7 +1,7 @@
 import { FiChevronRight } from "react-icons/fi";
 import { FaStar } from "react-icons/fa";
 import { placemark } from "../../../assets/theme";
-import { formatRelativeTime } from "../../../hooks/relative-time";
+import { formatRelativeTime } from "../../../utils/relative-time";
 import { useNavigate } from "react-router-dom";
 
 type Review = {

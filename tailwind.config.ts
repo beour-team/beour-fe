@@ -74,6 +74,12 @@ export default {
             fontWeight: 600,
           },
         ],
+        "18-Bold": [
+          "1.8rem",
+          {
+            fontWeight: 700,
+          },
+        ],
         "18-ExtraBold": [
           "1.8rem",
           {

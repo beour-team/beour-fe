@@ -3,11 +3,11 @@ import { Map, CustomOverlayMap } from "react-kakao-maps-sdk";
 import Searchbar from "../../components/Searchbar";
 import SearchResultCard from "../../pages/guest-main/result-guest/SearchResultCard";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import type { SearchResultItem } from "../../constants/searh-data";
+import type { SearchResultItem } from "../../constants/dummy-data/searh-data";
 import { AnimatePresence, motion } from "framer-motion"; //yarn add framer-motion 설치해주세요
 import type { PanInfo } from "framer-motion";
-import { SearchData } from "../../constants/searh-data";
-import { searchSpaces } from "../../hooks/search-spaces";
+import { SearchData } from "../../constants/dummy-data/searh-data";
+import { searchSpaces } from "../../utils/search-spaces";
 
 const MapView = () => {
   const [myLocation, setMyLocation] = useState<{
