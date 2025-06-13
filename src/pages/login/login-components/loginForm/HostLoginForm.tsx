@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { checkBox, checkedBox } from "../../assets/theme";
-import type { LoginFormProps } from "../../types/Login";
+import { checkBox, checkedBox } from "../../../../assets/theme";
+import type { LoginFormProps } from "../../../../types/Login";
 
 const HostLoginForm: React.FC<LoginFormProps> = ({
   onSubmit,
@@ -21,14 +21,14 @@ const HostLoginForm: React.FC<LoginFormProps> = ({
         <div className="flex flex-col gap-[8px]">
           <input
             type="text"
-            className="w-full h-[56px] rounded-[1rem] px-[1.7rem] text-[1.4rem] bg-[#f2f2f2]"
+            className="w-full h-[56px] rounded-[1rem] px-[1.7rem] text-[1.4rem] bg-cr-100"
             placeholder="아이디를 입력해주세요"
             {...register("id")}
           />
 
           <input
             type="password"
-            className="w-full h-[56px] rounded-[1rem] px-[1.7rem] text-[1.4rem] bg-[#f2f2f2]"
+            className="w-full h-[56px] rounded-[1rem] px-[1.7rem] text-[1.4rem] bg-cr-100"
             placeholder="비밀번호를 입력해주세요"
             {...register("password")}
           />
@@ -56,7 +56,7 @@ const HostLoginForm: React.FC<LoginFormProps> = ({
             <p className="text-[1.2rem]">자동 로그인</p>
           </div>
 
-          <div className="flex gap-[1.6rem] items-center text-[1.2rem]">
+          <div className="flex gap-[1.6rem] items-center text-[1.2rem] ">
             <Link to="">아이디 찾기</Link>
             <p>|</p>
             <Link to="">비밀번호 찾기</Link>
@@ -65,10 +65,10 @@ const HostLoginForm: React.FC<LoginFormProps> = ({
 
         <button
           type="submit"
-          className={`h-[5rem] w-full rounded-[1rem] text-[1.6rem] transition-colors duration-200 ${
+          className={`h-[5rem] w-full rounded-[1rem] text-16-Medium transition-colors duration-200 ${
             isValid
-              ? "bg-[#000] text-white"
-              : "bg-[#D9D9D9] text-black cursor-not-allowed"
+              ? "bg-cr-black text-cr-white"
+              : "bg-cr-400 text-cr-white cursor-not-allowed"
           }`}
         >
           로그인

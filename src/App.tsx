@@ -5,9 +5,7 @@ import GuestMainPage from "./pages/guest-main/GuestMainPage";
 import GuestSearchPage from "./pages/guest-main/GuestSearchPage";
 import GuestResultPage from "./pages/guest-main/GuestResultPage";
 import GuestFilterPage from "./pages/guest-main/GuestFilterPage";
-import Login from "./pages/login/Login";
 import HostMainpage from "./pages/host-main/HostMainpage";
-import SignUp from "./pages/signup/Signup";
 import HostSpaceRegister from "./pages/HostSpaceRegister";
 import HostSpaceRegisterInfo from "./pages/HostSpaceRegisterInfo";
 import MypageHost from "./pages/mypage/host/MypageHost";
@@ -16,6 +14,8 @@ import EditProfileHost from "./pages/editprofile/host/EditProfileHost";
 import SpaceList from "./pages/spacelist/SpaceList";
 import Review from "./pages/review/host/Review";
 import WishSpace from "./pages/wishspace/WishSpace";
+import SignUp from "./pages/signup/SignUp";
+import LoginPage from "./pages/login/LoginPage";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -30,7 +30,7 @@ function App() {
         <Route element={<Layout />}>
           {/* 컨텐츠를 담을 레이아웃입니다 */}
           <Route element={<Contents />}>
-            <Route path="/login" element={<Login />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/mypagehost" element={<MypageHost />} />
             <Route path="/editprofilehost" element={<EditProfileHost />} />
@@ -40,7 +40,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/hostmain" element={<HostMainpage />} />
             <Route path="/hostspaceregister" element={<HostSpaceRegister />} />
-            <Route path="/hostspaceregisterinfo" element={<HostSpaceRegisterInfo />} />
+            <Route
+              path="/hostspaceregisterinfo"
+              element={<HostSpaceRegisterInfo />}
+            />
             <Route path="/guest" element={<GuestMainPage />} />
             <Route path="/search" element={<GuestSearchPage />} />
             <Route path="/spaces" element={<GuestResultPage />} />
