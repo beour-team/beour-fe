@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { PATHS } from "../routes/paths";
 
 const spaceTypes = [
   "카페",
@@ -22,7 +23,7 @@ const HostSpaceRegister = () => {
         <button
           onClick={() => {
             // 다음 단계로 이동
-            navigate("/hostmain");
+            navigate(PATHS.HOST.MAIN);
           }}
           className="p-1"
         >
@@ -57,20 +58,25 @@ const HostSpaceRegister = () => {
               key={type}
               onClick={() => setSelected(type)}
               className={`relative w-full h-[10rem] rounded-xl border text-lg text-left p-[1rem] transition-all
-                ${isSelected
-                  ? "bg-[#4C8EFF] text-white border-[#4C8EFF]"
-                  : "bg-[#F2F3F6] text-black border-transparent"
+                ${
+                  isSelected
+                    ? "bg-[#4C8EFF] text-white border-[#4C8EFF]"
+                    : "bg-[#F2F3F6] text-black border-transparent"
                 }
               `}
             >
-              <span className="text-[1rem] font-medium text-lg absolute top-[2rem] left-[2rem]">{type}</span>
+              <span className="text-[1rem] font-medium text-lg absolute top-[2rem] left-[2rem]">
+                {type}
+              </span>
 
               {/* 오른쪽 아래 동그라미 */}
               <div
                 className={`absolute bottom-[2rem] right-[2rem] w-[5rem] h-[5rem] rounded-full border transition
-                  ${isSelected
-                    ? "bg-white border-white"
-                    : "bg-white border-white"}
+                  ${
+                    isSelected
+                      ? "bg-white border-white"
+                      : "bg-white border-white"
+                  }
                 `}
               />
             </button>
@@ -78,12 +84,11 @@ const HostSpaceRegister = () => {
         })}
       </div>
 
-
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[40rem]">
         <button
           disabled={!selected}
           onClick={() => {
-            navigate("/hostspaceregisterinfo");
+            navigate(PATHS.HOST.SPACE_REGISTER_INFO);
           }}
           className={`w-full py-4 rounded-xl text-base font-semibold transition
             ${
@@ -95,7 +100,7 @@ const HostSpaceRegister = () => {
         >
           선택 완료
         </button>
-      </div>  
+      </div>
     </div>
   );
 };

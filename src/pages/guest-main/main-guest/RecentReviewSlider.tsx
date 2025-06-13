@@ -1,6 +1,6 @@
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
-import { RecentReviews } from "../../../constants/recent-reviews-data";
+import { RecentReviews } from "../../../constants/dummy-data/recent-reviews-data";
 import RecentReviewCard from "./RecentReviewCard";
 
 type Review = {

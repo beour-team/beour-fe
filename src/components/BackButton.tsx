@@ -6,13 +6,20 @@ interface BackButtonProps {
   to?: string;
 }
 
-const BackButton = ({ to = "/" }: BackButtonProps) => {
+const BackButton = ({ to }: BackButtonProps) => {
   const nav = useNavigate();
+  const handleClick = () => {
+    if (to) {
+      nav(to);
+    } else {
+      nav(-1); // 이전 페이지로 이동
+    }
+  };
 
   return (
     <div
       className="text-[#A9A9A9] text-[3rem] w-[3.6rem] cursor-pointer "
-      onClick={() => nav(to)}
+      onClick={handleClick}
     >
       <FiChevronLeft />
     </div>

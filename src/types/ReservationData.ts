@@ -1,4 +1,4 @@
-export type ReservationSpace = {
+export type ReservationData = {
   reservationId: number;
   spaceName: string;
   spaceThumbImageUrl: string;
@@ -7,4 +7,5 @@ export type ReservationSpace = {
   endTime: string;
   price: number;
   guestCount: number;
+  status?: "CONFIRMED" | "PENDING";
 };

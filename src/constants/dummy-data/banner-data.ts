@@ -1,4 +1,4 @@
-import { banner, banner2 } from "../assets/theme";
+import { banner, banner2 } from "../../assets/theme";
 
 export const BannerData = [
   { image_url: banner, title: "공간 자랑 이벤트 진행중" },

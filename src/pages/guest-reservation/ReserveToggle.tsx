@@ -9,17 +9,19 @@ const ReserveToggle = ({ selected, setSelected }: CategoryToggleProps) => {
   const selectedIndex = options.indexOf(selected);
 
   return (
-    <div className="relative bg-[#E9ECF2] rounded-full w-full max-w-[38rem] p-[0.4rem] flex justify-between items-center h-[4rem]">
+    <div className="relative bg-cr-200 rounded-full w-full max-w-[38rem] p-[0.4rem] flex justify-between items-center h-[5rem]">
       <div
-        className="absolute top-[0.2rem] left-1 w-[33%] h-[3.6rem] rounded-full bg-white transition-transform duration-300"
+        className="absolute top-[0.4rem] left-3 w-[32%] h-[4rem] rounded-full bg-white transition-transform duration-300"
         style={{ transform: `translateX(${selectedIndex * 100}%)` }}
       />
       {options.map((option) => (
         <button
           key={option}
           onClick={() => setSelected(option)}
-          className={`flex-1 z-10 text-14-SemiBold transition-colors duration-300 ${
-            selected === option ? "text-black" : "text-[#9296A1]"
+          className={`flex-1 z-10 transition-colors duration-300 ${
+            selected === option
+              ? "text-black text-14-SemiBold"
+              : "text-cr-500 text-14-Medium"
           }`}
         >
           {option === "current"

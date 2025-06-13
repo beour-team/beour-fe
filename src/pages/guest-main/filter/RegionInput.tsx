@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import { FiSearch } from "react-icons/fi";
-import { regions } from "../../../constants/region";
+import { regions } from "../../../constants/dummy-data/region";
 
 interface RegionInputProps {
   initialValue: string;

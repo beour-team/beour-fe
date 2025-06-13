@@ -1,4 +1,4 @@
-import { newspace, space2, space3, space4, space5 } from "../assets/theme";
+import { newspace, space2, space3, space4, space5 } from "../../assets/theme";
 
 export type SearchResultItem = {
   id: number;
