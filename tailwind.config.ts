@@ -118,6 +118,7 @@ export default {
         "cr-900": "#212328",
         "cr-primary": "#D3DFFD",
         "cr-red": "#FF5757",
+        "cr-red30": "#FFCDD3",
         "cr-pink": "#FFCDD3",
         "cr-blue": "#6B96F9",
         "cr-yellow": "#FFCC00",

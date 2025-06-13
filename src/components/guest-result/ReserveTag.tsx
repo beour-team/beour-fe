@@ -23,8 +23,8 @@ const ReserveTag = ({ bgColor, textColor, state }: ReserveTagProps) => {
   }
 
   return (
-    <div className={`${bgClass} px-2 py-[0.3rem] rounded-[0.5rem]`}>
-      <span className={`text-12-Medium ${textClass}`}>{displayText}</span>
+    <div className={`${bgClass} px-2 py-[0.4rem] rounded-[0.5rem]`}>
+      <span className={`text-14-Medium ${textClass}`}>{displayText}</span>
     </div>
   );
 };
