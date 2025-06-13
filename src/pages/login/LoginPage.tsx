@@ -84,11 +84,11 @@ const LoginPage: React.FC = () => {
           )}
 
           <div className="flex gap-[0.8rem] w-full justify-center pt-[3rem]">
-            <p className="text-[1.2rem] ">아직 Be:our 회원이 아니신가요?</p>
+            <p className="text-12-Regular ">아직 Be:our 회원이 아니신가요?</p>
 
             <Link
               to="/join"
-              className="text-[1.2rem] underline font-bold cursor-pointer"
+              className="text-12-Bold underline font-bold cursor-pointer"
             >
               회원가입 하기 &gt;
             </Link>

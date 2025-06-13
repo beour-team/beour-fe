@@ -21,14 +21,14 @@ const HostLoginForm: React.FC<LoginFormProps> = ({
         <div className="flex flex-col gap-[8px]">
           <input
             type="text"
-            className="w-full h-[56px] rounded-[1rem] px-[1.7rem] text-[1.4rem] bg-cr-100"
+            className="w-full h-[56px] rounded-[1rem] px-[1.7rem] text-14-Medium bg-cr-100"
             placeholder="아이디를 입력해주세요"
             {...register("id")}
           />
 
           <input
             type="password"
-            className="w-full h-[56px] rounded-[1rem] px-[1.7rem] text-[1.4rem] bg-cr-100"
+            className="w-full h-[56px] rounded-[1rem] px-[1.7rem] text-14-Medium bg-cr-100"
             placeholder="비밀번호를 입력해주세요"
             {...register("password")}
           />
@@ -53,12 +53,18 @@ const HostLoginForm: React.FC<LoginFormProps> = ({
               onChange={() => setCheckValue((prev) => !prev)}
             />
 
-            <p className="text-[1.2rem]">자동 로그인</p>
+            <p
+              className={`text-12-Regular ${
+                checkValue ? "text-cr-black" : "text-cr-500"
+              }`}
+            >
+              자동 로그인
+            </p>
           </div>
 
-          <div className="flex gap-[1.6rem] items-center text-[1.2rem] ">
+          <div className="flex gap-[1.6rem] items-center text-12-Regular ">
             <Link to="">아이디 찾기</Link>
-            <p>|</p>
+            <p className="text-cr-300">|</p>
             <Link to="">비밀번호 찾기</Link>
           </div>
         </div>
