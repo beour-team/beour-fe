@@ -6,7 +6,6 @@ import GuestMainPage from "./pages/guest-main/main-guest/GuestMainPage";
 import GuestSearchPage from "./pages/guest-main/search-guest/GuestSearchPage";
 import GuestResultPage from "./pages/guest-main/result-guest/GuestResultPage";
 import GuestFilterPage from "./pages/guest-main/filter/GuestFilterPage";
-import Login from "./pages/login/Login";
 import HostMainpage from "./pages/host-main/HostMainpage";
 import SignUp from "./pages/signup/SignUp";
 import HostSpaceRegister from "./pages/HostSpaceRegister";
@@ -18,6 +17,7 @@ import SpaceList from "./pages/spacelist/SpaceList";
 import Review from "./pages/review/host/Review";
 import WishSpace from "./pages/wishspace/WishSpace";
 import GuestReservePage from "./pages/guest-reservation/GuestReservePage";
+import LoginPage from "./pages/login/LoginPage";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -33,7 +33,7 @@ function App() {
           {/* 컨텐츠를 담을 레이아웃입니다 */}
           <Route element={<Contents />}>
             <Route path={PATHS.HOME} element={<Home />} />
-            <Route path={PATHS.LOGIN} element={<Login />} />
+            <Route path={PATHS.LOGIN} element={<LoginPage />} />
             <Route path={PATHS.SIGNUP} element={<SignUp />} />
             <Route path={PATHS.HOST.MYPAGE} element={<MypageHost />} />
             <Route

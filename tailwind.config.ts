@@ -8,10 +8,16 @@ export default {
   theme: {
     extend: {
       fontSize: {
-        "12-Medium": [
+        "12-Regular": [
           "1.2rem",
           {
-            fontWeight: 500,
+            fontWeight: 400,
+          },
+        ],
+        "12-Bold": [
+          "1.2rem",
+          {
+            fontWeight: 700,
           },
         ],
         "13-Medium": [
@@ -121,6 +127,7 @@ export default {
         "cr-pink": "#FFCDD3",
         "cr-blue": "#6B96F9",
         "cr-yellow": "#FFCC00",
+        "cr-black": "#000000",
       },
     },
   },
