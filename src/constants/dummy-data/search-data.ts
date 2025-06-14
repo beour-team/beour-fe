@@ -82,7 +82,7 @@ export const SearchData: Record<string, SearchResultItem[]> = {
       price_per_hour: 59000,
       avg_rating: 5,
       max_capacity: 5,
-      id: 1003,
+      id: 1004,
       lat: 37.498095,
       lng: 127.02761,
       tags: ["소모임", "스터디", "와이파이"],

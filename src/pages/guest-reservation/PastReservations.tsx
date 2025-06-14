@@ -19,7 +19,7 @@ const PastReservations = () => {
           <div
             key={reservation.reservationId}
             className={`my-[1rem] py-[2rem] ${
-              index !== pastReservationData.length - 1
+              index !== pastReservationData.length
                 ? "border-b-[0.2rem] border-[#ECECEC]"
                 : ""
             }`}
@@ -31,7 +31,7 @@ const PastReservations = () => {
                   textColor="text-cr-100"
                   state="사용 완료"
                 />
-                <div className="text-[1rem]">
+                <div className="text-[1.2rem]">
                   예약 번호 {reservation.reservationId}
                 </div>
               </div>
@@ -40,15 +40,15 @@ const PastReservations = () => {
                 <img
                   src={space3}
                   alt="공간 사진"
-                  className="w-[7.5rem] h-[7.5rem] rounded-[1.2rem]"
+                  className="w-[8.5rem] h-[8.5rem] rounded-[1.2rem]"
                 />
 
                 <div className="flex flex-col justify-between flex-1">
-                  <div className="text-16-SemiBold pb-[0.7rem]">
+                  <div className="text-16-SemiBold">
                     {reservation.spaceName}
                   </div>
 
-                  <div className="text-13-SemiBold pb-[0.7rem]">
+                  <div className="text-13-SemiBold py-[1rem]">
                     {formatReservationDateTime(
                       reservation.date,
                       reservation.startTime,
@@ -58,13 +58,13 @@ const PastReservations = () => {
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <div className="rounded-[4.9rem] bg-cr-primary px-[1.3rem] py-3">
+                    <div className="rounded-[4.9rem] bg-cr-primary px-[1.3rem] py-[0.7rem]">
                       <span className="text-cr-blue text-13-Medium">
                         요리 연습
                       </span>
                     </div>
 
-                    <div className="underline cursor-pointer text-cr-600 flex gap-2">
+                    <div className="underline cursor-pointer text-cr-600 text-12-Medium flex gap-2">
                       예약 상세
                       <img
                         src={rightArrow}
@@ -75,7 +75,10 @@ const PastReservations = () => {
                   </div>
                 </div>
               </div>
-              <ReviewButton />
+              <ReviewButton
+                date={reservation.date}
+                hasReview={reservation.hasReview}
+              />
             </div>
           </div>
         ))}

@@ -13,6 +13,7 @@ export const currentReservationData: ReservationData[] = [
     price: 30000,
     guestCount: 3,
     status: "CONFIRMED",
+    hasReview: false,
   },
   {
     reservationId: 12345679,
@@ -24,6 +25,7 @@ export const currentReservationData: ReservationData[] = [
     price: 30000,
     guestCount: 3,
     status: "PENDING",
+    hasReview: false,
   },
   {
     reservationId: 12345670,
@@ -35,6 +37,7 @@ export const currentReservationData: ReservationData[] = [
     price: 30000,
     guestCount: 3,
     status: "CONFIRMED",
+    hasReview: false,
   },
 ];
 
@@ -44,21 +47,34 @@ export const pastReservationData: ReservationData[] = [
     reservationId: 12345688,
     spaceName: "게임 파티룸 플레이앤 삼성역점",
     spaceThumbImageUrl: space3,
-    date: "2025-05-02",
+    date: "2025-05-22",
     startTime: "18:00:00",
     endTime: "19:00:00",
     price: 30000,
     guestCount: 3,
+    hasReview: false, // 임시명
   },
   {
     reservationId: 12345698,
     spaceName: "게임 파티룸 플레이앤 삼성역점",
     spaceThumbImageUrl: space3,
-    date: "2025-05-02",
+    date: "2025-05-23",
     startTime: "18:00:00",
     endTime: "19:00:00",
     price: 30000,
     guestCount: 3,
+    hasReview: true,
+  },
+  {
+    reservationId: 12349698,
+    spaceName: "게임 파티룸 플레이앤 삼성역점",
+    spaceThumbImageUrl: space3,
+    date: "2025-05-01",
+    startTime: "18:00:00",
+    endTime: "19:00:00",
+    price: 30000,
+    guestCount: 3,
+    hasReview: false,
   },
 ];
 
@@ -73,5 +89,6 @@ export const canceledReservationData: ReservationData[] = [
     endTime: "19:00:00",
     price: 30000,
     guestCount: 3,
+    hasReview: false,
   },
 ];
