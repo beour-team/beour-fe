@@ -29,12 +29,11 @@ const GuestReservePage = () => {
           setSelected={setSelectedCategory}
         />
       </div>
-      <div>
+      <div className="pb-[7rem]">
         {selectedCategory === "current" && <CurrentReservations />}
         {selectedCategory === "past" && <PastReservations />}
         {selectedCategory === "cancel" && <CanceledReservations />}
       </div>
-      {/* 여기 밑에 여백 줘야함 가려짐 */}
       <GuestFooter />
     </div>
   );
