@@ -1,4 +1,4 @@
-import { space1, space2 } from "../assets/theme";
+import { space1, space2 } from "../../assets/theme";
 
 // 공간 이름 필요(백엔드)
 export const RecentReviews = [

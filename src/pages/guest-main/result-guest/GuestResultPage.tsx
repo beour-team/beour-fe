@@ -1,5 +1,5 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { SearchData } from "../../../constants/searh-data";
+import { SearchData } from "../../../constants/dummy-data/search-data";
 import Searchbar from "../../../components/Searchbar";
 import ResultToolbar from "./ResultToolbar";
 import SearchResult from "./SearchResult";
@@ -46,7 +46,7 @@ const GuestResultPage = () => {
   return (
     <div className="ml-[1rem] mr-[2rem] my-[2rem]">
       <div className="flex items-center gap-2 flex-shrink-0">
-        <BackButton to="/guest" />
+        <BackButton />
         <div className="flex-grow">
           <Searchbar onSearch={handleSearch} />
         </div>

@@ -1,5 +1,5 @@
 import SearchResultCard from "./SearchResultCard";
-import type { SearchResultItem } from "../../../constants/searh-data";
+import type { SearchResultItem } from "../../../constants/dummy-data/search-data";
 
 interface SearchResultsProps {
   results?: SearchResultItem[];

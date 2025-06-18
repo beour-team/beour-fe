@@ -2,6 +2,7 @@ import { useMutation } from "@tanstack/react-query";
 import { login } from "../../api/Login/login";
 import type { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import { PATHS } from "../../routes/paths";
 
 // 로그인에 필요한 데이터 타입 정의
 interface LoginParams {
@@ -34,9 +35,9 @@ export const useLogin = () => {
 
       // 역할에 따라 이동할 페이지
       if (data.role === "HOST") {
-        navigate("/hostmain");
+        navigate(PATHS.HOST.MAIN);
       } else if (data.role === "GUEST") {
-        navigate("/guest");
+        navigate(PATHS.GUEST.MAIN);
       }
     },
 

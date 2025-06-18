@@ -3,7 +3,8 @@ import GuestFooter from "../../components/GuestFooter";
 import ReserveToggle from "./ReserveToggle";
 import CurrentReservations from "./CurrentResrvations";
 import PastReservations from "./PastReservations";
-import CancelledReservations from "./CancelledReservations";
+import CanceledReservations from "./CanceledReservations";
+import { notification } from "../../assets/theme";
 
 type ReservationCategory = "current" | "past" | "cancel";
 
@@ -12,9 +13,14 @@ const GuestReservePage = () => {
     useState<ReservationCategory>("current");
 
   return (
-    <div className="">
-      <div className="text-18-SemiBold text-[#302F2F] my-[2rem] mx-[2rem]">
-        공간 예약 내역
+    <div>
+      <div className="flex justify-between items-center ml-[2rem] mr-[2.1rem] mt-[3.9rem] mb-[3rem]">
+        <div className="text-18-Bold">나의 예약</div>
+        <img
+          src={notification}
+          alt="알림"
+          className="w-[1.99rem] object-contain cursor-pointer"
+        />
       </div>
 
       <div className="flex justify-center mb-[2rem]">
@@ -23,12 +29,11 @@ const GuestReservePage = () => {
           setSelected={setSelectedCategory}
         />
       </div>
-      <div>
+      <div className="pb-[7rem]">
         {selectedCategory === "current" && <CurrentReservations />}
         {selectedCategory === "past" && <PastReservations />}
-        {selectedCategory === "cancel" && <CancelledReservations />}
+        {selectedCategory === "cancel" && <CanceledReservations />}
       </div>
-
       <GuestFooter />
     </div>
   );

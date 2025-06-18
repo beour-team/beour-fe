@@ -1,4 +1,4 @@
-import { newspace, newspace2 } from "../assets/theme";
+import { newspace, newspace2 } from "../../assets/theme";
 
 //백엔드 api 변수명에 맞추기
 export const NewSpacesData = [

@@ -48,7 +48,7 @@ const GuestFooter = () => {
       h-[7rem]
       flex justify-around items-center 
       bg-white 
-      rounded-[1rem]
+      rounded-t-[1rem]
       "
       >
         {footerItems.map((item) => {

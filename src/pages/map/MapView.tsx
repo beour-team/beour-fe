@@ -3,11 +3,11 @@ import { Map, CustomOverlayMap } from "react-kakao-maps-sdk";
 import Searchbar from "../../components/Searchbar";
 import SearchResultCard from "../../pages/guest-main/result-guest/SearchResultCard";
 import { FaMapMarkerAlt } from "react-icons/fa";
-import type { SearchResultItem } from "../../constants/searh-data";
+import type { SearchResultItem } from "../../constants/dummy-data/search-data";
 import { AnimatePresence, motion } from "framer-motion"; //yarn add framer-motion 설치해주세요
 import type { PanInfo } from "framer-motion";
-import { SearchData } from "../../constants/searh-data";
-import { searchSpaces } from "../../hooks/search-spaces";
+import { SearchData } from "../../constants/dummy-data/search-data";
+import { searchSpaces } from "../../utils/search-spaces";
 
 const MapView = () => {
   const [myLocation, setMyLocation] = useState<{
@@ -27,6 +27,29 @@ const MapView = () => {
   const [selectedSpace, setSelectedSpace] = useState<SearchResultItem | null>(
     null
   );
+
+  // useEffect(() => {
+  //   console.log("API 키 확인:", import.meta.env.VITE_KAKAOMAP_APP_KEY);
+
+  //   const script = document.createElement("script");
+  //   script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${
+  //     import.meta.env.VITE_KAKAOMAP_APP_KEY
+  //   }&autoload=false&libraries=services`;
+  //   script.async = true;
+
+  //   script.onload = () => {
+  //     console.log("스크립트 로드 완료!");
+  //     window.kakao.maps.load(() => {
+  //       console.log("✅ Kakao Maps loaded successfully");
+  //     });
+  //   };
+
+  //   script.onerror = () => {
+  //     console.error("스크립트 로드 실패");
+  //   };
+
+  //   document.head.appendChild(script);
+  // }, []);
 
   // 내 위치 가져오기 (현재 위치 기반)
   useEffect(() => {
@@ -58,7 +81,7 @@ const MapView = () => {
   };
 
   return (
-    <div className="w-full h-[100rem] relative">
+    <div className="w-full h-[90rem] relative">
       <div className="absolute top-5 left-1/2 -translate-x-1/2 z-10 w-[80%] max-w-xl">
         <Searchbar onSearch={handleSearch} bgcolor="white" />
       </div>

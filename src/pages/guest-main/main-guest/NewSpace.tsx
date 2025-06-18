@@ -1,4 +1,4 @@
-import { NewSpacesData } from "../../../constants/newspaces-data";
+import { NewSpacesData } from "../../../constants/dummy-data/newspaces-data";
 import NewSpaceSlider from "./NewSpaceSlider";
 
 const NewSpace = () => {

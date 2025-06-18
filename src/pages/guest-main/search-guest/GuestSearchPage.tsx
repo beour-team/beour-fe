@@ -12,7 +12,7 @@ const GuestSearchPage = () => {
   return (
     <div className="ml-[1rem] mr-[2rem] my-[2rem]">
       <div className="flex items-center gap-2 flex-shrink-0">
-        <BackButton to="/guest" />
+        <BackButton />
         <div className="flex-grow">
           <Searchbar onSearch={handleSearch} />
         </div>

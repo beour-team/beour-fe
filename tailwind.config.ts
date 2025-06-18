@@ -8,10 +8,16 @@ export default {
   theme: {
     extend: {
       fontSize: {
-        "12-Medium": [
+        "12-Regular": [
           "1.2rem",
           {
-            fontWeight: 500,
+            fontWeight: 400,
+          },
+        ],
+        "12-Bold": [
+          "1.2rem",
+          {
+            fontWeight: 700,
           },
         ],
         "13-Medium": [
@@ -74,6 +80,12 @@ export default {
             fontWeight: 600,
           },
         ],
+        "18-Bold": [
+          "1.8rem",
+          {
+            fontWeight: 700,
+          },
+        ],
         "18-ExtraBold": [
           "1.8rem",
           {
@@ -112,9 +124,11 @@ export default {
         "cr-900": "#212328",
         "cr-primary": "#D3DFFD",
         "cr-red": "#FF5757",
+        "cr-red30": "#FFCDD3",
         "cr-pink": "#FFCDD3",
         "cr-blue": "#6B96F9",
         "cr-yellow": "#FFCC00",
+        "cr-black": "#000000",
       },
     },
   },
