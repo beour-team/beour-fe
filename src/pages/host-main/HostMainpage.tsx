@@ -10,7 +10,7 @@ const HostMainPage: React.FC = () => {
     <div>
       <HostHeader /> {/* 배너부분  */}
       <div className="px-[2rem] overflow-x-hidden">
-        <HelloProfile /> {/* 환영문구  */}
+        <HelloProfile userType="host" /> {/* 환영문구  */}
       </div>
       <Banner /> {/* 광고배너  */}
       <HostReserveList /> {/* 예약내역  */}
