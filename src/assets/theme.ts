@@ -43,6 +43,7 @@ import space2 from "./img/space2.png";
 import space3 from "./img/space3.png";
 import space4 from "./img/space4.png";
 import space5 from "./img/space5.png";
+import space6 from "./img/space6.png";
 import placemark from "./img/placemark.svg";
 import calendar from "./img/calendar.svg";
 import area from "./img/area.svg";
@@ -50,6 +51,7 @@ import review from "./img/review.svg";
 import err from "./img/err.svg";
 import guestLogo from "./img/guest-logo.svg";
 import hostLogo from "./img/host-logo.svg";
+import share from "./img/share.svg";
 
 export {
   nearby,
@@ -96,12 +98,14 @@ export {
   space2,
   space3,
   space4,
-  placemark,
   space5,
+  space6,
+  placemark,
   calendar,
   area,
   review,
   err,
   guestLogo,
   hostLogo,
+  share,
 };

@@ -5,6 +5,7 @@ export const PATHS = {
   HOME: "/",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  SPACE: "/space",
 
   HOST: {
     MAIN: "/hostmain",

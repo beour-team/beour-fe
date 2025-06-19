@@ -18,6 +18,7 @@ import Review from "./pages/review/host/Review";
 import WishSpace from "./pages/wishspace/WishSpace";
 import GuestReservePage from "./pages/guest-reservation/GuestReservePage";
 import LoginPage from "./pages/login/LoginPage";
+import SpacePage from "./pages/space/SpacePage";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -35,6 +36,7 @@ function App() {
             <Route path={PATHS.HOME} element={<Home />} />
             <Route path={PATHS.LOGIN} element={<LoginPage />} />
             <Route path={PATHS.SIGNUP} element={<SignUp />} />
+            <Route path={`${PATHS.SPACE}/:spaceId`} element={<SpacePage />} />
             <Route path={PATHS.HOST.MYPAGE} element={<MypageHost />} />
             <Route
               path={PATHS.HOST.EDIT_PROFILE}
