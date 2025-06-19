@@ -47,6 +47,9 @@ import placemark from "./img/placemark.svg";
 import calendar from "./img/calendar.svg";
 import area from "./img/area.svg";
 import review from "./img/review.svg";
+import err from "./img/err.svg";
+import guestLogo from "./img/guest-logo.svg";
+import hostLogo from "./img/host-logo.svg";
 
 export {
   nearby,
@@ -98,4 +101,7 @@ export {
   calendar,
   area,
   review,
+  err,
+  guestLogo,
+  hostLogo,
 };

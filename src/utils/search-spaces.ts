@@ -1,6 +1,12 @@
 import { getDistance } from "./get-distance";
-import { SearchData } from "../constants/dummy-data/searh-data";
-import type { SearchResultItem } from "../constants/dummy-data/searh-data";
+import { SearchData } from "../constants/dummy-data/search-data";
+import type { SearchResultItem } from "../constants/dummy-data/search-data";
+
+declare global {
+  interface Window {
+    kakao: typeof kakao;
+  }
+}
 
 export function searchSpaces(
   keyword: string,
@@ -9,33 +15,49 @@ export function searchSpaces(
     results: SearchResultItem[]
   ) => void
 ) {
-  const ps = new window.kakao.maps.services.Places();
+  if (!window.kakao?.maps) {
+    console.warn("Kakao Maps SDK가 아직 로드되지 않았습니다.");
+    return;
+  }
 
-  ps.keywordSearch(keyword, (data, status) => {
-    if (status === window.kakao.maps.services.Status.OK && data.length > 0) {
-      const target = {
-        lat: parseFloat(data[0].y),
-        lng: parseFloat(data[0].x),
-      };
+  window.kakao.maps.load(() => {
+    const ps = new window.kakao.maps.services.Places();
 
-      //거리 계산 후 정렬 (가까운 순)
-      const allSpaces = Object.values(SearchData).flat();
-      const keywordLower = keyword.toLowerCase();
-      const sorted = allSpaces
-        .filter(
-          (space) =>
-            space.name.toLowerCase().includes(keywordLower) ||
-            space.address.toLowerCase().includes(keywordLower)
-        )
-        .sort((a, b) => {
-          const distA = getDistance(target.lat, target.lng, a.lat, a.lng);
-          const distB = getDistance(target.lat, target.lng, b.lat, b.lng);
-          return distA - distB;
-        });
+    ps.keywordSearch(
+      keyword,
+      (
+        data: kakao.maps.services.PlacesSearchResult,
+        status: kakao.maps.services.Status
+      ) => {
+        if (
+          status === window.kakao.maps.services.Status.OK &&
+          data.length > 0
+        ) {
+          const target = {
+            lat: parseFloat(data[0].y),
+            lng: parseFloat(data[0].x),
+          };
 
-      onComplete(target, sorted.length > 0 ? sorted : allSpaces);
-    } else {
-      alert("검색 결과가 없습니다.");
-    }
+          //거리 계산 후 정렬 (가까운 순)
+          const allSpaces = Object.values(SearchData).flat();
+          const keywordLower = keyword.toLowerCase();
+          const sorted = allSpaces
+            .filter(
+              (space) =>
+                space.name.toLowerCase().includes(keywordLower) ||
+                space.address.toLowerCase().includes(keywordLower)
+            )
+            .sort((a, b) => {
+              const distA = getDistance(target.lat, target.lng, a.lat, a.lng);
+              const distB = getDistance(target.lat, target.lng, b.lat, b.lng);
+              return distA - distB;
+            });
+
+          onComplete(target, sorted.length > 0 ? sorted : allSpaces);
+        } else {
+          alert("검색 결과가 없습니다.");
+        }
+      }
+    );
   });
 }

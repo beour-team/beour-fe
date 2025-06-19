@@ -180,7 +180,7 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
             : " 선택 안됨"}
         </div>
         <button
-          className="bg-black text-white px-[2.8rem] py-[1.7rem] rounded-[1rem] text-16-Medium"
+          className="bg-black text-white px-[2.8rem] py-[1.7rem] rounded-[1rem] text-16-Medium  whitespace-nowrap self-start mt-[1.5rem]"
           onClick={handleComplete}
         >
           선택 완료

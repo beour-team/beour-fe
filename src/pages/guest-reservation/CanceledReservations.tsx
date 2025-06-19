@@ -1,31 +1,35 @@
-import { rightArrow, space3 } from "../../assets/theme";
+import { err, rightArrow, space3 } from "../../assets/theme";
 import ReserveTag from "../../components/guest-result/ReserveTag";
-import { currentReservationData } from "../../constants/dummy-data/reserve-data";
+import { canceledReservationData } from "../../constants/dummy-data/reserve-data";
 import { formatReservationDateTime } from "../../utils/data-formatter";
 
 //백엔드 api에 태그 필요
-const CurrentReservations = () => {
+const CanceledReservations = () => {
   return (
     <div>
       <div className="mx-[2rem] text-13-Medium text-cr-600 my-[2rem]">
-        총 {currentReservationData.length}개
+        총 {canceledReservationData.length}개
       </div>
 
       <div className="border border-[#ECECEC]"></div>
 
       <div>
-        {currentReservationData.map((reservation, index) => (
+        {canceledReservationData.map((reservation, index) => (
           <div
             key={reservation.reservationId}
             className={`my-[1rem] py-[2rem] ${
-              index !== currentReservationData.length
+              index !== canceledReservationData.length
                 ? "border-b-[0.2rem] border-[#ECECEC]"
                 : ""
             }`}
           >
             <div className="mx-[2rem]">
               <div className="flex items-center gap-5 mb-[1.5rem]">
-                <ReserveTag state={reservation.status} />
+                <ReserveTag
+                  bgColor="bg-cr-red30"
+                  textColor="text-cr-red"
+                  state="예약 취소"
+                />
                 <div className="text-[1.2rem]">
                   예약 번호 {reservation.reservationId}
                 </div>
@@ -70,6 +74,10 @@ const CurrentReservations = () => {
                   </div>
                 </div>
               </div>
+              <div className="flex items-center gap-3 my-[1.2rem]">
+                <img src={err} alt="에러 마크" className="w-[1.5rem]" />
+                <div className="text-12-Medium"> 취소 사유 : 호스트 요청</div>
+              </div>
             </div>
           </div>
         ))}
@@ -77,4 +85,4 @@ const CurrentReservations = () => {
     </div>
   );
 };
-export default CurrentReservations;
+export default CanceledReservations;

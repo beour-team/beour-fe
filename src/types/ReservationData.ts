@@ -8,4 +8,5 @@ export type ReservationData = {
   price: number;
   guestCount: number;
   status?: "CONFIRMED" | "PENDING";
+  hasReview: boolean;
 };

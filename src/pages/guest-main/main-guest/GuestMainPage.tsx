@@ -7,6 +7,7 @@ import NewSpace from "./NewSpace";
 import GuestFooter from "../../../components/GuestFooter";
 import Searchbar from "../../../components/Searchbar";
 import RecentReview from "./RecentReView";
+// import { guestLogo } from "../../../assets/theme";
 
 const GuestMainPage = () => {
   const nav = useNavigate();
@@ -17,7 +18,8 @@ const GuestMainPage = () => {
   return (
     <div className="px-[2rem] pb-[8rem] overflow-x-hidden">
       <GuestHeader /> {/*로고 부분*/}
-      <HelloProfile /> {/*안녕하세요 부분*/}
+      <HelloProfile userType="guest" /> {/*안녕하세요 부분*/}
+      {/* <img src={guestLogo} alt="게스트 로고" className=" " /> */}
       <Searchbar onSearch={handleSearch} />
       <Banner /> {/* 배너부분  */}
       <SpaceType /> {/* 공간 둘러보기  */}
