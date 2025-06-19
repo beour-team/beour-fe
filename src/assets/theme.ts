@@ -52,6 +52,9 @@ import err from "./img/err.svg";
 import guestLogo from "./img/guest-logo.svg";
 import hostLogo from "./img/host-logo.svg";
 import share from "./img/share.svg";
+import won from "./img/won.svg";
+import subway from "./img/subway.svg";
+import chat from "./img/chat.svg";
 
 export {
   nearby,
@@ -108,4 +111,7 @@ export {
   guestLogo,
   hostLogo,
   share,
+  won,
+  subway,
+  chat,
 };

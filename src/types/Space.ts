@@ -4,7 +4,9 @@ export type SpaceCategory =
   | "COOKING"
   | "LEATHER"
   | "COSTUME"
-  | "ART";
+  | "ART"
+  | "ETC";
+
 export type UseCategory =
   | "MEETING"
   | "COOKING"
