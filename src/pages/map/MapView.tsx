@@ -28,29 +28,6 @@ const MapView = () => {
     null
   );
 
-  // useEffect(() => {
-  //   console.log("API 키 확인:", import.meta.env.VITE_KAKAOMAP_APP_KEY);
-
-  //   const script = document.createElement("script");
-  //   script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${
-  //     import.meta.env.VITE_KAKAOMAP_APP_KEY
-  //   }&autoload=false&libraries=services`;
-  //   script.async = true;
-
-  //   script.onload = () => {
-  //     console.log("스크립트 로드 완료!");
-  //     window.kakao.maps.load(() => {
-  //       console.log("✅ Kakao Maps loaded successfully");
-  //     });
-  //   };
-
-  //   script.onerror = () => {
-  //     console.error("스크립트 로드 실패");
-  //   };
-
-  //   document.head.appendChild(script);
-  // }, []);
-
   // 내 위치 가져오기 (현재 위치 기반)
   useEffect(() => {
     if (navigator.geolocation) {

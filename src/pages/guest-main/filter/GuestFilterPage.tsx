@@ -60,7 +60,7 @@ const GuestFilterPage = () => {
           {/* 필터 내용 */}
         </div>
       </div>
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white max-w-[41rem] min-w-[32rem] mx-auto">
+      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white max-w-[38rem] min-w-[32rem] mx-auto rounded-t-[1rem]">
         <FilterFooter onReset={handleResetAll} onApply={handleApply} />
       </div>
     </div>

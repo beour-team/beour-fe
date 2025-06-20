@@ -19,6 +19,8 @@ import WishSpace from "./pages/wishspace/WishSpace";
 import GuestReservePage from "./pages/guest-reservation/GuestReservePage";
 import LoginPage from "./pages/login/LoginPage";
 import SpacePage from "./pages/space/SpacePage";
+import SpaceReservePage from "./pages/space/SpaceReservePage";
+import { Toaster } from "react-hot-toast";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -28,6 +30,7 @@ function Home() {
 function App() {
   return (
     <>
+      <Toaster position="bottom-center" reverseOrder={false} />
       <Routes>
         {/* 웹앱 사이즈의 레이아웃입니다 */}
         <Route element={<Layout />}>
@@ -62,6 +65,10 @@ function App() {
             <Route
               path={PATHS.GUEST.RESERVATIONS}
               element={<GuestReservePage />}
+            />
+            <Route
+              path={PATHS.GUEST.SPACERESERVE}
+              element={<SpaceReservePage />}
             />
           </Route>
         </Route>

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { dummySpace } from "../../constants/dummy-data/spaces";
 import type { Space } from "../../types/Space";
@@ -11,12 +11,17 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { useCategoryMap } from "../../constants/space/categoryMap";
 import { GoStarFill } from "react-icons/go";
 import { FiChevronRight } from "react-icons/fi";
+import { PATHS } from "../../routes/paths";
 import SpaceFooter from "./SpaceFooter";
+import SpaceInformation from "./SpaceInformation";
+import SpaceLocation from "./SpaceLocation";
+import ExpandableTextSection from "./ExpandableTextSection";
 
 const SpacePage = () => {
   const { spaceId } = useParams<{ spaceId: string }>();
   const [space, setSpace] = useState<Space | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
+  const nav = useNavigate();
 
   const toggleFavorite = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -36,7 +41,7 @@ const SpacePage = () => {
 
   return (
     <div>
-      <div className="pb-[6rem]">
+      <div className="pb-[6.5rem]">
         <div>
           <div className="relative overflow-hidden flex-shrink-0">
             <SpaceImageSlider imageUrls={space.imageUrls} />
@@ -50,10 +55,25 @@ const SpacePage = () => {
             >
               <FavoriteIcon isFavorite={isFavorite} />
             </button>
+            {/* web share api로 공유하기 */}
             <img
               src={share}
               alt="공유"
               className="absolute top-[2rem] right-[6rem] z-10 cursor-pointer"
+              onClick={() => {
+                if (navigator.share) {
+                  navigator
+                    .share({
+                      title: space.name, // 공유 미리보기용 제목
+                      text: `${space.name} 공간을 공유합니다.`, // 함께 전송되는 텍스트
+                      url: window.location.href,
+                    })
+                    .then(() => console.log("공유 완료"))
+                    .catch((error) => console.error("공유 실패", error));
+                } else {
+                  alert("현재 브라우저는 공유 기능을 지원하지 않습니다.");
+                }
+              }}
             />
           </div>
           <div className="text-20-SemiBold mt-[2rem] mx-[1.5rem]">
@@ -98,40 +118,34 @@ const SpacePage = () => {
             <GoStarFill className="text-cr-yellow text-[1.5rem]" />
             <div className="text-13-Bold">{space.avgRating}</div>
           </div>
-          <div className="ml-auto flex items-center cursor-pointer">
+          <div
+            className="ml-auto flex items-center cursor-pointer"
+            onClick={() => nav(PATHS.GUEST.REVIEW)}
+          >
             <span className="text-12-Bold">전체보기</span>
             <FiChevronRight className="size-[1.5rem] text-cr-black" />
           </div>
         </div>
+        {/* 리뷰부분 사용할 수 있으면 사용할게요 */}
+        <div> 리뷰 컴포넌트 </div>
         <div className="border-cr-100 border-[0.4rem]" />
 
-        <div className="mx-[1.5rem] my-[2rem]">
-          <span className="text-13-SemiBold">공간 소개</span>
-          <div className="text-14-Medium text-cr-700 my-[1rem] leading-9 whitespace-pre-line">
-            {space.description}
-          </div>
-        </div>
+        <ExpandableTextSection title="공간 소개" content={space.description} />
 
         {/* 기타가격 안내, 공간정보는 호스트에서 입력이 없어요.. */}
 
         <div className="mx-[1.5rem] my-[2rem]">
-          <div>
-            <span className="text-13-SemiBold">공간 정보</span>
-            <div>주차가능, 와이파이</div>
-          </div>
+          <span className="text-13-SemiBold">공간 정보</span>
           <div className="my-[1rem]">
-            <span className="text-13-SemiBold">공간 안내</span>
-            <div className="text-14-Medium text-cr-700 my-[1rem] leading-9 whitespace-pre-line">
-              {space.facilityNotice}
-            </div>
-          </div>
-          <div>
-            <span className="text-13-SemiBold">주의 사항</span>
-            <div className="text-14-Medium text-cr-700 my-[1rem] leading-9 whitespace-pre-line">
-              {space.notice}
-            </div>
+            <SpaceInformation />
           </div>
         </div>
+        <ExpandableTextSection
+          title="공간 안내"
+          content={space.facilityNotice}
+        />
+
+        <ExpandableTextSection title="주의 사항" content={space.notice} />
 
         {/* 엔터키마다 이미지 넣는건 가능한데 사용자 편의상 입력 시 따로 입력하게 해야할 것 같아요 */}
         <div className="mx-[1.5rem] my-[2rem]">
@@ -147,7 +161,9 @@ const SpacePage = () => {
 
         <div className="mx-[1.5rem] mt-[2rem]">
           <span className="text-13-SemiBold">위치 정보</span>
-          <div className="my-[1rem]">지도</div>
+          <div className="my-[1rem]">
+            <SpaceLocation address={space.address} />
+          </div>
           <div className="flex items-center gap-3 my-[1rem]">
             <img src={area} alt="위치" className="w-[1.2rem]" />
             <div className="text-13-Medium text-cr-700">{space.address}</div>
@@ -162,15 +178,10 @@ const SpacePage = () => {
         </div>
         <div className="border-cr-100 border-[0.4rem]" />
 
-        <div className="mx-[1.5rem] my-[2rem]">
-          <span className="text-13-SemiBold">환불 정책</span>
-          <div className="text-14-Medium text-cr-700 my-[1rem] leading-9 whitespace-pre-line">
-            {space.refundPolicy}
-          </div>
-        </div>
+        <ExpandableTextSection title="환불 정책" content={space.refundPolicy} />
       </div>
 
-      <div className="fixed bottom-0 left-0 right-0 z-50 bg-white max-w-[41rem] min-w-[32rem] mx-auto">
+      <div className="fixed bottom-0 left-1 right-0 z-50 bg-white max-w-[41.5rem] min-w-[32rem] mx-auto rounded-t-[1rem]">
         <SpaceFooter />
       </div>
     </div>
