@@ -10,7 +10,11 @@ import Name from "../input/Name";
 import Nickname from "./../input/Nickname";
 import { useSignUp } from "../../../../hooks/SignUp/useSignUp";
 
-const SignUpForm: React.FC = () => {
+interface SignUpFormProps {
+  userType: "GUEST" | "HOST" | null;
+}
+
+const SignUpForm: React.FC<SignUpFormProps> = ({ userType }) => {
   // react-hook-form 과 zod 연결
   // 유효성 검사를 위한 스키마는 utils > zod > zodValidation 에 저장
   // mode: onChange 는 로그인 버튼 비활성화때 쓰임
@@ -19,6 +23,7 @@ const SignUpForm: React.FC = () => {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors, isValid },
   } = useForm<SignUpData>({
     resolver: zodResolver(zodSignUp),
@@ -38,7 +43,7 @@ const SignUpForm: React.FC = () => {
     const finalData: SignUpRequest = {
       ...rest,
       email: fullEmail,
-      role: "HOST",
+      role: userType ?? "GUEST",
     };
 
     console.log("💌 합쳐진 이메일:", fullEmail);
@@ -56,16 +61,16 @@ const SignUpForm: React.FC = () => {
       >
         <div className="flex flex-col gap-[1.6rem]">
           {/* 아이디 */}
-          <Id register={register} />
+          <Id register={register} watch={watch} />
 
           {/* 비밀번호 */}
           <Password register={register} />
 
-          {/* 닉네임 */}
+          {/* 이름 */}
           <Name register={register} />
 
-          {/* 닉네임 중복 체크 */}
-          <Nickname register={register} />
+          {/* 닉네임 */}
+          <Nickname register={register} watch={watch} />
 
           {/* 전화번호 */}
           <Phone register={register} />

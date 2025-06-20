@@ -8,10 +8,8 @@ export const API_LOGIN = "/api/users/login";
 export const API_FIND_ID = "/api/users/find-login-id";
 export const API_RESET_PW = "/api/users/reset-pw";
 export const API_LOGOUT = "/logout";
-export const API_CHECK_LOGIN_ID =
-  "/api/users/signup/check/loginId?loginId={id}";
-export const API_CHECK_NICKNAME =
-  "/api/users/signup/check/nickname?nickname={nickname}";
+export const API_CHECK_LOGIN_ID = "/api/users/signup/check/loginId";
+export const API_CHECK_NICKNAME = "/api/users/signup/check/nickname";
 export const API_SIGNUP = "/api/users/signup";
 
 // 마이페이지 관련

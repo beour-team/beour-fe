@@ -1,8 +1,12 @@
+import { useLocation } from "react-router-dom";
 import PageHeader from "../../components/header/PageHeader";
 import Title from "../../components/title/Title";
 import SignUpForm from "./signup-components/signupform/SignUpForm";
 
 const SignUpPage: React.FC = () => {
+  const location = useLocation();
+  const userType = location.state?.userType ?? null;
+
   return (
     <div className="h-screen w-full px-[2rem] flex flex-col  pb-[2.5rem]">
       <PageHeader>회원가입</PageHeader>
@@ -15,7 +19,7 @@ const SignUpPage: React.FC = () => {
         </Title>
       </div>
 
-      <SignUpForm />
+      <SignUpForm userType={userType} />
     </div>
   );
 };

@@ -5,6 +5,8 @@ export const PATHS = {
   HOME: "/",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  SIGNUPFORM: "/signup/form",
+  SIGNUPCOMPLETE: "/signup/complete",
 
   HOST: {
     MAIN: "/hostmain",

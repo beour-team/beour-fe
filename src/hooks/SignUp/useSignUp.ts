@@ -25,10 +25,7 @@ export const useSignUp = () => {
     onSuccess: (data) => {
       console.log("✅ 회원가입 성공", data);
 
-      // 성공 시 로그인 페이지로 이동시키거나 바로 메인 페이지로 이동 가능
-      if (data.role === "HOST") {
-        navigate(PATHS.LOGIN);
-      }
+      navigate(PATHS.SIGNUPCOMPLETE);
     },
 
     onError: (error: AxiosError) => {

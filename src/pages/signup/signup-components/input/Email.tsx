@@ -59,7 +59,7 @@ const Email = ({ register, setValue }: EmailProps) => {
           </button>
 
           {isOpen && (
-            <ul className="z-10 bg-cr-white absolute mt-[0.8rem] w-full border-cr-300 border rounded-[1rem] px-[1.6rem] py-[1.2rem]">
+            <ul className="z-10 bg-cr-white absolute mt-[0.8rem] w-full border-cr-300 border rounded-[1rem] px-[1.6rem] py-[1.2rem] top-[-16.5rem]">
               {options.map((option) => (
                 <li
                   key={option}
