@@ -50,6 +50,10 @@ import review from "./img/review.svg";
 import err from "./img/err.svg";
 import guestLogo from "./img/guest-logo.svg";
 import hostLogo from "./img/host-logo.svg";
+import signupGuest from "./img/signupGuest.svg";
+import signupGuestClicked from "./img/signupGuestClicked.svg";
+import signupHost from "./img/signupHost.svg";
+import complete from "./img/complete.svg";
 
 export {
   nearby,
@@ -104,4 +108,8 @@ export {
   err,
   guestLogo,
   hostLogo,
+  signupGuest,
+  signupGuestClicked,
+  signupHost,
+  complete,
 };

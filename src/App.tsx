@@ -7,7 +7,6 @@ import GuestSearchPage from "./pages/guest-main/search-guest/GuestSearchPage";
 import GuestResultPage from "./pages/guest-main/result-guest/GuestResultPage";
 import GuestFilterPage from "./pages/guest-main/filter/GuestFilterPage";
 import HostMainpage from "./pages/host-main/HostMainpage";
-import SignUp from "./pages/signup/SignUp";
 import HostSpaceRegister from "./pages/HostSpaceRegister";
 import HostSpaceRegisterInfo from "./pages/HostSpaceRegisterInfo";
 import MypageHost from "./pages/mypage/host/MypageHost";
@@ -18,6 +17,9 @@ import Review from "./pages/review/host/Review";
 import WishSpace from "./pages/wishspace/WishSpace";
 import GuestReservePage from "./pages/guest-reservation/GuestReservePage";
 import LoginPage from "./pages/login/LoginPage";
+import SignUpPage from "./pages/signup/SignUpPage";
+import SignUp from "./pages/signup/SignUp";
+import SIgnUpComplete from "./pages/signup/SIgnUpComplete";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -35,6 +37,8 @@ function App() {
             <Route path={PATHS.HOME} element={<Home />} />
             <Route path={PATHS.LOGIN} element={<LoginPage />} />
             <Route path={PATHS.SIGNUP} element={<SignUp />} />
+            <Route path={PATHS.SIGNUPFORM} element={<SignUpPage />} />
+            <Route path={PATHS.SIGNUPCOMPLETE} element={<SIgnUpComplete />} />
             <Route path={PATHS.HOST.MYPAGE} element={<MypageHost />} />
             <Route
               path={PATHS.HOST.EDIT_PROFILE}

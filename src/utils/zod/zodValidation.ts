@@ -32,7 +32,7 @@ export const zodLogin = z.object({
 // 📝 회원가입 스키마
 export const zodSignUp = z
   .object({
-    id: z
+    loginId: z
       .string({ message: ID_REQUIRED })
       .regex(/^[a-zA-Z0-9]{5,15}$/, { message: ID_FORMAT }),
 
