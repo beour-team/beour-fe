@@ -24,8 +24,7 @@ export const useLogin = () => {
     // 로그인 성공 시
     onSuccess: (data) => {
       // 액세스 토큰 로컬스토리지에 저장
-      const accessToken = data.accessToken.replace("Bearer ", ""); // `Bearer ` 삭제
-      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("accessToken", data.accessToken);
 
       // 액세스 토큰 출력 확인용
       console.log(localStorage.getItem("accessToken"));

@@ -47,21 +47,21 @@ api.interceptors.response.use(
           // 쿠키로 보낼때
           { withCredentials: true }
         );
+        // 새로 발급받은 토큰 가져오기
+        const newAccessToken = res.data.token;
 
-        // ✅ Bearer 제거
-        let newAccessToken = res.data.token;
-        if (newAccessToken?.startsWith("Bearer ")) {
-          newAccessToken = newAccessToken.replace("Bearer ", "");
-        }
+        // 콘솔로 확인!!
+        console.log("새로 발급 받은 액세스 토큰 :", res.data);
 
-        // ✅ 저장
+        // 새로 발급받은거 담기
         localStorage.setItem("accessToken", newAccessToken);
 
-        // ✅ 헤더에도 다시 설정
-        originalRequest.headers = originalRequest.headers || {};
+        // 재요청 시 새 토큰으로 Authorization 헤더 갱신
         originalRequest.headers["Authorization"] = newAccessToken;
 
+        // 이제 원래 api 다시 시도
         return api(originalRequest);
+
         // 에러나면 아래 코드 실행
       } catch (refreshError) {
         // refresh 실패 시 로그아웃 등 처리
