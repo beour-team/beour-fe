@@ -47,13 +47,20 @@ api.interceptors.response.use(
           // 쿠키로 보낼때
           { withCredentials: true }
         );
-        // 새로 발급받은 토큰 가져오기
-        const newAccessToken = res.data.token;
-        // 새로 발급받은거 담기
+
+        // ✅ Bearer 제거
+        let newAccessToken = res.data.token;
+        if (newAccessToken?.startsWith("Bearer ")) {
+          newAccessToken = newAccessToken.replace("Bearer ", "");
+        }
+
+        // ✅ 저장
         localStorage.setItem("accessToken", newAccessToken);
-        // 재요청 시 새 토큰으로 Authorization 헤더 갱신
+
+        // ✅ 헤더에도 다시 설정
+        originalRequest.headers = originalRequest.headers || {};
         originalRequest.headers["Authorization"] = newAccessToken;
-        // 이제 원래 api 다시 시도
+
         return api(originalRequest);
         // 에러나면 아래 코드 실행
       } catch (refreshError) {
@@ -61,8 +68,10 @@ api.interceptors.response.use(
         // 토큰 뺏기
         localStorage.removeItem("accessToken");
         localStorage.removeItem("refreshToken");
+
         // 로그인 화면으로 강제 추방
         window.location.href = "/login";
+
         // 실패처리
         return Promise.reject(refreshError);
       }
