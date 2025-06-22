@@ -1,4 +1,4 @@
-import MypageHeader from "../../../components/header/MypageHeader";
+import MypageHeader from "../MypageHeader";
 import { useMypage } from "../../../hooks/Mypage/useMypage";
 import MypageMenuList from "../MypageMenuList";
 import MypageProfile from "../MypageProfile";

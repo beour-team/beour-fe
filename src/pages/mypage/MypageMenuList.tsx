@@ -33,17 +33,6 @@ const MypageMenuList: React.FC<Props> = ({ userEmail }) => {
         })}
 
         {userEmail ? (
-          <button
-            onClick={() => logout()}
-            className="flex justify-between items-center text-18-SemiBold cursor-pointer"
-          >
-            로그아웃
-            <ToolTip text="게스트 계정으로 전환할 수 있어요" />
-            <div className="w-[2.3rem] h-[2.3rem] flex justify-center items-center cursor-pointer">
-              <img src={rightArrow} alt="" />
-            </div>
-          </button>
-        ) : (
           <Link
             to={PATHS.LOGIN}
             className="flex justify-between items-center text-18-SemiBold cursor-pointer"
@@ -54,6 +43,17 @@ const MypageMenuList: React.FC<Props> = ({ userEmail }) => {
               <img src={rightArrow} alt="" />
             </div>
           </Link>
+        ) : (
+          <button
+            onClick={() => logout()}
+            className="flex justify-between items-center text-18-SemiBold cursor-pointer"
+          >
+            로그아웃
+            <ToolTip text="게스트 계정으로 전환할 수 있어요" />
+            <div className="w-[2.3rem] h-[2.3rem] flex justify-center items-center cursor-pointer">
+              <img src={rightArrow} alt="" />
+            </div>
+          </button>
         )}
       </ul>
     </div>
