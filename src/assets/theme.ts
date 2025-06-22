@@ -54,6 +54,11 @@ import signupGuest from "./img/signupGuest.svg";
 import signupGuestClicked from "./img/signupGuestClicked.svg";
 import signupHost from "./img/signupHost.svg";
 import complete from "./img/complete.svg";
+import profileOn from "./img/profileOn.svg";
+import profileOff from "./img/profileOff.svg";
+import store from "./img/store.svg";
+import chat from "./img/chat.svg";
+import gift from "./img/gift.svg";
 
 export {
   nearby,
@@ -112,4 +117,9 @@ export {
   signupGuestClicked,
   signupHost,
   complete,
+  profileOn,
+  store,
+  chat,
+  gift,
+  profileOff,
 };

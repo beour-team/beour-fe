@@ -1,20 +1,22 @@
+import { chat, gift, store } from "../../assets/theme";
+
 export const myPageSpace = [
   {
     id: 1,
     menu: "내 공간",
-    icon: "",
+    icon: store,
     link: "",
   },
   {
     id: 2,
     menu: "리뷰 관리",
-    icon: "",
+    icon: chat,
     link: "",
   },
   {
     id: 3,
     menu: "이벤트",
-    icon: "",
+    icon: gift,
     link: "",
   },
 ];
