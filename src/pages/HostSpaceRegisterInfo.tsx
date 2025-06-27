@@ -6,7 +6,6 @@ import { zodHostSpaceInfo } from "../utils/zod/zodValidation";
 import { cancel_dark, error, camera } from "../assets/theme";
 import PageHeader from "../components/header/PageHeader";
 import DaumPostcode from "react-daum-postcode";
-import Searchbar from "../components/search/Searchbar";
 
 const HostSpaceRegisterInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
