@@ -1,276 +1,162 @@
-import { useEffect, useRef, useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  cancel,
-  eyeOpen,
-  leftArrow,
-  topArrow,
-  underArrow,
-} from "../../../assets/theme";
-import type { EditProfile } from "../../../types/EditProfile";
+import type {
+  EditProfile,
+  UpdateProfileRequest,
+} from "../../../types/EditProfile";
+import PageHeader from "../../../components/header/PageHeader";
+import Form from "../editprofile-components/form/Form";
+import ColorTag from "../../../components/Tags/ColorTag";
+import { useMypageDetail } from "../../../hooks/Mypage/useMypageDetail";
+import { useEffect, useRef } from "react";
+import { useUpdateMypageDetail } from "../../../hooks/Mypage/useUpdateMypageDetail";
+import { useUpdateMypagePassword } from "../../../hooks/Mypage/useUpdateMypagePassword";
 import { zodEditProfile } from "../../../utils/zod/zodValidation";
-import { options } from "../../../constants/domain/domain";
 
 const EditProfileHost: React.FC = () => {
-  // 비밀번호 보이기 기능
-  const [showPassword, setShowPassword] = useState<boolean>(true);
-
-  // 비밀번호 보이기 기능
-  const [showConfirmPassword, setShowConfirmPassword] = useState<boolean>(true);
-
-  // 드롭다운 리스트 상태 관리
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  // 드롭다운 리스트 선택 상태 관리
-  const [selected, setSelected] = useState<string>("");
-
-  // 드롭다운 ref 생성
-  const dropdownRef = useRef<HTMLDivElement>(null);
-
-  // 드롭다운 오픈 시 다른 곳을 클릭하면 닫히는 기능
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-      }
-    };
-
-    // 전체 문서에서 마우스 클릭이 발생할때마다 실행되는 이벤트 리스너
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  // react-hook-form 과 zod 연결
-  // 유효성 검사를 위한 스키마는 utils > zod > zodValidation 에 저장
-  // mode: onChange 는 로그인 버튼 비활성화때 쓰임
-  // isValid 역시 로그인 비활성화때 쓰임
+  // 기본적인 React-hook-form 과 zod 를 연결하는 코드
   const {
-    register,
-    handleSubmit,
-    setValue,
-    watch,
-    formState: { errors, isValid },
+    register, // 필드 등록
+    handleSubmit, // 제출 핸들러
+    setValue, // 필드 초기 값 설정
+    watch, // 실시간 입력 데이터 확인
+    reset, // 필드 초기화
+    formState: { errors },
   } = useForm<EditProfile>({
+    // resolver는 미리 만들어둔 스키마 zodEditProfile 이랑 연결
     resolver: zodResolver(zodEditProfile),
+    // 입력받은 값이 바뀔 때 마다 유효성 검사 실행
     mode: "onChange",
+    // 필드 기본 값
+    defaultValues: {
+      name: "",
+      nickName: "",
+      phone: "",
+      email: "",
+      emailDomain: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
 
-  // password 인풋 값 실시간 감지
-  const passwordWatch = watch("password");
+  // 서버에서 유저 프로필 정보 가져오기
+  // 기본값으로 폼에 들어갈 데이터임
+  const { data } = useMypageDetail();
 
-  // password 인풋 값 실시간 감지
-  const confirmPasswordWatch = watch("confirmPassword");
+  // 닉네임과 폰번호 초기값 저장용 => 나중에 비교해서 다를 경우 api 실행해야됨
+  const originalValuesRef = useRef<{ nickName: string; phone: string }>({
+    nickName: "",
+    phone: "",
+  });
+
+  // 서버에서 가져온 데이터 기본값으로 세팅하기
+  useEffect(() => {
+    // 이메일이 정상적인 형태일때
+    if (data && typeof data.email === "string") {
+      // UI상 이메일과 도메인이 따로 분리 되어있는 형태라 이메일을 분리해줘야됨
+      const [emailId, emailDomain] = data.email.split("@");
+
+      // 서버에서 데이터 받아서 입력 해주는 마법같은 코드
+      reset({
+        name: data.name,
+        nickName: data.nickName,
+        phone: data.phoneNum,
+        email: emailId,
+        emailDomain: emailDomain,
+      });
+
+      // 초기값 닉네임 폰 번호 저장
+      originalValuesRef.current = {
+        nickName: data.nickName,
+        phone: data.phoneNum,
+      };
+    }
+    // 데이터나 reset이 바뀔때마다 실행
+  }, [data, reset]);
+
+  // 닉네임과 폰 번호 변경하는 기능 호출
+  const { mutate: updateProfile } = useUpdateMypageDetail();
+
+  // 비밀번호 변경하는 기능 호출
+  const { mutate: updatePassword } = useUpdateMypagePassword();
 
   // SubmitHandler 는 type Helper 로 폼에서 제출하는 데이터를 검사하는 함수
   // React-Hook-Form 이 typeScript 에서 타입을 검사할때 쓰라고 만든 규칙
-  const onSubmit: SubmitHandler<EditProfile> = async (data) => {
-    // emailDomain 제거
-    const { ...rest } = data;
-    // 제출된 이메일과 도메인을 합쳐서 보관
-    const fullEmail = `${data.email}@${data.emailDomain}`;
-    // 합친 이메일 데이터 제출
-    const finalData = {
-      ...rest,
-      email: fullEmail,
-    };
+  const onSubmit: SubmitHandler<EditProfile> = async (formData) => {
+    try {
+      // api 요청을 담을 배열
+      const promises = [];
 
-    console.log("💌 합쳐진 이메일:", fullEmail);
-    console.log("✅ 제출된 데이터:", finalData);
+      // 닉네임/폰번호 변경 여부 확인
+      const updateData: UpdateProfileRequest = {
+        newNickname:
+          formData.nickName !== originalValuesRef.current.nickName
+            ? formData.nickName
+            : "", // 닉네임이 변경되지 않으면 빈 문자열
+        newPhone:
+          formData.phone !== originalValuesRef.current.phone
+            ? formData.phone
+            : "", // 폰번호가 변경되지 않으면 빈 문자열
+      };
+
+      // 닉네임이나 폰 번호가 하나라도 변경되었으면 API 호출
+      if (updateData.newNickname || updateData.newPhone) {
+        promises.push(
+          new Promise<void>((resolve, reject) => {
+            updateProfile(updateData, {
+              onSuccess: () => resolve(),
+              onError: (err) => reject(err),
+            });
+          })
+        );
+      }
+
+      // 비밀번호 변경 여부 체크
+      if (formData.password?.trim()) {
+        promises.push(
+          new Promise<void>((resolve, reject) => {
+            updatePassword(
+              { newPassword: formData.password },
+              {
+                onSuccess: () => resolve(),
+                onError: (err) => reject(err),
+              }
+            );
+          })
+        );
+      }
+
+      // 변경사항 없으면 알림
+      if (promises.length === 0) {
+        alert("변경할 내용이 없습니다.");
+        return;
+      }
+
+      // 모든 요청 실행
+      await Promise.all(promises);
+      alert("정보가 성공적으로 변경되었습니다.");
+    } catch (error) {
+      console.error("정보 변경 중 오류 발생:", error);
+      alert("정보 변경 중 오류가 발생했습니다.");
+    }
   };
 
-  console.log("에러 :", errors);
   return (
-    <div className=" px-[2rem] min-h-screen">
-      <div className="h-[7.5rem] flex w-full items-center justify-between">
-        <div className="w-[2.4rem] h-[2.4rem] ">
-          <img className="mr-[0.8rem]" src={leftArrow} alt="뒤로가기 아이콘" />
-        </div>
-        <p className="text-18-SemiBold">내 정보 수정</p>
-        <div className="w-[2.4rem] h-[2.4rem]"></div>
+    <div className="px-[2rem] min-h-screen">
+      <PageHeader>내 정보 수정</PageHeader>
+
+      <div className="py-[1.6rem]">
+        <ColorTag>호스트</ColorTag>
       </div>
-      <div></div>
-      <div>
-        <div className="px-[0.4rem] py-[0.2rem] bg-slate-400 w-fit text-[1.2rem] text-[#868686] rounded-[0.5rem]">
-          호스트
-        </div>
-      </div>
-      <form
-        className="flex flex-col min-h-full justify-between gap-[2rem]"
-        onSubmit={handleSubmit(onSubmit)}
-      >
-        <div className="flex flex-col gap-[1.6rem]">
-          <div className="flex flex-col ">
-            <label className="text-13-SemiBold">닉네임</label>
-            <div className="flex gap-[0.8rem]">
-              <input
-                className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-14-Medium bg-[#f2f2f2]"
-                placeholder="닉네임을 입력해주세요"
-                type="text"
-                {...register("nickname")}
-              />
-              <button className="bg-[#D0D0D0] text-14-Medium text-[#868686] px-[2rem] py-[1.2rem] rounded-[1rem] min-w-[9.2rem]">
-                중복 확인
-              </button>
-            </div>
-          </div>
 
-          <div className="flex flex-col ">
-            <label className="text-13-SemiBold">비밀번호</label>
-            <div className="flex flex-col gap-[0.8rem]">
-              <div className="relative">
-                <input
-                  className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-14-Medium bg-[#f2f2f2]"
-                  placeholder="비밀번호를 입력해주세요"
-                  type={showPassword ? "password" : "text"}
-                  {...register("password")}
-                />
-                {passwordWatch && (
-                  <div className="flex gap-[0.8rem] items-center absolute top-[1.4rem] right-[1.3rem]">
-                    <img
-                      src={cancel}
-                      alt="취소 아이콘"
-                      onClick={() => {
-                        // 비밀번호 초기화
-                        setValue("password", "");
-                      }}
-                    />
-                    <img
-                      className="pt-[0.2rem] cursor-pointer"
-                      src={eyeOpen}
-                      alt="눈 아이콘"
-                      // 비밀번호 보이기 토글 기능
-                      onClick={() => setShowPassword((prev) => !prev)}
-                    />
-                  </div>
-                )}
-              </div>
-              <div className="relative">
-                <input
-                  className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-14-Medium bg-[#f2f2f2]"
-                  placeholder="비밀번호를 다시 입력해주세요"
-                  type={showConfirmPassword ? "password" : "text"}
-                  {...register("confirmPassword")}
-                />
-                {confirmPasswordWatch && (
-                  <div className="flex gap-[0.8rem] items-center absolute top-[1.4rem] right-[1.3rem]">
-                    <img
-                      src={cancel}
-                      alt="취소 아이콘"
-                      onClick={() => {
-                        // 비밀번호 확인 초기화
-                        setValue("confirmPassword", "");
-                      }}
-                    />
-                    <img
-                      className="pt-[0.2rem] cursor-pointer"
-                      src={eyeOpen}
-                      alt="눈 아이콘"
-                      // 비밀번호 확인 보이기 토글 기능
-                      onClick={() => setShowConfirmPassword((prev) => !prev)}
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-col ">
-            <label className="text-13-SemiBold">이름</label>
-            <div className="flex gap-[0.8rem]">
-              <input
-                className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-14-Medium bg-[#f2f2f2]"
-                placeholder="실명을 입력해주세요"
-                type="text"
-                {...register("name")}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col ">
-            <label className="text-13-SemiBold">휴대폰 번호</label>
-            <div className="flex gap-[0.8rem]">
-              <input
-                className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-14-Medium bg-[#f2f2f2]"
-                placeholder="휴대폰 번호를 입력해주세요"
-                type="text"
-                {...register("phone")}
-              />
-            </div>
-          </div>
-
-          <div className="flex flex-col ">
-            <label className="text-13-SemiBold">이메일</label>
-            <div className="flex gap-[0.8rem] items-center">
-              <input
-                className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-14-Medium bg-[#f2f2f2]"
-                placeholder="이메일"
-                type="text"
-                {...register("email")}
-              />
-              <span className="text-[1.4rem]">@</span>
-              <div className="relative" ref={dropdownRef}>
-                <button
-                  className=" flex justify-between items-center w-[16rem] h-[5.6rem] bg-[#f2f2f2] rounded-[1rem] text-14-Medium text-left px-[1.6rem] text-[#B0B0B0]"
-                  type="button"
-                  onClick={() => setIsOpen((prev) => !prev)}
-                >
-                  <span
-                    className={
-                      selected === "" ? "text-[#B0B0B0]" : "text-[#000000]"
-                    }
-                  >
-                    {selected || "주소 선택"}
-                  </span>
-                  {isOpen ? (
-                    <img src={topArrow} alt="위 화살표" />
-                  ) : (
-                    <img src={underArrow} alt="아래 화살표" />
-                  )}
-                </button>
-                {isOpen && (
-                  <ul className="z-10 bg-[#FFFFFF] absolute mt-[0.8rem] w-full border-[#D2D2D2] border rounded-[1rem] px-[1.6rem] py-[1.2rem]">
-                    {options.map((option) => (
-                      <li
-                        key={option}
-                        onClick={() => {
-                          setSelected(option);
-                          setValue("emailDomain", option, {
-                            shouldValidate: true,
-                          });
-                          setIsOpen(false);
-                        }}
-                        className="h-[3rem] text-14-Medium flex items-center cursor-pointer"
-                      >
-                        {option}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                <input
-                  type="hidden"
-                  value={selected}
-                  {...register("emailDomain")}
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <button
-          type="submit"
-          disabled={!isValid}
-          className={`h-[5rem] w-full rounded-[1rem] text-16-Medium transition-colors duration-200 ${
-            isValid
-              ? "bg-[#000] text-white"
-              : "bg-[#D9D9D9] text-black cursor-not-allowed"
-          }`}
-        >
-          변경 완료
-        </button>
-      </form>
+      <Form
+        register={register}
+        handleSubmit={handleSubmit}
+        setValue={setValue}
+        watch={watch}
+        onSubmit={onSubmit}
+        errors={errors}
+      />
     </div>
   );
 };

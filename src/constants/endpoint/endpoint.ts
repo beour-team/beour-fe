@@ -17,7 +17,7 @@ export const API_WITHDRAW = "/api/mypage/withdraw";
 export const API_MYPAGE = "/api/mypage";
 export const API_MYPAGE_DETAIL = "/api/mypage/detail";
 export const API_UPDATE_PROFILE = "/api/mypage/detail"; // 닉네임, 핸드폰 번호 변경
-export const API_UPDATE_PASSWORD = "/api/users/me/password";
+export const API_UPDATE_PASSWORD = "/api/mypage/password";
 
 // 배너 관련
 export const API_BANNERS = "/api/banners";
