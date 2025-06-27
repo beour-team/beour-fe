@@ -29,6 +29,7 @@ import BlackStar from "./img/BlackStar.svg";
 import people from "./img/people.svg";
 import cancel_dark from "./img/cancel_dark.png"
 import error from "./img/error.svg";
+import camera from "./img/camera.svg";
 
 export {
   nearby,
@@ -62,4 +63,5 @@ export {
   BlackStar,
   cancel_dark,
   error,
+  camera,
 };
