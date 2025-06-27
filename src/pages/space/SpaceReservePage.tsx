@@ -1,26 +1,46 @@
 import { DayPicker } from "react-day-picker";
-import "react-day-picker/dist/style.css";
-import { useState } from "react";
-// import { format } from "date-fns";
+import { useRef, useState } from "react";
+import { format } from "date-fns";
+import { hours } from "../../constants/guest-main/hour-data";
 import { ko } from "date-fns/locale";
-// import { formatTimeRanges } from "../../../utils/format-time-range";
+import { formatTimeRanges } from "../../utils/format-time-range";
 import UseTypeBtn from "../guest-main/filter/UseTypeBtn";
+import { useNavigate } from "react-router-dom";
 
 const SpaceReservePage = () => {
   const [text, setText] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date>();
-  // const [selectedTime, setSelectedTime] = useState<string[]>([]);
+  const [selectedTime, setSelectedTime] = useState<string[]>([]);
+  const nav = useNavigate();
+
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
 
+  const handleComplete = () => {
+    if (!selectedDate || selectedTime.length === 0) {
+      alert("날짜와 시간을 모두 선택해주세요.");
+      return;
+    }
+
+    nav("/reservation-confirm", {
+      state: {
+        selectedDate,
+        selectedTime,
+      },
+    });
+  };
+
+  const disabledTime = ["08:00", "15:00"]; //대여 불가 시간 더미데이터
+
   return (
     <div>
-      <div className="text-14-SemiBold mx-[1.5rem] my-[3rem]">
+      <div className="text-14-SemiBold mx-[1.5rem] mt-[3rem]">
         대여 일자를 선택해주세요
       </div>
-      <div className="mx-[1.5rem]">
+      <div className="mt-[1rem] mb-[2rem] mx-[1.5rem]">
         <DayPicker
           mode="single"
           selected={selectedDate}
@@ -28,23 +48,16 @@ const SpaceReservePage = () => {
           locale={ko}
           weekStartsOn={0}
           disabled={{ before: new Date() }}
+          className="w-full"
           modifiersClassNames={{
             selected: "bg-cr-blue text-white rounded-full",
             today: "text-cr-blue bg-cr-primary rounded-full font-bold",
           }}
-          styles={{
-            caption: { textAlign: "start", marginBottom: "0.5rem" },
-            day: {
-              width: "w-full",
-              height: "3rem",
-              lineHeight: "3rem",
-              fontSize: "1.5rem",
-            },
-            weekday: {
-              fontSize: "1.5rem",
-              fontWeight: "500",
-              color: "#9296A1",
-            },
+          classNames={{
+            caption_label: "py-[1rem] font-18-SemiBold",
+            day: "w-[5.5rem] h-[5.5rem] text-[1.5rem]",
+            day_button: " w-full h-full flex items-center justify-center",
+            weekday: "text-[1.5rem] font-medium text-[#9296A1] py-[2rem]",
           }}
         />
       </div>
@@ -52,7 +65,48 @@ const SpaceReservePage = () => {
 
       <div className="mx-[1.5rem] my-[3rem]">
         <p className="text-14-SemiBold my-[1rem]">대여 시간을 선택해주세요</p>
-        <div>시간, 금액</div>
+        <div className="overflow-x-auto max-w-full mt-[3rem]">
+          <div
+            ref={scrollRef}
+            className="flex gap-[0.5rem] mb-2 whitespace-nowrap overflow-x-auto scrollbar-hide"
+          >
+            {hours.map((hour) => {
+              const isDisabled = disabledTime.includes(hour);
+              const isSelected = selectedTime.includes(hour);
+
+              return (
+                <div key={hour} className="flex flex-col items-center">
+                  <button
+                    onClick={() => {
+                      if (!isDisabled) {
+                        if (isSelected) {
+                          setSelectedTime(
+                            selectedTime.filter((t) => t !== hour)
+                          );
+                        } else {
+                          setSelectedTime([...selectedTime, hour]);
+                        }
+                      }
+                    }}
+                    disabled={isDisabled}
+                    className={`w-[6.7rem] h-[5.4rem] rounded-md text-12-Regular ${
+                      isDisabled
+                        ? "bg-cr-300 text-cr-500 cursor-not-allowed"
+                        : isSelected
+                        ? "bg-cr-blue text-white"
+                        : "bg-cr-400"
+                    }`}
+                  >
+                    {hour}
+                  </button>
+                  <span className="mt-[1rem] text-12-Regular text-cr-700">
+                    {isDisabled ? "대여불가" : "30,000"}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
       </div>
 
       <div className="mx-[1.5rem] my-[3rem]">
@@ -76,7 +130,22 @@ const SpaceReservePage = () => {
         </div>
       </div>
 
-      <div>대여일시, 예약하기</div>
+      <div className="flex justify-between items-center border-t">
+        <div className="text-[1.4rem] my-[2rem] mx-[1.5rem]">
+          <div className="pb-[1.4rem]">대여일시</div>
+          {selectedDate
+            ? `${format(selectedDate, "yyyy. MM. dd (E)", {
+                locale: ko,
+              })} ${formatTimeRanges(selectedTime)}`
+            : "선택 안됨"}
+        </div>
+        <button
+          className="bg-black text-white px-[2.8rem] py-[1.7rem] rounded-[1rem] text-16-Medium  whitespace-nowrap self-start mt-[1.5rem] mx-[1.5rem]"
+          onClick={handleComplete}
+        >
+          예약 하기
+        </button>
+      </div>
     </div>
   );
 };

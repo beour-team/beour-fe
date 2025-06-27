@@ -33,7 +33,7 @@ const UseTypeBtn = ({ useType, setUseType }: UseTypeBtnProps) => {
         <button
           key={label}
           onClick={() => toggleSelection(label)}
-          className={`text-14-Medium px-7 py-[0.8rem] rounded-[1.4rem] ${
+          className={`text-14-Medium px-8 py-[0.8rem] rounded-[1.4rem] ${
             currentUseType.includes(label)
               ? "bg-cr-blue text-white"
               : "bg-cr-100 text-cr-500"
