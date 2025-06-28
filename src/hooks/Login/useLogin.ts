@@ -26,8 +26,12 @@ export const useLogin = () => {
       // 액세스 토큰 로컬스토리지에 저장
       localStorage.setItem("accessToken", data.accessToken);
 
+      // 역할도 로컬스토리지에 저장
+      localStorage.setItem("role", data.role);
+
       // 액세스 토큰 출력 확인용
       console.log(localStorage.getItem("accessToken"));
+      console.log(localStorage.getItem("role"));
 
       // 로그인시 로그인 정보 출력 확인용
       console.log(data);
