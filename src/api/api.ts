@@ -15,8 +15,15 @@ export const api = axios.create({
 // 요청 인터셉터: accessToken 자동 헤더 추가
 api.interceptors.request.use(
   (config) => {
+    // 리프레시 토큰 재발급 요청에서만 액세스 토큰을 헤더에 넣지 않음
+    if (config.url && config.url.includes("/api/users/reissue")) {
+      // 재발급 요청에서는 액세스 토큰을 헤더에 포함시키지 않음
+      return config;
+    }
+
     // 저장된 액세스 토큰 가져오기
     const token = localStorage.getItem("accessToken");
+
     // 토큰이 있다면 headers에 Authorization 추가
     if (token) {
       config.headers = config.headers || {};
@@ -36,19 +43,29 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     // 401 에러(만료 에러) & 재시도 플래그 없을 때만
-    if (error?.response?.status === 401 && !originalRequest._retry) {
-      // 무한 반복 막기
-      originalRequest._retry = true;
+
+    // accessToken이 없거나(=10분 지나서 사라짐) 401 에러일 때, 그리고 아직 재시도 안했을 때만
+    if (
+      (error?.response?.status === 401 ||
+        !localStorage.getItem("accessToken")) &&
+      !originalRequest._retry
+    ) {
+      originalRequest._retry = true; // 무한 반복 방지용 플래그
+
       // 재발급 요청
       try {
-        const res = await axios.post(
-          `${BASE_URL}/api/users/reissue`,
+        // 재발급 요청할 때 Authorization 헤더를 일부러 비워줌 (쿠키만 보내기)
+        const res = await api.post(
+          `/api/users/reissue`,
           {},
-          // 쿠키로 보낼때
-          { withCredentials: true }
+          {
+            withCredentials: true, // 쿠키 보내기
+            headers: {}, // Authorization 헤더 비우기
+          }
         );
+
         // 새로 발급받은 토큰 가져오기
-        const newAccessToken = res.data.token;
+        const newAccessToken = res.data.data.accessToken;
 
         // 콘솔로 확인!!
         console.log("새로 발급 받은 액세스 토큰 :", res.data);
