@@ -40,7 +40,10 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/hostmain" element={<HostMainpage />} />
             <Route path="/hostspaceregister" element={<HostSpaceRegister />} />
-            <Route path="/hostspaceregisterinfo" element={<HostSpaceRegisterInfo />} />
+            <Route
+              path="/hostspaceregisterinfo"
+              element={<HostSpaceRegisterInfo />}
+            />
             <Route path="/guest" element={<GuestMainPage />} />
             <Route path="/search" element={<GuestSearchPage />} />
             <Route path="/spaces" element={<GuestResultPage />} />

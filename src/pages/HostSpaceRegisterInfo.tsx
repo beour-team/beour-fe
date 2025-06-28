@@ -19,8 +19,6 @@ const HostSpaceRegisterInfo = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const selectedAddress = location.state?.selectedAddress || "";
-  // 예시: maxCapacity는 외부에서 props로 오거나 state에 저장된 값
-  const maxCapacity = 11;
 
   const [images, setImages] = useState<File[]>([]);
   const [selectedPurpose, setSelectedPurpose] = useState("");
@@ -368,30 +366,18 @@ const HostSpaceRegisterInfo = () => {
           {isModalOpen && (
             <div
               className="fixed inset-0 bg-black bg-opacity-40 z-50 flex items-center justify-center"
-              onClick={() => setIsModalOpen(false)}
+              onClick={() => setIsModalOpen(false)} // 바깥 클릭 시 닫힘
             >
               <div
                 className="bg-white rounded-[1rem] p-[2rem] w-[90%] max-w-[600px] relative"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => e.stopPropagation()} // 모달 내부 클릭 시 닫힘 방지
               >
-                <button
-                  className="absolute top-[1rem] right-[1rem] text-[2rem] font-bold"
-                  onClick={() => setIsModalOpen(false)}
-                >
-                  ×
-                </button>
-
-                {/* 서치바 추가 */}
-                <div className="mb-[1.5rem]">
-                  <Searchbar onSearch={(val) => console.log("검색어:", val)} />
-                </div>
-
-                {/* 실제 다음 주소 API */}
                 <DaumPostcode
                   onComplete={handleComplete}
                   style={{
                     width: "100%",
                     height: "400px",
+                    border: "1px solid #E0E0E0",
                     borderRadius: "1rem",
                   }}
                 />
