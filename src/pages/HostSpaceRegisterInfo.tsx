@@ -19,14 +19,12 @@ const HostSpaceRegisterInfo = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const selectedAddress = location.state?.selectedAddress || "";
-  const selectedAddress = location.state?.selectedAddress || "";
 
   const [images, setImages] = useState<File[]>([]);
   const [selectedPurpose, setSelectedPurpose] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const purposeList = ["단체 모임", "요리 연습", "바리스타 실습", "홈파티"];
 
-  const [tagInput, setTagInput] = useState("");
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState([]);
 
@@ -75,13 +73,13 @@ const HostSpaceRegisterInfo = () => {
 
     // 실제 제출 로직 여기에 작성
     alert("공간 정보가 제출되었습니다.");
-    navigate("/hostspaceregister/complete");
+    navigate("/spacelist");
   };
 
   return (
     <div className="min-h-screen bg-white px-4 pt-6 pb-[100px] relative">
       {/* Header */}
-      <PageHeader>공간 등록</PageHeader>
+      <PageHeader backTo="/hostspaceregister">공간 등록</PageHeader>
 
       <h2 className="text-24-Bold font-bold mt-8">공간 정보를</h2>
       <br></br>

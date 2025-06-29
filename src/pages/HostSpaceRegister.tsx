@@ -65,8 +65,9 @@ const HostSpaceRegister = () => {
       <PageHeader>공간 등록</PageHeader>
 
       <h2 className="text-24-Bold font-bold mt-8">공간 유형을</h2>
+      <br></br>
       <div className="flex justify-between items-end mb-12">
-        <h2 className="text-24-Bold font-bold">선택해주세요.</h2>
+        <h2 className="text-24-Bold font-bold">입력해주세요.</h2>
       </div>
 
       <div className="grid grid-cols-2 gap-[1rem]">
@@ -118,7 +119,6 @@ const HostSpaceRegister = () => {
         >
           선택 완료
         </button>
-      </div>
       </div>
     </div>
   );
