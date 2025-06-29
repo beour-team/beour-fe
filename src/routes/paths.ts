@@ -25,6 +25,7 @@ export const PATHS = {
     FILTER: "/filter",
     MAP: "/nearby",
     MYPAGE: "/mypageguest",
+    EDIT_PROFILE: "/editprofileguest",
     RESERVATIONS: "/reservations",
     WISH_SPACE: "/wishspace",
     REVIEW: "/reviewguest", //임의로 적어둔거라 맞춰서 수정해주세요!
