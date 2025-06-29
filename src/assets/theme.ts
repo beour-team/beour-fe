@@ -76,6 +76,9 @@ import space_drawing_selected from "./img/space_drawing_selected.png";
 import space_leather_selected from "./img/space_leather_selected.png";
 import space_food_selected from "./img/space_food_selected.png";
 import space_etc_selected from "./img/space_etc_selected.png";
+import guestProfileOn from "./img/GuestProfileOn.svg";
+import guestProfileOff from "./img/GuestProfileOff.svg";
+import wishSpot from "./img/wishSpot.svg";
 
 export {
   nearby,
@@ -156,4 +159,7 @@ export {
   space_leather_selected,
   space_food_selected,
   space_etc_selected,
+  guestProfileOn,
+  guestProfileOff,
+  wishSpot,
 };
