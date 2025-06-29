@@ -1,0 +1,30 @@
+<svg width="62" height="62" viewBox="0 0 62 62" fill="none" xmlns="http://www.w3.org/2000/svg">
+<circle cx="31" cy="31" r="31" fill="#E9ECF2"/>
+<mask id="mask0_2004_3373" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="62" height="62">
+<circle cx="31" cy="31" r="31" fill="#D9D9D9"/>
+</mask>
+<g mask="url(#mask0_2004_3373)">
+<rect width="6.04878" height="18.1463" transform="matrix(-1 0 0 1 38.5605 48.5898)" fill="#3A5EB4"/>
+<rect width="6.04878" height="18.1463" transform="matrix(-1 0 0 1 29.4883 48.5898)" fill="#3A5EB4"/>
+<path d="M46.8779 66.736C46.8779 63.813 44.5083 61.4434 41.5852 61.4434H34.0243V66.736H46.8779Z" fill="#3A5EB4"/>
+<path d="M27.9756 61.4434H20.4146C17.4915 61.4434 15.1219 63.813 15.1219 66.736H27.9756V61.4434Z" fill="#3A5EB4"/>
+<circle cx="22.6829" cy="22.6829" r="22.6829" transform="matrix(-1 0 0 1 53.6826 8.31738)" fill="url(#paint0_radial_2004_3373)"/>
+<rect width="2.26829" height="4.53659" rx="0.756097" transform="matrix(-1 0 0 1 45.3652 27.2197)" fill="#212328"/>
+<rect width="2.26829" height="4.53659" rx="0.756097" transform="matrix(-1 0 0 1 40.0723 27.2197)" fill="#212328"/>
+<path d="M34.7812 34.0244C34.7812 35.1586 35.5373 37.5025 38.5617 37.8049" stroke="#212328" stroke-width="1.13415" stroke-linecap="round"/>
+<g filter="url(#filter0_f_2004_3373)">
+<circle cx="5.29268" cy="5.29268" r="5.29268" transform="matrix(-1 0 0 1 33.2686 27.2197)" fill="#FF504F" fill-opacity="0.5"/>
+</g>
+</g>
+<defs>
+<filter id="filter0_f_2004_3373" x="14.1397" y="18.6758" width="27.6728" height="27.6733" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="4.27195" result="effect1_foregroundBlur_2004_3373"/>
+</filter>
+<radialGradient id="paint0_radial_2004_3373" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(22.6829 22.6829) rotate(90) scale(22.6829)">
+<stop stop-color="#8AADFF"/>
+<stop offset="1" stop-color="#6B96F9"/>
+</radialGradient>
+</defs>
+</svg>

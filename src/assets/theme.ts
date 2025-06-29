@@ -59,6 +59,9 @@ import profileOff from "./img/profileOff.svg";
 import store from "./img/store.svg";
 import chat from "./img/chat.svg";
 import gift from "./img/gift.svg";
+import guestProfileOn from "./img/GuestProfileOn.svg";
+import guestProfileOff from "./img/GuestProfileOff.svg";
+import wishSpot from "./img/wishSpot.svg";
 
 export {
   nearby,
@@ -122,4 +125,7 @@ export {
   chat,
   gift,
   profileOff,
+  guestProfileOn,
+  guestProfileOff,
+  wishSpot,
 };
