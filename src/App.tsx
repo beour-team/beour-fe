@@ -22,6 +22,7 @@ import SignUp from "./pages/signup/SignUp";
 import SIgnUpComplete from "./pages/signup/SIgnUpComplete";
 import AuthLayout from "./routes/AuthLayout";
 import AuthAfterLayout from "./routes/AuthAfterLayout";
+import MypageGuest from "./pages/mypage/guest/MypageGuest";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -68,6 +69,7 @@ function App() {
               {/* 게스트 페이지 랜더링 */}
               <Route path={PATHS.GUEST.WISH_SPACE} element={<WishSpace />} />
               <Route path={PATHS.GUEST.MAIN} element={<GuestMainPage />} />
+              <Route path={PATHS.GUEST.MYPAGE} element={<MypageGuest />} />
               <Route path={PATHS.GUEST.SEARCH} element={<GuestSearchPage />} />
               <Route path={PATHS.GUEST.RESULT} element={<GuestResultPage />} />
               <Route path={PATHS.GUEST.FILTER} element={<GuestFilterPage />} />
