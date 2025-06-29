@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
+import { PATHS } from "../../routes/paths";
 
 const GuestHeader = () => {
   const nav = useNavigate();
@@ -9,7 +10,7 @@ const GuestHeader = () => {
       <div className="flex items-center justify-between h-[9rem] mt-[0.5rem]">
         <div className="flex items-center gap-[1vw]">
           <div
-            onClick={() => nav("/guest")}
+            onClick={() => nav(PATHS.HOST.MAIN)}
             className="font-black text-[2.4rem] leading-none cursor-pointer"
           >
             Be:our
@@ -21,7 +22,7 @@ const GuestHeader = () => {
         <IoIosSearch
           size={25}
           className="cursor-pointer"
-          onClick={() => nav("/search")}
+          onClick={() => nav(PATHS.GUEST.SEARCH)}
         />
       </div>
     </div>

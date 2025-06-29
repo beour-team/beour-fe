@@ -1,9 +1,9 @@
 import GuestFooter from "../../components/GuestFooter";
-import MapView from "../../components/GuestMapPage/MapView";
+import MapView from "./MapView";
 
 const GuestMapPage = () => {
   return (
-    <div className="">
+    <div>
       <div className="w-full h-screen">
         <MapView />
       </div>

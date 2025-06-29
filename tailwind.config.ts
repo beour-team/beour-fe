@@ -1,9 +1,25 @@
+import daisyui from "daisyui";
+import lineClamp from "@tailwindcss/line-clamp";
+import scrollbarHide from "tailwind-scrollbar-hide";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     extend: {
       fontSize: {
+        "12-Regular": [
+          "1.2rem",
+          {
+            fontWeight: 400,
+          },
+        ],
+        "12-Bold": [
+          "1.2rem",
+          {
+            fontWeight: 700,
+          },
+        ],
         "13-Medium": [
           "1.3rem",
           {
@@ -14,6 +30,12 @@ export default {
           "1.3rem",
           {
             fontWeight: 600,
+          },
+        ],
+        "13-Bold": [
+          "1.3rem",
+          {
+            fontWeight: 700,
           },
         ],
         "14-Medium": [
@@ -34,6 +56,12 @@ export default {
             fontWeight: 500,
           },
         ],
+        "16-SemiBold": [
+          "1.6rem",
+          {
+            fontWeight: 600,
+          },
+        ],
         "16-Bold": [
           "1.6rem",
           {
@@ -50,6 +78,18 @@ export default {
           "1.8rem",
           {
             fontWeight: 600,
+          },
+        ],
+        "18-Bold": [
+          "1.8rem",
+          {
+            fontWeight: 700,
+          },
+        ],
+        "18-ExtraBold": [
+          "1.8rem",
+          {
+            fontWeight: 800,
           },
         ],
         "20-SemiBold": [
@@ -82,14 +122,15 @@ export default {
         "cr-700": "#474953",
         "cr-800": "#2A2C32",
         "cr-900": "#212328",
-        "cr-primary": "#6B96F9",
+        "cr-primary": "#D3DFFD",
         "cr-red": "#FF5757",
+        "cr-red30": "#FFCDD3",
+        "cr-pink": "#FFCDD3",
+        "cr-blue": "#6B96F9",
+        "cr-yellow": "#FFCC00",
+        "cr-black": "#000000",
       },
     },
   },
-  plugins: [
-    require("daisyui"),
-    require("@tailwindcss/line-clamp"),
-    require("tailwind-scrollbar-hide"),
-  ],
+  plugins: [daisyui, lineClamp, scrollbarHide],
 };

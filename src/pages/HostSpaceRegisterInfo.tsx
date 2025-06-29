@@ -19,12 +19,14 @@ const HostSpaceRegisterInfo = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const selectedAddress = location.state?.selectedAddress || "";
+  const selectedAddress = location.state?.selectedAddress || "";
 
   const [images, setImages] = useState<File[]>([]);
   const [selectedPurpose, setSelectedPurpose] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const purposeList = ["단체 모임", "요리 연습", "바리스타 실습", "홈파티"];
 
+  const [tagInput, setTagInput] = useState("");
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState([]);
 

@@ -119,6 +119,7 @@ const HostSpaceRegister = () => {
           선택 완료
         </button>
       </div>
+      </div>
     </div>
   );
 };

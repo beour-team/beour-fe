@@ -48,6 +48,7 @@ const GuestFooter = () => {
       h-[7rem]
       flex justify-around items-center 
       bg-white 
+      rounded-t-[1rem]
       "
       >
         {footerItems.map((item) => {
@@ -65,7 +66,7 @@ const GuestFooter = () => {
               <img
                 src={iconSrc}
                 alt={item.label}
-                className="w-[2rem] h-[2rem] mb-2"
+                className="w-[2.6rem] h-[2.6rem] mb-2"
               />
 
               <span

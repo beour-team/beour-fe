@@ -1,6 +1,6 @@
 import { useState } from "react";
 import PageHeader from "../../../components/header/PageHeader";
-import ReviewCard from "../ReviewCard";
+import ReviewCard from "../../../components/review/ReviewCard";
 
 const dummyReviews = [
   {

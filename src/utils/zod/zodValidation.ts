@@ -26,23 +26,31 @@ import {
   REFUND_POLICY_LENGTH,
 } from "../../constants/validation.constants";
 
+// 🔐 로그인 스키마
 export const zodLogin = z.object({
-  id: z.string({ message: EMAIL_REQUIRED }).min(4, { message: ID_REQUIRED }),
+  id: z
+    .string({ message: EMAIL_REQUIRED })
+    .min(5, { message: ID_REQUIRED })
+    .max(15, { message: ID_FORMAT })
+    .regex(/^[a-zA-Z0-9]{5,15}$/, { message: ID_FORMAT }),
+
   password: z
     .string({ message: PASSWORD_REQUIRED })
-    .min(1, { message: PASSWORD_REQUIRED }),
+    .min(4, { message: PASSWORD_FORMAT })
+    .max(20, { message: PASSWORD_FORMAT })
+    .regex(/^[\w\W]{4,20}$/, { message: PASSWORD_FORMAT }),
 });
 
+// 📝 회원가입 스키마
 export const zodSignUp = z
   .object({
-    id: z.string({ message: ID_REQUIRED }).min(4, { message: ID_FORMAT }),
+    loginId: z
+      .string({ message: ID_REQUIRED })
+      .regex(/^[a-zA-Z0-9]{5,15}$/, { message: ID_FORMAT }),
 
     password: z
       .string({ message: PASSWORD_REQUIRED })
-      .min(8, { message: PASSWORD_FORMAT })
-      .regex(/^[\s\S]{8,}$/, {
-        message: PASSWORD_FORMAT,
-      }),
+      .regex(/^[\w\W]{4,20}$/, { message: PASSWORD_FORMAT }),
 
     confirmPassword: z.string({ message: PASSWORD_CONFIRM_REQUIRED }),
 
@@ -52,7 +60,8 @@ export const zodSignUp = z
 
     nickname: z
       .string({ message: NICKNAME_REQUIRED })
-      .min(2, { message: NICKNAME_REQUIRED }),
+      .min(1, { message: NICKNAME_REQUIRED })
+      .max(8, { message: NICKNAME_REQUIRED }),
 
     phone: z
       .string({ message: PHONE_REQUIRED })
