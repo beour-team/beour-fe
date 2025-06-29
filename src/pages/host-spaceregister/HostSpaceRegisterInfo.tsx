@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { zodHostSpaceInfo } from "../utils/zod/zodValidation";
-import { cancel_dark, error, camera } from "../assets/theme";
-import PageHeader from "../components/header/PageHeader";
+import { zodHostSpaceInfo } from "../../utils/zod/zodValidation";
+import { cancel_dark, error, camera } from "../../assets/theme";
+import PageHeader from "../../components/header/PageHeader";
 import DaumPostcode from "react-daum-postcode";
 
 const HostSpaceRegisterInfo = () => {

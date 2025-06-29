@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import PageHeader from "../components/header/PageHeader";
+import PageHeader from "../../components/header/PageHeader";
 import {
   space_cafe,
   space_cloth,
@@ -16,7 +16,7 @@ import {
   space_leather_selected,
   space_food_selected,
   space_etc_selected,
-} from "../assets/theme";
+} from "../../assets/theme";
 
 const spaceTypes = [
   {
