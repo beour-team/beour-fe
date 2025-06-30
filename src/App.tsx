@@ -24,6 +24,7 @@ import AuthLayout from "./routes/AuthLayout";
 import AuthAfterLayout from "./routes/AuthAfterLayout";
 import MypageGuest from "./pages/mypage/guest/MypageGuest";
 import EditProfileGuest from "./pages/editprofile/guest/EditProfileGuest";
+import HostCalendar from "./pages/host-calendar/HostCalendar";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -65,6 +66,10 @@ function App() {
               <Route
                 path={PATHS.HOST.SPACE_REGISTER_INFO}
                 element={<HostSpaceRegisterInfo />}
+              />
+              <Route
+                path={PATHS.HOST.SPACE_REGISTER_INFO}
+                element={<HostCalendar />}
               />
 
               {/* 게스트 페이지 랜더링 */}
