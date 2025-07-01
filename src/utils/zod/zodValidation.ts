@@ -12,18 +12,6 @@ import {
   PASSWORD_REQUIRED,
   PHONE_FORMAT,
   PHONE_REQUIRED,
-  SPACE_NAME_REQUIRED,
-  SPACE_CAPACITY_REQUIRED,
-  SPACE_CAPACITY_MIN,
-  PRICE_REQUIRED,
-  PRICE_FORMAT,
-  ADDRESS_REQUIRED,
-  SPACE_DESCRIPTION_REQUIRED,
-  SPACE_DESCRIPTION_LENGTH,
-  SPACE_NOTICE_REQUIRED,
-  SPACE_NOTICE_LENGTH,
-  REFUND_POLICY_REQUIRED,
-  REFUND_POLICY_LENGTH,
 } from "../../constants/validation.constants";
 
 // 🔐 로그인 스키마
@@ -90,47 +78,75 @@ export const zodSignUp = z
     message: PASSWORD_CONFIRM_INVALID,
   });
 
-export const zodEditProfile = z.object({
-  password: z.string(),
-  confirmPassword: z.string(),
-  name: z.string(),
-  nickname: z.string(),
-  email: z.string(),
-  phone: z.string(),
-  emailDomain: z.string(),
-});
-
-// 공간 등록 정보
-export const zodHostSpaceInfo = z.object({
-  spaceName: z.string({ message: SPACE_NAME_REQUIRED }).min(1, {
-    message: SPACE_NAME_REQUIRED,
-  }),
-  price: z
-    .number({ message: PRICE_REQUIRED })
-    .min(1, { message: PRICE_REQUIRED })
-    .refine((val) => val >= 0, { message: PRICE_FORMAT }),
-  address: z.string({ message: ADDRESS_REQUIRED }).min(1, {
-    message: ADDRESS_REQUIRED,
-  }),
-  spaceCapacity: z
-    .number({ message: SPACE_CAPACITY_REQUIRED })
-    .min(1, { message: SPACE_CAPACITY_MIN })
-    .refine((val) => val >= 1, { message: SPACE_CAPACITY_MIN }),
-  purpose: z
-    .string({ message: SPACE_NAME_REQUIRED })
-    .min(1, { message: SPACE_NAME_REQUIRED }),
-  description: z
-    .string({ message: SPACE_DESCRIPTION_REQUIRED })
-    .min(1, { message: SPACE_DESCRIPTION_REQUIRED })
-    .max(2000, { message: SPACE_DESCRIPTION_LENGTH }),
-  notice: z
-    .string({ message: SPACE_NOTICE_REQUIRED })
-    .min(1, { message: SPACE_NOTICE_REQUIRED })
-    .max(500, { message: SPACE_NOTICE_LENGTH }),
-  refundPolicy: z
-    .string({ message: REFUND_POLICY_REQUIRED })
-    .min(1, { message: REFUND_POLICY_REQUIRED })
-    .max(500, { message: REFUND_POLICY_LENGTH }), 
-});
-
-export type HostSpaceInfo = z.infer<typeof zodHostSpaceInfo>;
+export const zodEditProfile = z
+  .object({
+    name: z.string().optional(),
+    nickName: z
+      .string()
+      .min(1, { message: NICKNAME_REQUIRED })
+      .max(8, { message: NICKNAME_REQUIRED })
+      .optional()
+      .or(z.literal("")),
+    phone: z.string().optional(),
+    email: z.string().optional(),
+    emailDomain: z.string().optional(),
+    password: z
+      .string()
+      .min(4, { message: PASSWORD_FORMAT })
+      .max(20, { message: PASSWORD_FORMAT })
+      .optional()
+      .or(z.literal("")),
+    confirmPassword: z.string().optional(),
+  })
+  .refine(
+    (data) => {
+      // 닉네임이 입력되었다면 유효성 검사
+      if (data.nickName && data.nickName.trim() !== "") {
+        return data.nickName.length >= 1 && data.nickName.length <= 8;
+      }
+      return true;
+    },
+    {
+      path: ["nickName"],
+      message: "닉네임은 1-8자 사이여야 합니다.",
+    }
+  )
+  .refine(
+    (data) => {
+      // 폰번호가 입력되었다면 유효성 검사
+      if (data.phone && data.phone.trim() !== "") {
+        return /^01[016789]-?\d{3,4}-?\d{4}$/.test(data.phone);
+      }
+      return true;
+    },
+    {
+      path: ["phone"],
+      message: "올바른 전화번호를 입력하세요.",
+    }
+  )
+  .refine(
+    (data) => {
+      // 비밀번호가 입력되었다면 유효성 검사
+      if (data.password && data.password.trim() !== "") {
+        return data.password.length >= 4 && data.password.length <= 20;
+      }
+      return true;
+    },
+    {
+      path: ["password"],
+      message: "비밀번호는 4-20자 사이여야 합니다.",
+    }
+  )
+  .refine(
+    (data) => {
+      // 비밀번호가 입력되었다면 확인 비밀번호 검사
+      if (data.password && data.password.trim() !== "") {
+        return data.password === data.confirmPassword;
+      }
+      return true;
+    },
+    {
+      path: ["confirmPassword"],
+      message: "비밀번호가 일치하지 않습니다.",
+    }
+  );
