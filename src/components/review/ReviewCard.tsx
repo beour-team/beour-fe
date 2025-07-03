@@ -1,15 +1,8 @@
 import ReviewComment from "./ReviewComment";
-
-interface Review {
-  id: number;
-  comment: string;
-  created_at: string;
-  nickname: string;
-  rating: number;
-}
+import type { ReviewCardData } from "../../types/Review";
 
 interface ReviewCardProps {
-  reviews: Review[];
+  reviews: ReviewCardData[];
 }
 
 const ReviewCard = ({ reviews }: ReviewCardProps) => {
@@ -50,15 +43,34 @@ const ReviewCard = ({ reviews }: ReviewCardProps) => {
                     <div className="text-[1.3rem] text-cr-600">1일 전</div>
                   </div>
                 </div>
-                <div className="text-13-Medium">
-                  게임 파티룸 플레이앤 삼성역점
+                <div className="text-13-Medium flex items-center gap-[0.4rem]">
+                  <svg
+                    width="12"
+                    height="12"
+                    viewBox="0 0 12 12"
+                    fill="none"
+                    className="mt-[0.1rem]"
+                  >
+                    <path
+                      d="M6 1C4.67392 1 3.40215 1.52678 2.46447 2.46447C1.52678 3.40215 1 4.67392 1 6C1 7.32608 1.52678 8.59785 2.46447 9.53553C3.40215 10.4732 4.67392 11 6 11C7.32608 11 8.59785 10.4732 9.53553 9.53553C10.4732 8.59785 11 7.32608 11 6C11 4.67392 10.4732 3.40215 9.53553 2.46447C8.59785 1.52678 7.32608 1 6 1ZM6 7.5C5.60218 7.5 5.22064 7.34196 4.93934 7.06066C4.65804 6.77936 4.5 6.39782 4.5 6C4.5 5.60218 4.65804 5.22064 4.93934 4.93934C5.22064 4.65804 5.60218 4.5 6 4.5C6.39782 4.5 6.77936 4.65804 7.06066 4.93934C7.34196 5.22064 7.5 5.60218 7.5 6C7.5 6.39782 7.34196 6.77936 7.06066 7.06066C6.77936 7.34196 6.39782 7.5 6 7.5Z"
+                      fill="#9CA3AF"
+                    />
+                  </svg>
+                  {review.place_name}
                 </div>
               </div>
-              <img
-                className="w-[7rem] h-[7rem] rounded-[0.8rem] object-cover bg-cr-500"
-                src="https://via.placeholder.com/60"
-                alt="썸네일"
-              />
+              <div className="relative">
+                <img
+                  className="w-[7rem] h-[7rem] rounded-[0.8rem] object-cover bg-cr-500"
+                  src="https://via.placeholder.com/60"
+                  alt="썸네일"
+                />
+                {review.image_count > 1 && (
+                  <div className="absolute top-[0.4rem] right-[0.4rem] bg-black bg-opacity-60 text-white text-[1.2rem] font-medium px-[0.6rem] py-[0.2rem] rounded-[0.4rem]">
+                    +{review.image_count}
+                  </div>
+                )}
+              </div>
             </div>
 
             {/* 리뷰 내용 */}
