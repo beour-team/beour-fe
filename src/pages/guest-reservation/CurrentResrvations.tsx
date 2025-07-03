@@ -3,7 +3,6 @@ import ReserveTag from "../../components/guest-result/ReserveTag";
 import { currentReservationData } from "../../constants/dummy-data/reserve-data";
 import { formatReservationDateTime } from "../../utils/data-formatter";
 
-//백엔드 api에 태그 필요
 const CurrentReservations = () => {
   return (
     <div>

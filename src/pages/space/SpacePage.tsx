@@ -1,3 +1,4 @@
+// 매장 상세 페이지
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { dummySpace } from "../../constants/dummy-data/spaces";
@@ -182,7 +183,14 @@ const SpacePage = () => {
       </div>
 
       <div className="fixed bottom-0 left-1 right-0 z-50 bg-white max-w-[41.5rem] min-w-[32rem] mx-auto rounded-t-[1rem]">
-        <SpaceFooter />
+        <SpaceFooter
+          space={{
+            name: space.name,
+            maxCapacity: space.maxCapacity,
+            contact: "01012345678",
+            pricePerHour: space.pricePerHour,
+          }}
+        />
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+// 예약 - 예약 신청 단계 페이지
 import { DayPicker } from "react-day-picker";
 import { useRef, useState } from "react";
 import { format } from "date-fns";
@@ -5,30 +6,52 @@ import { hours } from "../../constants/guest-main/hour-data";
 import { ko } from "date-fns/locale";
 import { formatTimeRanges } from "../../utils/format-time-range";
 import UseTypeBtn from "../guest-main/filter/UseTypeBtn";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { PATHS } from "../../routes/paths";
+import toast from "react-hot-toast";
+import { warning } from "../../assets/theme";
+import BackButton from "../../components/BackButton";
 
 const SpaceReservePage = () => {
   const [text, setText] = useState("");
   const [selectedDate, setSelectedDate] = useState<Date>();
   const [selectedTime, setSelectedTime] = useState<string[]>([]);
-  const nav = useNavigate();
-
+  const [useType, setUseType] = useState<string[]>([]);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setText(e.target.value);
-  };
+  const nav = useNavigate();
+  const location = useLocation();
+  const { name, maxCapacity, contact, pricePerHour } = location.state || {};
 
   const handleComplete = () => {
     if (!selectedDate || selectedTime.length === 0) {
-      alert("날짜와 시간을 모두 선택해주세요.");
+      toast("날짜와 시간을 모두 선택해주세요.", {
+        icon: <img src={warning} alt="경고" />,
+        style: {
+          borderRadius: "10px",
+          background: "#2A2C32",
+          color: "#FFFFFF",
+          width: "35.4rem",
+          height: "4rem",
+          fontSize: "1.4rem",
+          marginBottom: "8rem",
+        },
+        duration: 1000, //1초후 자동 사라짐
+      });
+
       return;
     }
 
-    nav("/reservation-confirm", {
+    nav(PATHS.GUEST.RESERVECOMPLETED, {
       state: {
         selectedDate,
         selectedTime,
+        useType,
+        text,
+        name,
+        maxCapacity,
+        contact,
+        pricePerHour,
       },
     });
   };
@@ -37,8 +60,9 @@ const SpaceReservePage = () => {
 
   return (
     <div>
-      <div className="text-14-SemiBold mx-[1.5rem] mt-[3rem]">
-        대여 일자를 선택해주세요
+      <div className="flex items-center mx-[1rem] mt-[3rem]">
+        <BackButton className="w-[2.5rem] text-cr-600" />
+        <div className="text-14-SemiBold ">대여 일자를 선택해주세요</div>
       </div>
       <div className="mt-[1rem] mb-[2rem] mx-[1.5rem]">
         <DayPicker
@@ -111,7 +135,7 @@ const SpaceReservePage = () => {
 
       <div className="mx-[1.5rem] my-[3rem]">
         <p className="text-14-SemiBold my-[2rem]">이용 목적이 어떤 건가요?</p>
-        <UseTypeBtn />
+        <UseTypeBtn useType={useType} setUseType={setUseType} />
       </div>
 
       <div className="mx-[1.5rem] my-[3rem]">
@@ -122,7 +146,7 @@ const SpaceReservePage = () => {
             placeholder="호스트에게 부탁할 요청 사항이 있다면 적어주세요. ex) 요리 연습을 할 건데 프라이팬을 준비해주실 수 있나요?"
             maxLength={199}
             value={text}
-            onChange={handleChange}
+            onChange={(e) => setText(e.target.value)}
           />
           <div className="absolute bottom-[1rem] right-[1rem] text-12-Regular text-cr-400">
             {text.length}/200 자

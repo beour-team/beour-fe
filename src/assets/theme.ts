@@ -60,6 +60,12 @@ import nopet from "./img/nopet.svg";
 import car from "./img/car.svg";
 import stairs from "./img/stairs.svg";
 import size from "./img/size.svg";
+import how from "./img/how.svg";
+import place from "./img/place.svg";
+import call from "./img/call.svg";
+import money from "./img/money.svg";
+import complete from "./img/complete.svg";
+import grayArea from "./img/grayArea.svg";
 
 export {
   nearby,
@@ -124,4 +130,10 @@ export {
   car,
   stairs,
   size,
+  how,
+  place,
+  call,
+  money,
+  complete,
+  grayArea,
 };

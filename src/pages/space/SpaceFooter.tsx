@@ -5,7 +5,16 @@ import { toast } from "react-hot-toast";
 import { PATHS } from "../../routes/paths";
 import { useNavigate } from "react-router-dom";
 
-const SpaceFooter = () => {
+interface SpaceFooterProps {
+  space: {
+    name: string;
+    maxCapacity: number;
+    contact: string; //백엔드 필요?
+    pricePerHour: number;
+  };
+}
+
+const SpaceFooter = ({ space }: SpaceFooterProps) => {
   const nav = useNavigate();
 
   return (
@@ -32,7 +41,16 @@ const SpaceFooter = () => {
         <div className="text-[1.3rem] text-[#3D3D3D] mt-[0.4rem]">문의하기</div>
       </div>
       <button
-        onClick={() => nav(PATHS.GUEST.SPACERESERVE)}
+        onClick={() =>
+          nav(PATHS.GUEST.SPACERESERVE, {
+            state: {
+              name: space.name,
+              maxCapacity: space.maxCapacity,
+              contact: space.contact,
+              pricePerHour: space.pricePerHour,
+            },
+          })
+        }
         className="bg-black text-white text-16-Medium px-[13rem] py-[1.8rem] rounded-[1rem]"
       >
         예약하기
