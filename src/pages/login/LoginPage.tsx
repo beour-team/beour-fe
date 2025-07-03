@@ -13,6 +13,7 @@ import GuestLoginForm from "./login-components/loginForm/GuestLoginForm";
 import LoginTab from "./login-components/loginTab/LoginTab";
 import ToolTip from "./login-components/toolTip/ToolTip";
 import ErrorMessage from "./login-components/errorMessage/ErrorMessage";
+import { PATHS } from "../../routes/paths";
 
 // 탭 타입
 export type TabType = "guest" | "host";
@@ -87,7 +88,7 @@ const LoginPage: React.FC = () => {
             <p className="text-12-Regular ">아직 Be:our 회원이 아니신가요?</p>
 
             <Link
-              to="/join"
+              to={PATHS.SIGNUP}
               className="text-12-Bold underline font-bold cursor-pointer"
             >
               회원가입 하기 &gt;

@@ -1,12 +1,9 @@
 import { useState } from "react";
 import ReviewReply from "./ReviewReply";
+import type { ReviewCardData } from "../../types/Review";
 
 interface ReviewProps {
-  review: {
-    id: number;
-    comment: string;
-    created_at: string;
-  };
+  review: ReviewCardData;
 }
 
 const ReviewComment = ({ review }: ReviewProps) => {
@@ -16,10 +13,6 @@ const ReviewComment = ({ review }: ReviewProps) => {
 
   return (
     <div className="w-full flex flex-col pt-[0.6rem]">
-      <div className="text-13-Medium text-cr-500 mt-[0.2rem] pb-[1.6rem]">
-        {review.created_at}
-      </div>
-
       <div className="text-14-Medium leading-[2.2rem] break-words relative">
         {!expanded[review.id] && isLong(review.comment) ? (
           <span>

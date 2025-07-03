@@ -13,6 +13,7 @@ export const PATHS = {
     SPACE_REGISTER: "/hostspaceregister",
     SPACE_REGISTER_INFO: "/hostspaceregisterinfo",
     MYPAGE: "/mypagehost",
+    MYSPACE: "/myspace",
     EDIT_PROFILE: "/editprofilehost",
     REVIEW: "/reviewhost",
     SPACE_LIST: "/spacelist",
