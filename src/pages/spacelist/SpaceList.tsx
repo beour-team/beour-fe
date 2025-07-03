@@ -1,55 +1,110 @@
-import { Link } from "react-router-dom";
-import { people, rightArrow, spot, star } from "../../assets/theme";
 import PageHeader from "../../components/header/PageHeader";
-import { SPACELIST } from "../../constants/space/spacelist";
+import { useState } from "react";
+import SpaceCard from "./spacelist-components/SpaceCard";
+import { useMySpaceList } from "../../hooks/MySpace/useMySpaceList";
 
 const SpaceList = () => {
-  return (
-    <div className=" px-[2rem] min-h-screen">
-      <PageHeader>내 공간</PageHeader>
-      <div className="w-full text-13-Medium text-[#656565]">
-        총 {SPACELIST.length}개
-      </div>
-      {SPACELIST.map((space) => (
-        <div className="w-full flex gap-[1.2rem] border-b border-[#ECECEC] py-[2.7rem] ">
-          <div className="h-[8.2rem] min-w-[8.2rem] rounded-[1.2rem] bg-[#E9EBEE]"></div>
+  const [openMenuId, setOpenMenuId] = useState<number | null>(null);
 
-          <div className="w-full flex flex-col gap-[1.4rem]">
-            <h2 className="text-18-SemiBold">{space.name}</h2>
-            <div className="flex gap-[1.2rem]">
-              <div className="flex items-center text-13-Medium gap-[0.6rem]">
-                <img className="h-[1.5rem]" src={spot} alt="위치 아이콘" />
-                삼성동
-              </div>
-              <div className="flex items-center text-13-Medium gap-[0.6rem]">
-                <img
-                  className="h-[1.2rem] w-[1.2rem]"
-                  src={people}
-                  alt="인원 아이콘"
-                />
-                최대 3인
-              </div>
-            </div>
-            <div className="flex items-center">
-              <div className="w-[1.7rem] h-[1.7rem] flex items-center justify-center mr-[0.4rem]">
-                <img src={star} alt="리뷰 별점 아이콘" />
-              </div>
-              <div className="flex items-center justify-between w-full">
-                <p className="text-13-SemiBold text-[#313131] pt-[0.1rem]">
-                  4.2
-                  <span className="text-13-Medium text-[#7E7E7E]">(103)</span>
-                </p>
-                <Link
-                  to={"/"}
-                  className="underline text-13-Medium text-[#868686] flex gap-[0.4rem]"
-                >
-                  공간 수정 <img src={rightArrow} alt="" />
-                </Link>
-              </div>
-            </div>
+  // API 호출
+  const { data: spaceList, isLoading, error } = useMySpaceList();
+
+  const handleMenuOpen = (id: number) => {
+    setOpenMenuId(id);
+  };
+
+  const handleMenuClose = () => {
+    setOpenMenuId(null);
+  };
+
+  const handleEdit = (id: number) => {
+    console.log(`공간 수정: ${id}`);
+    // 추후 수정 페이지로 이동하는 로직 추가
+    setOpenMenuId(null);
+  };
+
+  const handleDelete = (id: number) => {
+    console.log(`공간 삭제: ${id}`);
+    // 추후 삭제 확인 모달 또는 API 호출 로직 추가
+    setOpenMenuId(null);
+  };
+
+  // 로딩 상태
+  if (isLoading) {
+    return (
+      <div className="relative px-[2rem] min-h-screen pb-[8rem] bg-white">
+        <PageHeader>내 공간</PageHeader>
+        <div className="flex justify-center items-center h-[20rem]">
+          <div className="text-16-Medium text-[#656565]">
+            공간 목록을 불러오는 중...
           </div>
         </div>
-      ))}
+      </div>
+    );
+  }
+
+  // 에러 상태
+  if (error) {
+    return (
+      <div className="relative px-[2rem] min-h-screen pb-[8rem] bg-white">
+        <PageHeader>내 공간</PageHeader>
+        <div className="flex flex-col justify-center items-center h-[20rem] gap-[1rem]">
+          <div className="text-16-Medium text-red-500">{error.message}</div>
+          <button
+            className="px-[2rem] py-[1rem] bg-cr-blue text-white rounded-[0.8rem] text-14-SemiBold"
+            onClick={() => window.location.reload()}
+          >
+            다시 시도
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const spaces = spaceList || [];
+
+  return (
+    <div className="relative px-[2rem] min-h-screen pb-[8rem] bg-white">
+      <PageHeader>내 공간</PageHeader>
+      <div className="w-full text-13-Medium text-[#656565] mb-[1.2rem]">
+        총 {spaces.length}개
+      </div>
+
+      {spaces.length === 0 ? (
+        <div className="flex flex-col justify-center items-center h-[30rem] gap-[1.6rem]">
+          <div className="text-18-Medium text-[#656565]">
+            등록된 공간이 없습니다
+          </div>
+          <button
+            className="px-[2rem] py-[1rem] bg-cr-blue text-white rounded-[0.8rem] text-14-SemiBold"
+            onClick={() => console.log("공간 등록 페이지로 이동")}
+          >
+            첫 번째 공간 등록하기
+          </button>
+        </div>
+      ) : (
+        spaces.map((space) => (
+          <SpaceCard
+            key={space.id}
+            space={space}
+            menuOpen={openMenuId === space.id}
+            onMenuOpen={handleMenuOpen}
+            onMenuClose={handleMenuClose}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        ))
+      )}
+
+      {/* <FloatingAddButton /> */}
+
+      {openMenuId !== null && (
+        <div
+          className="fixed inset-0 z-0"
+          onClick={handleMenuClose}
+          aria-hidden="true"
+        />
+      )}
     </div>
   );
 };
