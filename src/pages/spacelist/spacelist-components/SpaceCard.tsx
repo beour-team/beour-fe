@@ -1,19 +1,10 @@
 import React from "react";
-import { calendar2, people, spot, star, threeDot } from "../../../assets/theme";
-import SpaceCardMenu from "./spaceCardMenu";
-
-interface Space {
-  id: number;
-  name: string;
-  location: string;
-  people: string;
-  review: string;
-  reviewTotal: string;
-  link: string;
-}
+import SpaceCardMenu from "./SpaceCardMenu";
+import { calendar2, people, spot, threeDot } from "../../../assets/theme";
+import type { MySpace } from "../../../types/MySpace";
 
 interface SpaceCardProps {
-  space: Space;
+  space: MySpace;
   menuOpen: boolean;
   onMenuOpen: (id: number) => void;
   onMenuClose: () => void;
@@ -29,10 +20,40 @@ const SpaceCard: React.FC<SpaceCardProps> = ({
   onEdit,
   onDelete,
 }) => {
+  // 카테고리와 용도를 한국어로 변환하는 함수 (필요에 따라 수정)
+  const getCategoryName = (category: string) => {
+    const categoryMap: { [key: string]: string } = {
+      WORKSHOP: "공방",
+      STUDIO: "스튜디오",
+      CAFE: "카페",
+      // 필요한 카테고리 추가
+    };
+    return categoryMap[category] || category;
+  };
+
+  const getUseName = (use: string) => {
+    const useMap: { [key: string]: string } = {
+      PRACTICE: "연습",
+      MEETING: "회의",
+      PARTY: "파티",
+      // 필요한 용도 추가
+    };
+    return useMap[use] || use;
+  };
+
   return (
     <div className="w-full flex flex-col gap-[1.2rem] border-b border-[#ECECEC] py-[2.7rem] relative">
       <div className="flex gap-[1.6rem] h-[8.2rem]">
-        <div className="h-full min-w-[8.2rem] rounded-[1.2rem] bg-[#E9EBEE] overflow-hidden"></div>
+        {/* 썸네일 이미지 */}
+        <div className="h-full min-w-[8.2rem] rounded-[1.2rem] bg-[#E9EBEE] overflow-hidden">
+          {space.thumbnail_url && (
+            <img
+              src={space.thumbnail_url}
+              alt={space.name}
+              className="w-full h-full object-cover"
+            />
+          )}
+        </div>
 
         <div className="w-full flex flex-col gap-[1rem]">
           <div className="flex items-start justify-between">
@@ -53,31 +74,34 @@ const SpaceCard: React.FC<SpaceCardProps> = ({
 
           <div className="flex gap-[1.2rem]">
             <div className="flex items-center text-13-Medium gap-[0.6rem]">
-              <img className="h-[1.5rem]" src={spot} alt="위치 아이콘" />
-              {space.location}
+              <img className="h-[1.5rem]" src={spot} alt="카테고리 아이콘" />
+              {getCategoryName(space.category)}
             </div>
 
             <div className="flex items-center text-13-Medium gap-[0.6rem]">
               <img
                 className="h-[1.2rem] w-[1.2rem]"
                 src={people}
-                alt="인원 아이콘"
+                alt="용도 아이콘"
               />
-              최대 {space.people}인
+              {getUseName(space.use)}
             </div>
           </div>
 
-          <div className="flex items-center">
-            <div className="w-[1.7rem] h-[1.7rem] flex items-center justify-center mr-[0.4rem]">
-              <img src={star} alt="리뷰 별점 아이콘" />
+          <div className="flex items-center justify-between">
+            <div className="flex items-center">
+              <div className="text-13-SemiBold text-[#313131]">
+                시간당 {space.price_per_hour.toLocaleString()}원
+              </div>
             </div>
-            <div className="flex items-center justify-between w-full">
-              <p className="text-13-SemiBold text-[#313131] pt-[0.1rem]">
-                {space.review}
-                <span className="text-13-Medium text-[#7E7E7E]">
-                  ({space.reviewTotal})
-                </span>
-              </p>
+            <div
+              className={`text-13-Medium px-[0.8rem] py-[0.4rem] rounded-[0.4rem] ${
+                space.status === "ACTIVE"
+                  ? "bg-green-100 text-green-600"
+                  : "bg-gray-100 text-gray-600"
+              }`}
+            >
+              {space.status === "ACTIVE" ? "운영중" : "운영중지"}
             </div>
           </div>
         </div>
