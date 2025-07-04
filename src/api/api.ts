@@ -24,10 +24,10 @@ api.interceptors.request.use(
     // 저장된 액세스 토큰 가져오기
     const token = localStorage.getItem("accessToken");
 
-    // 토큰이 있다면 headers에 Authorization 추가
+    // 토큰이 있다면 headers에 Authorization 추가 (Bearer 접두사 포함)
     if (token) {
       config.headers = config.headers || {};
-      config.headers["Authorization"] = token;
+      config.headers["Authorization"] = `Bearer ${token}`;
     }
     // 다시 요청
     return config;
@@ -73,8 +73,8 @@ api.interceptors.response.use(
         // 새로 발급받은거 담기
         localStorage.setItem("accessToken", newAccessToken);
 
-        // 재요청 시 새 토큰으로 Authorization 헤더 갱신
-        originalRequest.headers["Authorization"] = newAccessToken;
+        // 재요청 시 새 토큰으로 Authorization 헤더 갱신 (Bearer 접두사 포함)
+        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
 
         // 이제 원래 api 다시 시도
         return api(originalRequest);

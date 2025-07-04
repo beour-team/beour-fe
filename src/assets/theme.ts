@@ -62,6 +62,27 @@ import gift from "./img/gift.svg";
 import guestProfileOn from "./img/GuestProfileOn.svg";
 import guestProfileOff from "./img/GuestProfileOff.svg";
 import wishSpot from "./img/wishSpot.svg";
+import threeDot from "./img/3dot.svg";
+import edit from "./img/pencil.svg";
+import trash from "./img/trash.svg";
+import calendar2 from "./img/calender2.svg"; 
+import cancel_dark from "./img/cancel_dark.png"
+import error from "./img/error.svg";
+import camera from "./img/camera.svg";
+import space_cafe from "./img/space_cafe.png";
+import space_cloth from "./img/space_cloth.png";
+import space_cooking from "./img/space_cooking.png";
+import space_drawing from "./img/space_drawing.png";
+import space_leather from "./img/space_leather.png";
+import space_food from "./img/space_food.png";
+import space_etc from "./img/space_etc.png";
+import space_cafe_selected from "./img/space_cafe_selected.png";
+import space_cloth_selected from "./img/space_cloth_selected.png";
+import space_cooking_selected from "./img/space_cooking_selected.png";
+import space_drawing_selected from "./img/space_drawing_selected.png";
+import space_leather_selected from "./img/space_leather_selected.png";
+import space_food_selected from "./img/space_food_selected.png";
+import space_etc_selected from "./img/space_etc_selected.png";
 import clock from "./img/clock.svg";
 import person from "./img/person.svg";
 
@@ -130,6 +151,27 @@ export {
   guestProfileOn,
   guestProfileOff,
   wishSpot,
+  threeDot,
+  edit,
+  trash,
+  calendar2,
+  cancel_dark,
+  error,
+  camera,
+  space_cafe,
+  space_cloth,
+  space_cooking,
+  space_drawing,
+  space_leather,
+  space_food,
+  space_etc,
+  space_cafe_selected,
+  space_cloth_selected,
+  space_cooking_selected,
+  space_drawing_selected,
+  space_leather_selected,
+  space_food_selected,
+  space_etc_selected,
   clock,
   person,
 };

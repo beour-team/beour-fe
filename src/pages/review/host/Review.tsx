@@ -1,60 +1,59 @@
 import { useState } from "react";
 import PageHeader from "../../../components/header/PageHeader";
 import ReviewCard from "../../../components/review/ReviewCard";
+import { useReviewList } from "../../../hooks/Review/useReviewList";
+import type { ReviewCardData } from "../../../types/Review";
 
-const dummyReviews = [
-  {
-    id: 1,
-    space_id: 1,
-    nickname: "유딘딘",
-    rating: 5,
-    comment:
-      "공간이 너무 좋아요. 특히 분위기가 너무 좋았고 가구들도 다 새거라 기분 좋게 사용했어요. 다음에 또 대여하게 된다면공간이 너무 좋아요. 특히 분위기가 너무 좋았고 가구들도 다 새거라 기분 좋게 사용했어요. 다음에 또 대여하게 된다면",
-    created_at: "2025-05-12",
-  },
-  {
-    id: 2,
-    space_id: 1,
-    nickname: "홍길동",
-    rating: 3,
-    comment:
-      "무난하게 사용했습니다. 위치가 좋아요.무난하게 사용했습니다. 위치가 좋아요.무난하게 사용했습니다. 위치가 좋아요.무난하게 사용했습니다. 위치가 좋아요.무난하게 사용했습니다. 위치가 좋아요.무난하게 사용했습니다. 위치가 좋아요.무난하게 사용했습니다. 위치가 좋아요.무난하게 사용했습니다. 위치가 좋아요.무난하게 사용했습니다. 위치가 좋아요.무난하게 사용했습니다. 위치가 좋아요.무난하게 사용했습니다. 위치가 좋아요.무난하게 사용했습니다. 위치가 좋아요.무난하게 사용했습니다. 위치가 좋아요.무난하게 사용했습니다. 위치가 좋아요.",
-    created_at: "2025-05-10",
-  },
-];
+// 컴포넌트 imports
+import ReviewTabBar from "../review-components/ReviewTabBar";
+import ReviewStatistics from "../review-components/ReviewStatistics";
+import ReviewEmptyState from "../review-components/ReviewEmptyState";
+import ReviewLoadingState from "../review-components/ReviewLoadingState";
 
 const Review = () => {
   const [activeTab, setActiveTab] = useState("guest");
-  const [reviews] = useState(dummyReviews);
+  const { reviews: apiReviews, loading, error } = useReviewList();
+
+  // API 데이터 변환
+  const reviews: ReviewCardData[] = apiReviews.map((review) => ({
+    id: review.reviewId,
+    nickname: review.guestNickname,
+    rating: review.reviewRating,
+    comment: review.reviewContent,
+    created_at: review.reviewCreatedAt,
+    place_name: review.spaceName,
+    image_count: review.reviewImages.length,
+  }));
+
+  // 필터 핸들러
+  const handleFilterClick = () => {
+    console.log("필터 클릭됨");
+  };
+
+  // 로딩 상태
+  if (loading) {
+    return <ReviewLoadingState />;
+  }
+
+  // 빈 상태 확인
+  const isEmpty = error || reviews.length === 0;
 
   return (
     <div>
+      {/* 헤더 영역 */}
       <div className="px-[2rem] border-b border-cr-200">
         <PageHeader>리뷰 관리</PageHeader>
-        <div className="h-[4.8rem] w-full bg-[#E9E9E9] flex items-center justify-between rounded-full">
-          <div
-            onClick={() => setActiveTab("guest")}
-            className={`text-[1.4rem] font-medium h-[3.8rem] flex items-center w-[16.9rem] justify-center rounded-full ml-[0.8rem] cursor-pointer ${
-              activeTab === "guest" ? "bg-[#3C3C3C] text-white" : "text-black"
-            }`}
-          >
-            답글 작성
-          </div>
-          <div
-            onClick={() => setActiveTab("host")}
-            className={`text-[1.4rem] font-medium h-[3.8rem] flex items-center w-[16.9rem] justify-center rounded-full mr-[0.8rem] cursor-pointer ${
-              activeTab === "host" ? "bg-[#3C3C3C] text-white" : "text-black"
-            }`}
-          >
-            작성한 답글
-          </div>
-        </div>
-        <p className="text-13-Medium text-cr-600 pt-[1.6rem] pb-[2rem]">
-          총 {reviews.length}개
-        </p>
+
+        <ReviewTabBar activeTab={activeTab} onTabChange={setActiveTab} />
+
+        <ReviewStatistics
+          totalCount={reviews.length}
+          onFilterClick={handleFilterClick}
+        />
       </div>
 
-      <ReviewCard reviews={reviews} />
+      {/* 컨텐츠 영역 */}
+      {isEmpty ? <ReviewEmptyState /> : <ReviewCard reviews={reviews} />}
     </div>
   );
 };
