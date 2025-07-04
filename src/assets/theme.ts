@@ -62,6 +62,8 @@ import gift from "./img/gift.svg";
 import guestProfileOn from "./img/GuestProfileOn.svg";
 import guestProfileOff from "./img/GuestProfileOff.svg";
 import wishSpot from "./img/wishSpot.svg";
+import clock from "./img/clock.svg";
+import person from "./img/person.svg";
 
 export {
   nearby,
@@ -128,4 +130,6 @@ export {
   guestProfileOn,
   guestProfileOff,
   wishSpot,
+  clock,
+  person,
 };

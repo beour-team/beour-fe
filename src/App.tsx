@@ -67,10 +67,7 @@ function App() {
                 path={PATHS.HOST.SPACE_REGISTER_INFO}
                 element={<HostSpaceRegisterInfo />}
               />
-              <Route
-                path={PATHS.HOST.SPACE_REGISTER_INFO}
-                element={<HostCalendar />}
-              />
+              <Route path={PATHS.HOST.CALENDAR} element={<HostCalendar />} />
 
               {/* 게스트 페이지 랜더링 */}
               <Route path={PATHS.GUEST.WISH_SPACE} element={<WishSpace />} />
