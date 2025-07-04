@@ -60,6 +60,7 @@ const GuestReservePage = () => {
         {selectedCategory === "cancel" && <CanceledReservations />}
       </div>
 
+      {/* 예약 완료 시 모달 */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-[1.2rem] w-[30.5rem]">

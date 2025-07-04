@@ -2,9 +2,14 @@ import { err, rightArrow, space3 } from "../../assets/theme";
 import ReserveTag from "../../components/guest-result/ReserveTag";
 import { canceledReservationData } from "../../constants/dummy-data/reserve-data";
 import { formatReservationDateTime } from "../../utils/data-formatter";
+import { PATHS } from "../../routes/paths";
+import { useNavigate } from "react-router-dom";
+import { user } from "../../constants/dummy-data/dummy-user";
 
 //백엔드 api에 태그 필요
 const CanceledReservations = () => {
+  const nav = useNavigate();
+
   return (
     <div>
       <div className="mx-[2rem] text-13-Medium text-cr-600 my-[2rem]">
@@ -25,11 +30,7 @@ const CanceledReservations = () => {
           >
             <div className="mx-[2rem]">
               <div className="flex items-center gap-5 mb-[1.5rem]">
-                <ReserveTag
-                  bgColor="bg-cr-red30"
-                  textColor="text-cr-red"
-                  state="예약 취소"
-                />
+                <ReserveTag category="cancel" />
                 <div className="text-[1.2rem]">
                   예약 번호 {reservation.reservationId}
                 </div>
@@ -63,7 +64,23 @@ const CanceledReservations = () => {
                       </span>
                     </div>
 
-                    <div className="underline cursor-pointer text-cr-600 text-12-Medium flex gap-2">
+                    <div
+                      className="underline cursor-pointer text-cr-600 text-12-Medium flex gap-2"
+                      onClick={() =>
+                        nav(
+                          `${PATHS.GUEST.RESERVATIONS}/${reservation.reservationId}`,
+                          {
+                            state: {
+                              reservation: {
+                                ...reservation,
+                                user,
+                              },
+                              category: "cancel",
+                            },
+                          }
+                        )
+                      }
+                    >
                       예약 상세
                       <img
                         src={rightArrow}

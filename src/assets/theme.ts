@@ -66,6 +66,8 @@ import call from "./img/call.svg";
 import money from "./img/money.svg";
 import complete from "./img/complete.svg";
 import grayArea from "./img/grayArea.svg";
+import chatWhite from "./img/chatWhite.svg";
+import moneyGray from "./img/moneyGray.svg";
 
 export {
   nearby,
@@ -136,4 +138,6 @@ export {
   money,
   complete,
   grayArea,
+  chatWhite,
+  moneyGray,
 };

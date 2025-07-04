@@ -21,7 +21,9 @@ import LoginPage from "./pages/login/LoginPage";
 import SpacePage from "./pages/space/SpacePage";
 import SpaceReservePage from "./pages/space/SpaceReservePage";
 import ReserveCompletePage from "./pages/space/ReserveCompletedPage";
+import GuestReserveDetailPage from "./pages/guest-reservation/GuestReserveDetailPage";
 import { Toaster } from "react-hot-toast";
+import SpaceMapPage from "./pages/guest-reservation/SpaceMapPage";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -68,6 +70,10 @@ function App() {
               element={<GuestReservePage />}
             />
             <Route
+              path={`${PATHS.GUEST.RESERVATIONS}/:id`}
+              element={<GuestReserveDetailPage />}
+            />
+            <Route
               path={PATHS.GUEST.SPACERESERVE}
               element={<SpaceReservePage />}
             />
@@ -75,6 +81,7 @@ function App() {
               path={PATHS.GUEST.RESERVECOMPLETED}
               element={<ReserveCompletePage />}
             />
+            <Route path={`${PATHS.GUEST.MAP}/:id`} element={<SpaceMapPage />} />
           </Route>
         </Route>
       </Routes>
