@@ -14,7 +14,7 @@ const footerItems = [
   { label: "홈", path: "/hostmain", icon: home, clickIcon: home_click },
   {
     label: "예약 캘린더",
-    path: "/calender",
+    path: "/hostcalendar",
     icon: reservations,
     clickIcon: reservations_click,
   },
