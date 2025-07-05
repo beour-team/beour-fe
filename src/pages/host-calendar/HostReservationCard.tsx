@@ -6,7 +6,6 @@ const statusMap = {
   pending: {
     label: "승인 대기",
     labelColor: "bg-cr-300 text-cr-600",
-    bg: "bg-white text-black",
     actions: [
       { text: "승인 거부", color: "bg-cr-500 text-white" },
       { text: "예약 승인", color: "bg-cr-blue text-white" },
@@ -15,7 +14,6 @@ const statusMap = {
   confirmed: {
     label: "예약 확정",
     labelColor: "bg-cr-blue text-white",
-    bg: "bg-white text-black",
     actions: [
       { text: "예약 취소", color: "bg-cr-red text-white" },
       { text: "승인 완료", color: "bg-cr-200 text-cr-500", disabled: true },
@@ -24,7 +22,6 @@ const statusMap = {
   cancelled: {
     label: "승인 취소",
     labelColor: "bg-cr-red30 text-cr-red",
-    bg: "bg-white text-black",
     actions: [
       { text: "예약 내역 삭제", color: "bg-cr-500 text-white" },
       { text: "예약 재승인", color: "bg-cr-blue text-white" },
@@ -59,11 +56,14 @@ const HostReservationCard = ({
       if (actionText === "예약 내역 삭제") onDelete();
       if (actionText === "예약 재승인") setStatus("confirmed");
     }
-    // 예약 내역 삭제, 승인 완료 등은 상태 변화 없음
   };
 
   return (
-    <div className={clsx("rounded-[12px] p-6 w-full space-y-5", statusData.bg)}>
+    <div
+      className={clsx(
+        "rounded-[12px] p-6 w-full space-y-5 bg-white text-black"
+      )}
+    >
       {/* 상단: 이름 + 상태 + 예약번호 */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 flex-wrap">
