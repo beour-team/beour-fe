@@ -85,6 +85,7 @@ import space_food_selected from "./img/space_food_selected.png";
 import space_etc_selected from "./img/space_etc_selected.png";
 import clock from "./img/clock.svg";
 import person from "./img/person.svg";
+import filter from "./img/filter.svg";
 
 export {
   nearby,
@@ -174,4 +175,5 @@ export {
   space_etc_selected,
   clock,
   person,
+  filter,
 };

@@ -6,6 +6,9 @@ import { zodHostSpaceInfo } from "../../utils/zod/zodValidation";
 import { cancel_dark, error, camera } from "../../assets/theme";
 import PageHeader from "../../components/header/PageHeader";
 import DaumPostcode from "react-daum-postcode";
+import { registerSpace } from "../../api/space/space.ts";
+import { selectedPurposeToEnum } from "../../utils/selectedPurposeToEnum";
+import type { HostSpaceInfo } from "../../types/HostSpaceInfo.ts";
 
 const HostSpaceRegisterInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -60,20 +63,53 @@ const HostSpaceRegisterInfo = () => {
     setImages(newImages);
   };
 
-  const onValidSubmit = (data: HostSpaceInfo) => {
+  const onValidSubmit = async (data: HostSpaceInfo) => {
     if (images.length === 0) {
       alert("공간 사진을 하나 이상 업로드해주세요.");
       return;
     }
 
-    console.log("제출 데이터:", {
-      ...data,
-      images,
-    });
+    try {
+      const requestBody = {
+        hostId: 1,
+        name: data.name,
+        spaceCategory: "CAFE",
+        useCategory: selectedPurposeToEnum(selectedPurpose),
+        maxCapacity: Number(data.max_capacity),
+        address: data.address,
+        detailAddress: data.detail_address,
+        pricePerHour: Number(data.price_per_hour),
+        thumbnailUrl: "https://example.com/image.jpg",
+        description: data.description,
+        priceGuide: data.price_guide,
+        facilityNotice: data.facility_notice,
+        notice: data.notice,
+        locationDescription: data.location_description,
+        refundPolicy: data.refund_policy,
+        websiteUrl: data.website_url,
+        tags,
+        availableTimes: [
+          {
+            date: "2025-05-22",
+            startTime: "10:00:00",
+            endTime: "18:00:00",
+          },
+          {
+            date: "2025-05-24",
+            startTime: "11:00:00",
+            endTime: "16:00:00",
+          },
+        ],
+        imageUrls: images.map((img) => URL.createObjectURL(img)),
+      };
 
-    // 실제 제출 로직 여기에 작성
-    alert("공간 정보가 제출되었습니다.");
-    navigate("/spacelist");
+      const res = await registerSpace(requestBody);
+      alert(`공간이 등록되었습니다. ID: ${res.id}`);
+      navigate("/spacelist");
+    } catch (err) {
+      alert("공간 등록에 실패했습니다.");
+      console.error(err);
+    }
   };
 
   return (
@@ -164,21 +200,21 @@ const HostSpaceRegisterInfo = () => {
             공간명<span className="text-[#FF3B30]">*</span>
           </label>
           <input
-            {...register("spaceName")}
+            {...register("name")}
             placeholder="공간명을 입력해주세요"
             className={`w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] 
               ${
-                errors.spaceName
+                errors.name
                   ? "border border-[#FF3B30]"
                   : "border border-transparent"
               }`}
             maxLength={30}
           />
-          {errors.spaceName && (
+          {errors.name && (
             <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
               <img src={error} alt="에러 아이콘" className="w-4 h-4" />
               <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
-                {errors.spaceName.message}
+                {errors.name.message}
               </p>
             </div>
           )}
@@ -192,7 +228,7 @@ const HostSpaceRegisterInfo = () => {
 
           <div className="relative w-full">
             <select
-              {...register("purpose")}
+              {...register("spaceCategory")}
               className="
         w-full 
         h-[5.6rem] 
@@ -233,11 +269,11 @@ const HostSpaceRegisterInfo = () => {
             </svg>
           </div>
 
-          {errors.purpose && (
+          {errors.spaceCategory && (
             <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
               <img src={error} alt="에러 아이콘" className="w-4 h-4" />
               <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
-                {errors.purpose.message}
+                {errors.spaceCategory.message}
               </p>
             </div>
           )}
@@ -250,7 +286,7 @@ const HostSpaceRegisterInfo = () => {
 
           <div className="flex items-center justify-between">
             <span className="text-[1.5rem] font-bold text-black">
-              최대 {watch("spaceCapacity") || 1} 인 수용 가능
+              최대 {watch("maxCapacity") || 1} 인 수용 가능
             </span>
 
             <div className="flex items-center gap-[1.2rem] bg-[#F2F3F6] rounded-[1rem] px-[0.8rem] py-[0.4rem]">
@@ -259,8 +295,8 @@ const HostSpaceRegisterInfo = () => {
                 className="w-[3.2rem] h-[3.2rem] text-[2rem] text-[#868686] flex items-center justify-center"
                 onClick={() =>
                   setValue(
-                    "spaceCapacity",
-                    Math.max(1, (watch("spaceCapacity") || 1) - 1)
+                    "maxCapacity",
+                    Math.max(1, (watch("maxCapacity") || 1) - 1)
                   )
                 }
               >
@@ -269,7 +305,7 @@ const HostSpaceRegisterInfo = () => {
 
               <div className="w-[4.8rem] h-[3.2rem] bg-white rounded-[0.8rem] flex items-center justify-center">
                 <span className="text-[1.5rem] text-black font-medium">
-                  {watch("spaceCapacity") || 1}
+                  {watch("maxCapacity") || 1}
                 </span>
               </div>
 
@@ -277,7 +313,7 @@ const HostSpaceRegisterInfo = () => {
                 type="button"
                 className="w-[3.2rem] h-[3.2rem] text-[2rem] text-[#868686] flex items-center justify-center"
                 onClick={() =>
-                  setValue("spaceCapacity", (watch("spaceCapacity") || 1) + 1)
+                  setValue("maxCapacity", (watch("maxCapacity") || 1) + 1)
                 }
               >
                 +
@@ -285,11 +321,11 @@ const HostSpaceRegisterInfo = () => {
             </div>
           </div>
 
-          {errors.spaceCapacity && (
+          {errors.maxCapacity && (
             <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
               <img src={error} alt="에러 아이콘" className="w-4 h-4" />
               <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
-                {errors.spaceCapacity.message}
+                {errors.maxCapacity.message}
               </p>
             </div>
           )}
@@ -307,7 +343,7 @@ const HostSpaceRegisterInfo = () => {
               min={0}
               step={1000}
               className={`w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] ${
-                errors.price
+                errors.pricePerHour
                   ? "border border-[#FF3B30]"
                   : "border border-transparent"
               }`}
@@ -316,11 +352,11 @@ const HostSpaceRegisterInfo = () => {
               원/시간
             </span>
           </div>
-          {errors.price && (
+          {errors.pricePerHour && (
             <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
               <img src={error} alt="에러 아이콘" className="w-4 h-4" />
               <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
-                {errors.price.message}
+                {errors.pricePerHour.message}
               </p>
             </div>
           )}
@@ -349,7 +385,7 @@ const HostSpaceRegisterInfo = () => {
             </button>
           </div>
           <input
-            {...register("addressDetail")}
+            {...register("detailAddress")}
             placeholder="상세 주소를 입력해주세요"
             className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] mt-[0.8rem]"
           />
@@ -392,7 +428,7 @@ const HostSpaceRegisterInfo = () => {
             위치 정보
           </label>
           <input
-            {...register("locationInfo")}
+            {...register("description.locationDescription")}
             placeholder="위치 정보를 입력해주세요 (ex. 강남역 4번 출구 도보 5분)"
             className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0]"
           />
