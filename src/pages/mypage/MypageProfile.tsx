@@ -1,49 +1,97 @@
 import { Link } from "react-router-dom";
-import { myPageSpace } from "../../constants/mypage/mypage-space";
+import {
+  MYPAGESPACEGUEST,
+  MYPAGESPACEHOST,
+} from "../../constants/mypage/mypage-space";
+import {
+  guestProfileOff,
+  guestProfileOn,
+  profileOff,
+  profileOn,
+} from "../../assets/theme";
+interface Props {
+  userName: string;
+  userEmail?: string;
+}
 
-const MypageProfile = () => {
+const MypageProfile: React.FC<Props> = ({ userName, userEmail }) => {
+  // 로컬스토리지에서 role 가져오기
+  const role = localStorage.getItem("role");
+
   return (
     <div className="flex flex-col gap-[2.6rem] mt-[2rem]">
-      <div className="flex gap-[1.2rem] w-full h-[6.2rem] ">
-        <img className="min-w-[6.2rem] h-[6.2rem] bg-[#A6A7A8] rounded-full"></img>
+      <div className="flex gap-[1.2rem] w-full h-[6.2rem] items-center">
+        {role === "HOST" ? (
+          <img
+            className="min-w-[6.2rem] h-[6.2rem] rounded-full"
+            src={userEmail ? profileOn : profileOff}
+            alt="프로필 이미지"
+          />
+        ) : (
+          <img
+            className="min-w-[6.2rem] h-[6.2rem] rounded-full"
+            src={userEmail ? guestProfileOn : guestProfileOff}
+            alt="프로필 이미지"
+          />
+        )}
         <div className="w-full">
           <div className="flex items-center justify-between">
-            <div className="flex gap-[0.8rem] items-center">
-              <p className="text-24-Bold">유딘딘</p>
-              <span className="px-[0.4rem] bg-[#A6A7A8] py-[0.2rem] rounded-[0.5rem] text-[#868686]">
-                호스트
-              </span>
-            </div>
+            <p className="text-24-Bold pt-[0.4rem]">{userName}</p>
             <div>
-              <Link
-                to={"/editprofilehost"}
-                className="text-13-Medium text-[#868686]"
-              >
-                내 정보 수정 &gt;
-              </Link>
+              {userEmail && (
+                <Link
+                  to={"/editprofilehost"}
+                  className="text-13-Medium text-cr-500"
+                >
+                  내 정보 수정 &gt;
+                </Link>
+              )}
             </div>
           </div>
           <div className="flex items-center">
-            <p className="text-14-Medium">rkddbwls07@gmail.com</p>
+            {userEmail && (
+              <p className="text-14-Medium pt-[0.8rem]">{userEmail}</p>
+            )}
           </div>
         </div>
       </div>
 
-      <div className="flex w-full h-[9rem] bg-[#F5F6F8] rounded-[1.2rem]">
-        {myPageSpace.map((menu) => {
-          return (
-            <div
-              key={menu.id}
-              className="flex gap-[1rem] flex-col w-full items-center justify-center"
-            >
-              <img
-                src={menu.icon}
-                className="bg-[#CFD4D8] w-[2.6rem] h-[2.6rem] rounded-full"
-              />
-              <p className="text-14-Medium">{menu.menu}</p>
-            </div>
-          );
-        })}
+      <div className="flex w-full h-[9rem] bg-cr-100 rounded-[1.2rem] overflow-hidden">
+        {role === "HOST"
+          ? MYPAGESPACEHOST.map((menu, index) => {
+              const isLast = index === MYPAGESPACEHOST.length - 1;
+              return (
+                <div key={menu.id} className="flex w-full h-full">
+                  <div className="flex gap-[1rem] flex-col w-full items-center justify-center cursor-pointer">
+                    <div className="h-[3.7rem] flex items-center">
+                      <img src={menu.icon} className="w-auto h-auto" />
+                    </div>
+                    <p className="text-14-SemiBold">{menu.menu}</p>
+                  </div>
+
+                  {!isLast && (
+                    <div className="w-[1px] h-[3.2rem] self-center bg-cr-400" />
+                  )}
+                </div>
+              );
+            })
+          : MYPAGESPACEGUEST.map((menu, index) => {
+              const isLast = index === MYPAGESPACEGUEST.length - 1;
+              return (
+                <div key={menu.id} className="flex w-full h-full">
+                  <div className="flex gap-[1rem] flex-col w-full items-center justify-center cursor-pointer">
+                    <div className="h-[3.7rem] flex items-center">
+                      <img src={menu.icon} className="w-auto h-auto" />
+                    </div>
+                    <p className="text-14-SemiBold">{menu.menu}</p>
+                  </div>
+
+                  {!isLast && (
+                    <div className="w-[1px] h-[3.2rem] self-center bg-cr-400" />
+                  )}
+                </div>
+              );
+            })}
       </div>
     </div>
   );

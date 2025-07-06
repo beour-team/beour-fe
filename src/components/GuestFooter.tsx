@@ -26,7 +26,7 @@ const footerItems = [
   },
   {
     label: "마이페이지",
-    path: "/guestpage",
+    path: "/mypageguest",
     icon: guest,
     clickIcon: guest_click,
   },

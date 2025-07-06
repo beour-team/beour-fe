@@ -1,6 +1,6 @@
 // react-hot-toast 라이브러리 설치 필요
 // npm install react-hot-toast로 설치해주세요
-import { chat, warning } from "../../assets/theme";
+import { inquiry, warning } from "../../assets/theme";
 import { toast } from "react-hot-toast";
 import { PATHS } from "../../routes/paths";
 import { useNavigate } from "react-router-dom";
@@ -37,7 +37,7 @@ const SpaceFooter = ({ space }: SpaceFooterProps) => {
           })
         }
       >
-        <img src={chat} alt="문의" className="w-[2.4rem] mx-auto" />
+        <img src={inquiry} alt="문의" className="w-[2.4rem] mx-auto" />
         <div className="text-[1.3rem] text-[#3D3D3D] mt-[0.4rem]">문의하기</div>
       </div>
       <button

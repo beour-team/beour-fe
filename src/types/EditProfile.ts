@@ -1,9 +1,18 @@
 export interface EditProfile {
-  password: string;
-  confirmPassword: string;
-  name: string;
-  nickname: string;
-  email: string;
-  phone: string;
-  emailDomain: string;
+  name?: string;
+  nickName?: string;
+  phone?: string;
+  email?: string;
+  emailDomain?: string;
+  password?: string;
+  confirmPassword?: string;
+}
+
+export interface UpdateProfileRequest {
+  newNickname?: string;
+  newPhone?: string;
+}
+
+export interface UpdatePasswordRequest {
+  newPassword: string;
 }
