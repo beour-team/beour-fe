@@ -7,8 +7,8 @@ import GuestSearchPage from "./pages/guest-main/search-guest/GuestSearchPage";
 import GuestResultPage from "./pages/guest-main/result-guest/GuestResultPage";
 import GuestFilterPage from "./pages/guest-main/filter/GuestFilterPage";
 import HostMainpage from "./pages/host-main/HostMainpage";
-import HostSpaceRegister from "./pages/HostSpaceRegister";
-import HostSpaceRegisterInfo from "./pages/HostSpaceRegisterInfo";
+import HostSpaceRegister from "./pages/host-spaceregister/HostSpaceRegister";
+import HostSpaceRegisterInfo from "./pages/host-spaceregister/HostSpaceRegisterInfo";
 import MypageHost from "./pages/mypage/host/MypageHost";
 import GuestMapPage from "./pages/map/GuestMapPage";
 import EditProfileHost from "./pages/editprofile/host/EditProfileHost";
@@ -24,6 +24,7 @@ import AuthLayout from "./routes/AuthLayout";
 import AuthAfterLayout from "./routes/AuthAfterLayout";
 import MypageGuest from "./pages/mypage/guest/MypageGuest";
 import EditProfileGuest from "./pages/editprofile/guest/EditProfileGuest";
+import HostCalendar from "./pages/host-calendar/HostCalendar";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -66,6 +67,7 @@ function App() {
                 path={PATHS.HOST.SPACE_REGISTER_INFO}
                 element={<HostSpaceRegisterInfo />}
               />
+              <Route path={PATHS.HOST.CALENDAR} element={<HostCalendar />} />
 
               {/* 게스트 페이지 랜더링 */}
               <Route path={PATHS.GUEST.WISH_SPACE} element={<WishSpace />} />

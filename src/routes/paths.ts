@@ -17,6 +17,7 @@ export const PATHS = {
     EDIT_PROFILE: "/editprofilehost",
     REVIEW: "/reviewhost",
     SPACE_LIST: "/spacelist",
+    CALENDAR: "/hostcalendar",
   },
 
   GUEST: {
