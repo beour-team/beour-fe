@@ -2,12 +2,18 @@ import PageHeader from "../../components/header/PageHeader";
 import { useState } from "react";
 import SpaceCard from "./spacelist-components/SpaceCard";
 import { useMySpaceList } from "../../hooks/MySpace/useMySpaceList";
+import { useDeleteMySpace } from "../../hooks/MySpace/useDeleteMySpace";
+import Modal from "../../components/modal/Modal";
 
 const SpaceList = () => {
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedSpaceId, setSelectedSpaceId] = useState<number | null>(null);
+  const [selectedSpaceName, setSelectedSpaceName] = useState<string>("");
 
   // API 호출
   const { data: spaceList, isLoading, error } = useMySpaceList();
+  const { mutate: deleteSpace, isPending: isDeleting } = useDeleteMySpace();
 
   const handleMenuOpen = (id: number) => {
     setOpenMenuId(id);
@@ -24,9 +30,33 @@ const SpaceList = () => {
   };
 
   const handleDelete = (id: number) => {
-    console.log(`공간 삭제: ${id}`);
-    // 추후 삭제 확인 모달 또는 API 호출 로직 추가
+    const space = spaceList?.find((space) => space.spaceId === id);
+    setSelectedSpaceId(id);
+    setSelectedSpaceName(space?.spaceName || "");
+    setDeleteModalOpen(true);
     setOpenMenuId(null);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (selectedSpaceId !== null) {
+      deleteSpace(selectedSpaceId, {
+        onSuccess: () => {
+          // 삭제 성공 시 모달 닫기
+          setDeleteModalOpen(false);
+          setSelectedSpaceId(null);
+          setSelectedSpaceName("");
+        },
+        onError: () => {
+          // 에러 발생 시 모달은 열어둠 (사용자가 다시 시도할 수 있도록)
+        },
+      });
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteModalOpen(false);
+    setSelectedSpaceId(null);
+    setSelectedSpaceName("");
   };
 
   // 로딩 상태
@@ -85,9 +115,9 @@ const SpaceList = () => {
       ) : (
         spaces.map((space) => (
           <SpaceCard
-            key={space.id}
+            key={space.spaceId}
             space={space}
-            menuOpen={openMenuId === space.id}
+            menuOpen={openMenuId === space.spaceId}
             onMenuOpen={handleMenuOpen}
             onMenuClose={handleMenuClose}
             onEdit={handleEdit}
@@ -96,8 +126,21 @@ const SpaceList = () => {
         ))
       )}
 
-      {/* <FloatingAddButton /> */}
+      {/* 삭제 확인 모달 */}
+      <Modal
+        isOpen={deleteModalOpen}
+        onClose={handleDeleteCancel}
+        title={`「${selectedSpaceName}」을\n내 공간에서 삭제하시겠어요?`}
+        message="삭제 후엔 복구가 불가능해요"
+        confirmText={isDeleting ? "삭제 중..." : "삭제하기"}
+        cancelText="닫기"
+        onConfirm={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
+        confirmButtonClass="bg-[#4C8EFF] text-white"
+        cancelButtonClass="bg-[#9CA3AF] text-white"
+      />
 
+      {/* 메뉴 오버레이 */}
       {openMenuId !== null && (
         <div
           className="fixed inset-0 z-0"

@@ -3,10 +3,21 @@ import { API_MY_SPACES } from "../../constants/endpoint/endpoint";
 import { api } from "../api";
 import type { MySpaceList } from "../../types/MySpace";
 
+interface ApiResponse {
+  code: number;
+  httpStatus: string;
+  data: MySpaceList;
+}
+
 export const getMySpaceList = async (): Promise<MySpaceList> => {
   try {
-    const response = await api.get(`${API_MY_SPACES}`);
-    return response.data.data || [];
+    const response = await api.get<ApiResponse>(`${API_MY_SPACES}`);
+
+    if (response.data.code === 200 && response.data.httpStatus === "OK") {
+      return response.data.data || [];
+    } else {
+      throw new Error("공간 목록을 가져오지 못했습니다.");
+    }
   } catch (err: unknown) {
     const error = err as AxiosError;
 
