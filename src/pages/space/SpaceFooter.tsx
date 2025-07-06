@@ -1,5 +1,5 @@
 // react-hot-toast 라이브러리 설치 필요
-// npm install react-hot-toast로 설치해주세요
+// yarn add react-hot-toast로 설치해주세요
 import { inquiry, warning } from "../../assets/theme";
 import { toast } from "react-hot-toast";
 import { PATHS } from "../../routes/paths";
