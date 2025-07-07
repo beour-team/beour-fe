@@ -8,6 +8,12 @@ export default {
   theme: {
     extend: {
       fontSize: {
+        "9-Regular": [
+          "0.9rem",
+          {
+            fontWeight: 400,
+          },
+        ],
         "12-Regular": [
           "1.2rem",
           {

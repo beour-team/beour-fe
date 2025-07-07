@@ -40,7 +40,7 @@ const RecentReviewCard = ({
             >
               <img src={placemark} alt="공간 장소" className="w-[2.4rem]" />
               <span className="text-13-Medium text-cr-white">{name}</span>
-              <FiChevronRight className="text-cr-main30 size-[2rem] text-cr-white" />
+              <FiChevronRight className="size-[2rem] text-cr-white" />
             </div>
           </div>
           <div

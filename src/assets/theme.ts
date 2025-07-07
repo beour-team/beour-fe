@@ -43,6 +43,7 @@ import space2 from "./img/space2.png";
 import space3 from "./img/space3.png";
 import space4 from "./img/space4.png";
 import space5 from "./img/space5.png";
+import space6 from "./img/space6.png";
 import placemark from "./img/placemark.svg";
 import calendar from "./img/calendar.svg";
 import area from "./img/area.svg";
@@ -53,11 +54,11 @@ import hostLogo from "./img/host-logo.svg";
 import signupGuest from "./img/signupGuest.svg";
 import signupGuestClicked from "./img/signupGuestClicked.svg";
 import signupHost from "./img/signupHost.svg";
-import complete from "./img/complete.svg";
+import bluecheck from "./img/bluecheck.svg";
 import profileOn from "./img/profileOn.svg";
 import profileOff from "./img/profileOff.svg";
 import store from "./img/store.svg";
-import chat from "./img/chat.svg";
+import inquiry from "./img/inquiry.svg";
 import gift from "./img/gift.svg";
 import guestProfileOn from "./img/GuestProfileOn.svg";
 import guestProfileOff from "./img/GuestProfileOff.svg";
@@ -65,8 +66,8 @@ import wishSpot from "./img/wishSpot.svg";
 import threeDot from "./img/3dot.svg";
 import edit from "./img/pencil.svg";
 import trash from "./img/trash.svg";
-import calendar2 from "./img/calender2.svg"; 
-import cancel_dark from "./img/cancel_dark.png"
+import calendar2 from "./img/calender2.svg";
+import cancel_dark from "./img/cancel_dark.png";
 import error from "./img/error.svg";
 import camera from "./img/camera.svg";
 import space_cafe from "./img/space_cafe.png";
@@ -86,6 +87,23 @@ import space_etc_selected from "./img/space_etc_selected.png";
 import clock from "./img/clock.svg";
 import person from "./img/person.svg";
 import filter from "./img/filter.svg";
+import share from "./img/share.svg";
+import won from "./img/won.svg";
+import subway from "./img/subway.svg";
+import chat from "./img/chat.svg";
+import wifi from "./img/wifi.svg";
+import nopet from "./img/nopet.svg";
+import car from "./img/car.svg";
+import stairs from "./img/stairs.svg";
+import size from "./img/size.svg";
+import how from "./img/how.svg";
+import place from "./img/place.svg";
+import call from "./img/call.svg";
+import money from "./img/money.svg";
+import complete from "./img/complete.svg";
+import grayArea from "./img/grayArea.svg";
+import chatWhite from "./img/chatWhite.svg";
+import moneyGray from "./img/moneyGray.svg";
 
 export {
   nearby,
@@ -132,8 +150,9 @@ export {
   space2,
   space3,
   space4,
-  placemark,
   space5,
+  space6,
+  placemark,
   calendar,
   area,
   review,
@@ -143,10 +162,10 @@ export {
   signupGuest,
   signupGuestClicked,
   signupHost,
-  complete,
+  bluecheck,
   profileOn,
   store,
-  chat,
+  inquiry,
   gift,
   profileOff,
   guestProfileOn,
@@ -176,4 +195,21 @@ export {
   clock,
   person,
   filter,
+  share,
+  won,
+  subway,
+  chat,
+  wifi,
+  nopet,
+  car,
+  stairs,
+  size,
+  how,
+  place,
+  call,
+  money,
+  complete,
+  grayArea,
+  chatWhite,
+  moneyGray,
 };

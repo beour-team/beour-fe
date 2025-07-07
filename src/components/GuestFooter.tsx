@@ -26,7 +26,7 @@ const footerItems = [
   },
   {
     label: "마이페이지",
-    path: "/guestpage",
+    path: "/mypageguest",
     icon: guest,
     clickIcon: guest_click,
   },
@@ -41,15 +41,7 @@ const GuestFooter = () => {
     <footer className="fixed bottom-0 left-0 w-full bg-transparent z-50 flex justify-center">
       <div
         className="
-      w-full
-      max-w-[41rem]
-      min-w-[32rem]
-      mx-auto
-      h-[7rem]
-      flex justify-around items-center 
-      bg-white 
-      rounded-t-[1rem]
-      "
+      w-full max-w-[41rem] min-w-[32rem] mx-auto h-[7rem] flex justify-around items-center bg-white rounded-t-[1rem]"
       >
         {footerItems.map((item) => {
           const isClick = currentPath === item.path;
