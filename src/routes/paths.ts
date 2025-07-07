@@ -5,6 +5,7 @@ export const PATHS = {
   HOME: "/",
   LOGIN: "/login",
   SIGNUP: "/signup",
+  SPACE: "/space",
   SIGNUPFORM: "/signup/form",
   SIGNUPCOMPLETE: "/signup/complete",
 
@@ -30,6 +31,8 @@ export const PATHS = {
     EDIT_PROFILE: "/editprofileguest",
     RESERVATIONS: "/reservations",
     WISH_SPACE: "/wishspace",
-    REVIEW: "/reviewguest", //임의로 적어둔거라 맞춰서 수정해주세요!
+    REVIEW: "/reviewguest",
+    SPACERESERVE: "/reserve",
+    RESERVECOMPLETED: "/completed",
   },
 };

@@ -1,10 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import { rightArrow, space3 } from "../../assets/theme";
 import ReserveTag from "../../components/guest-result/ReserveTag";
 import { currentReservationData } from "../../constants/dummy-data/reserve-data";
 import { formatReservationDateTime } from "../../utils/data-formatter";
+import { PATHS } from "../../routes/paths";
+import { user } from "../../constants/dummy-data/dummy-user";
 
-//백엔드 api에 태그 필요
 const CurrentReservations = () => {
+  const nav = useNavigate();
   return (
     <div>
       <div className="mx-[2rem] text-13-Medium text-cr-600 my-[2rem]">
@@ -25,7 +28,7 @@ const CurrentReservations = () => {
           >
             <div className="mx-[2rem]">
               <div className="flex items-center gap-5 mb-[1.5rem]">
-                <ReserveTag state={reservation.status} />
+                <ReserveTag status={reservation.status} category="current" />
                 <div className="text-[1.2rem]">
                   예약 번호 {reservation.reservationId}
                 </div>
@@ -59,7 +62,23 @@ const CurrentReservations = () => {
                       </span>
                     </div>
 
-                    <div className="underline cursor-pointer text-cr-600 text-12-Medium flex gap-2">
+                    <div
+                      onClick={() =>
+                        nav(
+                          `${PATHS.GUEST.RESERVATIONS}/${reservation.reservationId}`,
+                          {
+                            state: {
+                              reservation: {
+                                ...reservation,
+                                user,
+                              },
+                              category: "current",
+                            },
+                          }
+                        )
+                      }
+                      className="underline cursor-pointer text-cr-600 text-12-Medium flex gap-2"
+                    >
                       예약 상세
                       <img
                         src={rightArrow}

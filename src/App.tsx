@@ -17,6 +17,12 @@ import Review from "./pages/review/host/Review";
 import WishSpace from "./pages/wishspace/WishSpace";
 import GuestReservePage from "./pages/guest-reservation/GuestReservePage";
 import LoginPage from "./pages/login/LoginPage";
+import SpacePage from "./pages/space/SpacePage";
+import SpaceReservePage from "./pages/space/SpaceReservePage";
+import ReserveCompletePage from "./pages/space/ReserveCompletedPage";
+import GuestReserveDetailPage from "./pages/guest-reservation/GuestReserveDetailPage";
+import { Toaster } from "react-hot-toast";
+import SpaceMapPage from "./pages/guest-reservation/SpaceMapPage";
 import SignUpPage from "./pages/signup/SignUpPage";
 import SignUp from "./pages/signup/SignUp";
 import SIgnUpComplete from "./pages/signup/SIgnUpComplete";
@@ -34,6 +40,7 @@ function Home() {
 function App() {
   return (
     <>
+      <Toaster position="bottom-center" reverseOrder={false} />
       <Routes>
         {/* 웹앱 사이즈의 레이아웃입니다 */}
         <Route element={<Layout />}>
@@ -68,6 +75,7 @@ function App() {
                 element={<HostSpaceRegisterInfo />}
               />
               <Route path={PATHS.HOST.CALENDAR} element={<HostCalendar />} />
+              <Route path={`${PATHS.SPACE}/:spaceId`} element={<SpacePage />} />
 
               {/* 게스트 페이지 랜더링 */}
               <Route path={PATHS.GUEST.WISH_SPACE} element={<WishSpace />} />
@@ -84,6 +92,22 @@ function App() {
               <Route
                 path={PATHS.GUEST.RESERVATIONS}
                 element={<GuestReservePage />}
+              />
+              <Route
+                path={`${PATHS.GUEST.RESERVATIONS}/:id`}
+                element={<GuestReserveDetailPage />}
+              />
+              <Route
+                path={PATHS.GUEST.SPACERESERVE}
+                element={<SpaceReservePage />}
+              />
+              <Route
+                path={PATHS.GUEST.RESERVECOMPLETED}
+                element={<ReserveCompletePage />}
+              />
+              <Route
+                path={`${PATHS.GUEST.MAP}/:id`}
+                element={<SpaceMapPage />}
               />
             </Route>
           </Route>
