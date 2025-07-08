@@ -48,8 +48,8 @@ export const API_RESERVATION_FILTER = "/api/reservations/filter"; // (필터링/
 // 리뷰 대댓글 달기
 export const API_REVIEW_REPLY = "/api/reviews/{reviewId}/comments";
 
-// 마이페이지 - 내가 등록한 공간 리스트
-export const API_MY_SPACES = "/api/spaces/me/list";
+// 마이페이지 - 내가 등록한 공간 리스트 (수정됨)
+export const API_MY_SPACES = "/api/spaces/my-spaces";
 
 // 마이페이지 - 공간 상세 정보
 export const API_SPACE_DETAIL = "/api/spaces/{spaceId}";
