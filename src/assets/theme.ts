@@ -104,6 +104,7 @@ import complete from "./img/complete.svg";
 import grayArea from "./img/grayArea.svg";
 import chatWhite from "./img/chatWhite.svg";
 import moneyGray from "./img/moneyGray.svg";
+import plus from "./img/plusIcon.svg";
 
 export {
   nearby,
@@ -212,4 +213,5 @@ export {
   grayArea,
   chatWhite,
   moneyGray,
+  plus,
 };
