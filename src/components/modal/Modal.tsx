@@ -2,7 +2,6 @@ interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
-  message: string;
   confirmText?: string;
   cancelText?: string;
   onConfirm: () => void;
@@ -15,7 +14,6 @@ const Modal: React.FC<ModalProps> = ({
   isOpen,
   onClose,
   title,
-  message,
   confirmText = "확인",
   cancelText = "취소",
   onConfirm,
@@ -49,9 +47,6 @@ const Modal: React.FC<ModalProps> = ({
           <h2 className="text-16-SemiBold whitespace-pre-line leading-[2.6rem] text-cr-black">
             {title}
           </h2>
-          <p className="text-14-Medium text-cr-500  whitespace-pre-line">
-            {message}
-          </p>
         </div>
 
         <div className="flex gap-[0.4rem]">

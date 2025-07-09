@@ -1,11 +1,12 @@
 import { chat, gift, store, wishSpot } from "../../assets/theme";
+import { PATHS } from "../../routes/paths";
 
 export const MYPAGESPACEHOST = [
   {
     id: 1,
     menu: "내 공간",
     icon: store,
-    link: "",
+    link: PATHS.HOST.SPACE_LIST,
   },
   {
     id: 2,
@@ -20,12 +21,13 @@ export const MYPAGESPACEHOST = [
     link: "",
   },
 ];
+
 export const MYPAGESPACEGUEST = [
   {
     id: 1,
     menu: "찜 공간",
     icon: wishSpot,
-    link: "",
+    link: PATHS.GUEST.WISH_SPACE,
   },
   {
     id: 2,

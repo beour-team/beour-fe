@@ -1,17 +1,5 @@
 import WishSpaceCard from "./WishSpaceCard";
-
-// WishSpaceItem 인터페이스 정의
-interface WishSpaceItem {
-  spaceId: number;
-  spaceName: string;
-  region: string;
-  maxCapacity: number;
-  price: number;
-  thumbnailUrl: string;
-  like: boolean;
-  average: number;
-  tags: string[];
-}
+import type { WishSpaceItem } from "../../../types/WishSpace";
 
 interface WishSpaceGridProps {
   spaces: WishSpaceItem[];
