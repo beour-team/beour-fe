@@ -106,6 +106,7 @@ import chatWhite from "./img/chatWhite.svg";
 import moneyGray from "./img/moneyGray.svg";
 import bubble from "./img/bubble.svg";
 import blackPlace from "./img/blackPlace.svg";
+import plus from "./img/plusIcon.svg";
 
 export {
   nearby,
@@ -216,4 +217,5 @@ export {
   moneyGray,
   bubble,
   blackPlace,
+  plus,
 };

@@ -27,7 +27,7 @@ api.interceptors.request.use(
     // 토큰이 있다면 headers에 Authorization 추가 (Bearer 접두사 포함)
     if (token) {
       config.headers = config.headers || {};
-      config.headers["Authorization"] = `Bearer ${token}`;
+      config.headers["Authorization"] = `${token}`;
     }
     // 다시 요청
     return config;
