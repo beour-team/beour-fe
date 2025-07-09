@@ -1,3 +1,4 @@
+//접기, 더보기 버튼 식
 import { useEffect, useRef, useState } from "react";
 import { SlArrowDown, SlArrowUp } from "react-icons/sl";
 

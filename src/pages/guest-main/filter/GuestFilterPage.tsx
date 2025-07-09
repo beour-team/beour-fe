@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Filterbar from "./Filterbar";
 import FilterText from "./FilterText";
 import FilterFooter from "./FilterFooter";
+import PageHeader from "../../../components/header/PageHeader";
 
 const GuestFilterPage = () => {
   const nav = useNavigate();
@@ -39,9 +39,9 @@ const GuestFilterPage = () => {
   };
 
   return (
-    <div className="my-[2rem]">
-      <div className="mx-[1rem]">
-        <Filterbar /> {/* < 필터 */}
+    <div className="mb-[2rem]">
+      <div className="mx-[1.5rem]">
+        <PageHeader children="필터" />
         <div className="mx-[1rem]">
           <FilterText
             dateTimeText={dateTimeText}

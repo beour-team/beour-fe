@@ -15,8 +15,9 @@ import { FiChevronRight } from "react-icons/fi";
 import { PATHS } from "../../routes/paths";
 import SpaceFooter from "./SpaceFooter";
 import SpaceInformation from "./SpaceInformation";
-import SpaceLocation from "./SpaceLocation";
+import SpaceLocation from "../../components/map/SpaceLocation";
 import ExpandableTextSection from "./ExpandableTextSection";
+import SpaceReviewSlider from "./SpaceReviewSlider";
 
 const SpacePage = () => {
   const { spaceId } = useParams<{ spaceId: string }>();
@@ -127,8 +128,9 @@ const SpacePage = () => {
             <FiChevronRight className="size-[1.5rem] text-cr-black" />
           </div>
         </div>
-        {/* 리뷰부분 사용할 수 있으면 사용할게요 */}
-        <div> 리뷰 컴포넌트 </div>
+        <div className="mx-[1.5rem] mb-[2rem]">
+          <SpaceReviewSlider />
+        </div>
         <div className="border-cr-100 border-[0.4rem]" />
 
         <ExpandableTextSection title="공간 소개" content={space.description} />
@@ -163,7 +165,10 @@ const SpacePage = () => {
         <div className="mx-[1.5rem] mt-[2rem]">
           <span className="text-13-SemiBold">위치 정보</span>
           <div className="my-[1rem]">
-            <SpaceLocation address={space.address} />
+            <SpaceLocation
+              address={space.address}
+              className="w-full h-[18.9rem] rounded-[1rem] overflow-hidden"
+            />
           </div>
           <div className="flex items-center gap-3 my-[1rem]">
             <img src={area} alt="위치" className="w-[1.2rem]" />
