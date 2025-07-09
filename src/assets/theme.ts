@@ -104,6 +104,8 @@ import complete from "./img/complete.svg";
 import grayArea from "./img/grayArea.svg";
 import chatWhite from "./img/chatWhite.svg";
 import moneyGray from "./img/moneyGray.svg";
+import bubble from "./img/bubble.svg";
+import blackPlace from "./img/blackPlace.svg";
 import plus from "./img/plusIcon.svg";
 
 export {
@@ -213,5 +215,7 @@ export {
   grayArea,
   chatWhite,
   moneyGray,
+  bubble,
+  blackPlace,
   plus,
 };
