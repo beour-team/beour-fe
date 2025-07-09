@@ -64,6 +64,7 @@ const SpaceReservePage = () => {
         <BackButton className="w-[2.5rem] text-cr-600" />
         <div className="text-14-SemiBold ">대여 일자를 선택해주세요</div>
       </div>
+
       <div className="mt-[1rem] mb-[2rem] mx-[1.5rem]">
         <DayPicker
           mode="single"

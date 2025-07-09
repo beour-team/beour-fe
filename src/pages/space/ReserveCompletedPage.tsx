@@ -1,11 +1,11 @@
 // 예약 - 예약 신청 완료 페이지
 import { useLocation, useNavigate } from "react-router-dom";
 import { formatTimeRanges } from "../../utils/format-time-range";
-import BackButton from "../../components/BackButton";
 import { call, checkedBox, how, money, place } from "../../assets/theme";
 import { useState } from "react";
 import { PATHS } from "../../routes/paths";
 import { user } from "../../constants/dummy-data/dummy-user";
+import PageHeader from "../../components/header/PageHeader";
 
 const ReserveCompletePage = () => {
   const location = useLocation();
@@ -48,9 +48,8 @@ const ReserveCompletePage = () => {
 
   return (
     <div>
-      <div className="flex items-center gap-[13rem] my-[2rem] mx-[0.5rem]">
-        <BackButton color="#656A76" className="w-[2.5rem]" />
-        <div className="text-18-SemiBold">공간 예약</div>
+      <div className="mx-[1.5rem]">
+        <PageHeader children="공간예약" />
       </div>
 
       <div className="mx-[1.8rem] text-24-Bold leading-[3.5rem]">

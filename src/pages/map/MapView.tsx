@@ -2,12 +2,12 @@ import { useEffect, useState, useRef } from "react";
 import { Map, CustomOverlayMap } from "react-kakao-maps-sdk";
 import Searchbar from "../../components/Searchbar";
 import SearchResultCard from "../../pages/guest-main/result-guest/SearchResultCard";
-import { FaMapMarkerAlt } from "react-icons/fa";
 import type { SearchResultItem } from "../../constants/dummy-data/search-data";
 import { AnimatePresence, motion } from "framer-motion"; //yarn add framer-motion 설치해주세요
 import type { PanInfo } from "framer-motion";
 import { SearchData } from "../../constants/dummy-data/search-data";
 import { searchSpaces } from "../../utils/search-spaces";
+import { FaMapMarkerAlt } from "react-icons/fa";
 
 const MapView = () => {
   const [myLocation, setMyLocation] = useState<{

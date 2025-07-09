@@ -1,5 +1,4 @@
 // 게스트 예약 상세 페이지
-import BackButton from "../../components/BackButton";
 import {
   call,
   chatWhite,
@@ -14,6 +13,7 @@ import ReserveTag from "../../components/guest-result/ReserveTag";
 import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { PATHS } from "../../routes/paths";
+import PageHeader from "../../components/header/PageHeader";
 
 const GuestReserveDetailPage = () => {
   const location = useLocation();
@@ -23,12 +23,11 @@ const GuestReserveDetailPage = () => {
 
   return (
     <div>
-      <div className="flex items-center gap-[13rem] my-[2rem] mx-[1rem]">
-        <BackButton color="#656A76" className="w-[2.5rem]" />
-        <div className="text-18-SemiBold">예약 상세</div>
+      <div className="mx-[1.5rem]">
+        <PageHeader children="예약 상세" />
       </div>
 
-      <div className="mx-[1.8rem] my-[2rem]">
+      <div className="mx-[1.8rem] mb-[2rem]">
         <ReserveTag status={reservation?.status} category={category} />
       </div>
 
@@ -127,7 +126,7 @@ const GuestReserveDetailPage = () => {
       </div>
       <div className="border-cr-100 border-[0.4rem]" />
 
-      <div className="mx-[2rem] my-[3rem]">
+      <div className="mx-[2rem] mt-[3rem] pb-[9rem]">
         <p className="mb-[3rem] text-13-SemiBold">가격 정보</p>
 
         <p className="text-13-Bold">1시간</p>
@@ -155,7 +154,7 @@ const GuestReserveDetailPage = () => {
         )}
       </div>
 
-      <div className="fixed bottom-0 left-1/2 -translate-x-1/2  bg-white z-50 py-[1.5rem]">
+      <div className="fixed bottom-0 left-[51.5%] -translate-x-1/2 bg-white z-50 py-[1.5rem]">
         <div className="mt-[2rem]">
           {category === "past" || category === "cancel" ? (
             <button className="text-cr-white text-16-Medium h-[5rem] w-[38.4rem] rounded-[1rem] bg-cr-blue">
