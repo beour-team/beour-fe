@@ -6,15 +6,19 @@ export const PATHS = {
   LOGIN: "/login",
   SIGNUP: "/signup",
   SPACE: "/space",
+  SIGNUPFORM: "/signup/form",
+  SIGNUPCOMPLETE: "/signup/complete",
 
   HOST: {
     MAIN: "/hostmain",
     SPACE_REGISTER: "/hostspaceregister",
     SPACE_REGISTER_INFO: "/hostspaceregisterinfo",
     MYPAGE: "/mypagehost",
+    MYSPACE: "/myspace",
     EDIT_PROFILE: "/editprofilehost",
     REVIEW: "/reviewhost",
     SPACE_LIST: "/spacelist",
+    CALENDAR: "/hostcalendar",
   },
 
   GUEST: {
@@ -23,6 +27,8 @@ export const PATHS = {
     RESULT: "/space/search",
     FILTER: "/filter",
     MAP: "/nearby",
+    MYPAGE: "/mypageguest",
+    EDIT_PROFILE: "/editprofileguest",
     RESERVATIONS: "/reservations",
     WISH_SPACE: "/wishspace",
     REVIEW: "/reviewguest",

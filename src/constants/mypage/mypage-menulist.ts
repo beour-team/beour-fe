@@ -1,32 +1,24 @@
+import { PATHS } from "../../routes/paths";
+
 export const myPageMenuList = [
   {
     id: 1,
     menu: "공지사항",
-    icon: "",
-    link: "",
+    link: PATHS.HOME,
   },
   {
     id: 2,
     menu: "고객센터",
-    icon: "",
-    link: "",
+    link: PATHS.HOME,
   },
   {
     id: 3,
     menu: "의견 보내기",
-    icon: "",
-    link: "",
+    link: PATHS.HOME,
   },
   {
     id: 4,
     menu: "서비스 정보",
-    icon: "",
-    link: "",
-  },
-  {
-    id: 5,
-    menu: "로그아웃",
-    icon: "",
-    link: "",
+    link: PATHS.HOME,
   },
 ];

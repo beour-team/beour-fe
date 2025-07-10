@@ -4,7 +4,7 @@ import ReserveToggle from "./ReserveToggle";
 import CurrentReservations from "./CurrentResrvations";
 import PastReservations from "./PastReservations";
 import CanceledReservations from "./CanceledReservations";
-import { complete, grayArea, notification } from "../../assets/theme";
+import { bluecheck, grayArea, notification } from "../../assets/theme";
 import { useLocation, useNavigate } from "react-router-dom";
 import { formatTimeRanges } from "../../utils/format-time-range";
 import type { ReservationCompleteData } from "../../types/reserve-complete-data";
@@ -60,11 +60,12 @@ const GuestReservePage = () => {
         {selectedCategory === "cancel" && <CanceledReservations />}
       </div>
 
+      {/* 예약 완료 시 모달 */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white rounded-[1.2rem] w-[30.5rem]">
             <div className="flex items-center gap-[1rem] my-[2.3rem] px-[2rem]">
-              <img src={complete} alt="완료" className="w-[2rem]" />
+              <img src={bluecheck} alt="완료" className="w-[2rem]" />
               <div className="text-18-SemiBold">예약이 신청되었어요!</div>
             </div>
 

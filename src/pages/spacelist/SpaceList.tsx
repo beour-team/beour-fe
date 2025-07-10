@@ -1,55 +1,166 @@
-import { Link } from "react-router-dom";
-import { people, rightArrow, spot, star } from "../../assets/theme";
 import PageHeader from "../../components/header/PageHeader";
-import { SPACELIST } from "../../constants/space/spacelist";
+import { useState } from "react";
+import SpaceCard from "./spacelist-components/SpaceCard";
+import { useMySpaceList } from "../../hooks/MySpace/useMySpaceList";
+import { useDeleteMySpace } from "../../hooks/MySpace/useDeleteMySpace";
+import Modal from "../../components/modal/Modal";
+import { plus } from "../../assets/theme";
+import { Link } from "react-router-dom";
+import { PATHS } from "../../routes/paths";
+import FloatingAddButton from "./spacelist-components/FloatingAddButton";
 
 const SpaceList = () => {
-  return (
-    <div className=" px-[2rem] min-h-screen">
-      <PageHeader>내 공간</PageHeader>
-      <div className="w-full text-13-Medium text-[#656565]">
-        총 {SPACELIST.length}개
-      </div>
-      {SPACELIST.map((space) => (
-        <div className="w-full flex gap-[1.2rem] border-b border-[#ECECEC] py-[2.7rem] ">
-          <div className="h-[8.2rem] min-w-[8.2rem] rounded-[1.2rem] bg-[#E9EBEE]"></div>
+  const [openMenuId, setOpenMenuId] = useState<number | null>(null);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedSpaceId, setSelectedSpaceId] = useState<number | null>(null);
+  const [selectedSpaceName, setSelectedSpaceName] = useState<string>("");
 
-          <div className="w-full flex flex-col gap-[1.4rem]">
-            <h2 className="text-18-SemiBold">{space.name}</h2>
-            <div className="flex gap-[1.2rem]">
-              <div className="flex items-center text-13-Medium gap-[0.6rem]">
-                <img className="h-[1.5rem]" src={spot} alt="위치 아이콘" />
-                삼성동
-              </div>
-              <div className="flex items-center text-13-Medium gap-[0.6rem]">
-                <img
-                  className="h-[1.2rem] w-[1.2rem]"
-                  src={people}
-                  alt="인원 아이콘"
-                />
-                최대 3인
-              </div>
-            </div>
-            <div className="flex items-center">
-              <div className="w-[1.7rem] h-[1.7rem] flex items-center justify-center mr-[0.4rem]">
-                <img src={star} alt="리뷰 별점 아이콘" />
-              </div>
-              <div className="flex items-center justify-between w-full">
-                <p className="text-13-SemiBold text-[#313131] pt-[0.1rem]">
-                  4.2
-                  <span className="text-13-Medium text-[#7E7E7E]">(103)</span>
-                </p>
-                <Link
-                  to={"/"}
-                  className="underline text-13-Medium text-[#868686] flex gap-[0.4rem]"
-                >
-                  공간 수정 <img src={rightArrow} alt="" />
-                </Link>
-              </div>
-            </div>
+  // API 호출
+  const { data: spaceList, isLoading, error } = useMySpaceList();
+  const { mutate: deleteSpace, isPending: isDeleting } = useDeleteMySpace();
+
+  const handleMenuOpen = (id: number) => {
+    setOpenMenuId(id);
+  };
+
+  const handleMenuClose = () => {
+    setOpenMenuId(null);
+  };
+
+  const handleEdit = (id: number) => {
+    console.log(`공간 수정: ${id}`);
+    // 추후 수정 페이지로 이동하는 로직 추가
+    setOpenMenuId(null);
+  };
+
+  const handleDelete = (id: number) => {
+    const space = spaceList?.find((space) => space.spaceId === id);
+    setSelectedSpaceId(id);
+    setSelectedSpaceName(space?.spaceName || "");
+    setDeleteModalOpen(true);
+    setOpenMenuId(null);
+  };
+
+  const handleDeleteConfirm = () => {
+    if (selectedSpaceId !== null) {
+      deleteSpace(selectedSpaceId, {
+        onSuccess: () => {
+          // 삭제 성공 시 모달 닫기
+          setDeleteModalOpen(false);
+          setSelectedSpaceId(null);
+          setSelectedSpaceName("");
+        },
+        onError: () => {
+          // 에러 발생 시 모달은 열어둠 (사용자가 다시 시도할 수 있도록)
+        },
+      });
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteModalOpen(false);
+    setSelectedSpaceId(null);
+    setSelectedSpaceName("");
+  };
+
+  // 로딩 상태
+  if (isLoading) {
+    return (
+      <div className="relative px-[2rem] min-h-screen pb-[8rem] bg-cr-white">
+        <PageHeader>내 공간</PageHeader>
+        <div className="flex flex-col justify-center items-center min-h-[calc(100vh-160px)] gap-[1.2rem]">
+          <div className="text-18-SemiBold text-cr-black">
+            공간을 불러오는 중...
+          </div>
+          <div className="text-14-Medium text-cr-500 text-center leading-[2.2rem]">
+            잠시만 기다려주세요
           </div>
         </div>
-      ))}
+      </div>
+    );
+  }
+
+  // 에러 상태
+  if (error) {
+    return (
+      <div className="relative px-[2rem] min-h-screen pb-[8rem] bg-white">
+        <PageHeader>내 공간</PageHeader>
+        <div className="flex flex-col justify-center items-center min-h-[calc(100vh-160px)] gap-[1.2rem]">
+          <div className="text-18-SemiBold text-cr-black">
+            문제가 발생했어요
+          </div>
+          <div className="text-14-Medium text-cr-500 text-center leading-[2.2rem]">
+            잠시 후 다시 시도해주세요
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const spaces = spaceList || [];
+
+  return (
+    <div className="relative px-[2rem] min-h-screen pb-[8rem] bg-white">
+      <PageHeader>내 공간</PageHeader>
+      <div className="w-full text-13-Medium text-cr-600 mb-[1.2rem]">
+        총 {spaces.length}개
+      </div>
+
+      {spaces.length === 0 ? (
+        <div className="flex flex-col justify-center items-center min-h-[calc(100vh-160px)] gap-[1.2rem]">
+          <div className="text-18-SemiBold text-cr-black">
+            아직 등록된 공간이 없어요
+          </div>
+          <div className="text-14-Medium text-cr-500 text-center leading-[2.2rem]">
+            우측의 [+공간 추가] 버튼을 눌러 매장을 추가하고
+            <br />
+            비어있는 게스트에게 대여해보세요
+          </div>
+          <Link
+            to={PATHS.HOST.SPACE_REGISTER}
+            className="px-[1.6rem] py-[1.4rem] bg-cr-black text-cr-white rounded-[2.2rem] text-14-Medium flex items-center gap-[0.8rem] mt-[2.4rem]"
+          >
+            <img src={plus} alt="plus" />
+            공간 추가
+          </Link>
+        </div>
+      ) : (
+        spaces.map((space) => (
+          <SpaceCard
+            key={space.spaceId}
+            space={space}
+            menuOpen={openMenuId === space.spaceId}
+            onMenuOpen={handleMenuOpen}
+            onMenuClose={handleMenuClose}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        ))
+      )}
+
+      {/* 삭제 확인 모달 */}
+      <Modal
+        isOpen={deleteModalOpen}
+        onClose={handleDeleteCancel}
+        title={`[ ${selectedSpaceName} ]을\n내 공간에서 삭제하시겠어요?`}
+        message="삭제 후엔 복구가 불가능해요"
+        confirmText={isDeleting ? "삭제 중..." : "삭제하기"}
+        cancelText="닫기"
+        onConfirm={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
+      />
+
+      {/* 메뉴 오버레이 */}
+      {openMenuId !== null && (
+        <div
+          className="fixed inset-0 z-0"
+          onClick={handleMenuClose}
+          aria-hidden="true"
+        />
+      )}
+
+      {/* 플로팅 공간 추가 버튼 */}
+      <FloatingAddButton />
     </div>
   );
 };
