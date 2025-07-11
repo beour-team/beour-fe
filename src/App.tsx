@@ -13,7 +13,6 @@ import MypageHost from "./pages/mypage/host/MypageHost";
 import GuestMapPage from "./pages/map/GuestMapPage";
 import EditProfileHost from "./pages/editprofile/host/EditProfileHost";
 import SpaceList from "./pages/spacelist/SpaceList";
-import Review from "./pages/review/host/Review";
 import WishSpace from "./pages/wishspace/WishSpace";
 import GuestReservePage from "./pages/guest-reservation/GuestReservePage";
 import LoginPage from "./pages/login/LoginPage";
@@ -31,6 +30,8 @@ import AuthAfterLayout from "./routes/AuthAfterLayout";
 import MypageGuest from "./pages/mypage/guest/MypageGuest";
 import EditProfileGuest from "./pages/editprofile/guest/EditProfileGuest";
 import HostCalendar from "./pages/host-calendar/HostCalendar";
+import HostReview from "./pages/review/host/HostReview";
+import GuestReview from "./pages/review/guest/GuestReview";
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -64,7 +65,7 @@ function App() {
                 element={<EditProfileHost />}
               />
               <Route path={PATHS.HOST.SPACE_LIST} element={<SpaceList />} />
-              <Route path={PATHS.HOST.REVIEW} element={<Review />} />
+              <Route path={PATHS.HOST.REVIEW} element={<HostReview />} />
               <Route path={PATHS.HOST.MAIN} element={<HostMainpage />} />
               <Route
                 path={PATHS.HOST.SPACE_REGISTER}
@@ -81,6 +82,7 @@ function App() {
               <Route path={PATHS.GUEST.WISH_SPACE} element={<WishSpace />} />
               <Route path={PATHS.GUEST.MAIN} element={<GuestMainPage />} />
               <Route path={PATHS.GUEST.MYPAGE} element={<MypageGuest />} />
+              <Route path={PATHS.GUEST.REVIEW} element={<GuestReview />} />
               <Route
                 path={PATHS.GUEST.EDIT_PROFILE}
                 element={<EditProfileGuest />}

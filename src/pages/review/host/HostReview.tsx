@@ -10,7 +10,7 @@ import ReviewStatistics from "../review-components/ReviewStatistics";
 import ReviewEmptyState from "../review-components/ReviewEmptyState";
 import ReviewLoadingState from "../review-components/ReviewLoadingState";
 
-const Review = () => {
+const HostReview = () => {
   const [activeTab, setActiveTab] = useState("guest");
   const { reviews: apiReviews, loading, error } = useReviewList();
 
@@ -58,4 +58,4 @@ const Review = () => {
   );
 };
 
-export default Review;
+export default HostReview;
