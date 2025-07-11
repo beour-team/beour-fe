@@ -12,7 +12,7 @@ export const MYPAGESPACEHOST = [
     id: 2,
     menu: "리뷰 관리",
     icon: chat,
-    link: "",
+    link: PATHS.HOST.REVIEW,
   },
   {
     id: 3,
@@ -33,7 +33,7 @@ export const MYPAGESPACEGUEST = [
     id: 2,
     menu: "나의 리뷰",
     icon: chat,
-    link: "",
+    link: PATHS.GUEST.REVIEW,
   },
   {
     id: 3,
