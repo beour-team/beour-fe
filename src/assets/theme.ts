@@ -6,8 +6,6 @@ import home from "./img/home.svg";
 import home_click from "./img/home_click.svg";
 import reservations from "./img/reservations.svg";
 import reservations_click from "./img/reservations_click.svg";
-import banner from "./img/bannerImg.png";
-import banner2 from "./img/banner2.png";
 import newspace from "./img/newspace1.png";
 import newspace2 from "./img/newspace2.png";
 import art from "./img/art.svg";
@@ -117,8 +115,6 @@ export {
   home_click,
   reservations,
   reservations_click,
-  banner,
-  banner2,
   newspace,
   newspace2,
   art,

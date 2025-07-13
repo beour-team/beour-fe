@@ -4,6 +4,7 @@ import Searchbar from "../../../components/Searchbar";
 import ResultToolbar from "./ResultToolbar";
 import SearchResult from "./SearchResult";
 import BackButton from "../../../components/BackButton";
+import { PATHS } from "../../../routes/paths";
 
 //임시데이터(삼성역으로만 검색해야 나옴)로 만든 결과화면
 const GuestResultPage = () => {
@@ -40,7 +41,7 @@ const GuestResultPage = () => {
 
   const nav = useNavigate();
   const handleSearch = (keyword: string) => {
-    nav(`/space/search?request=${encodeURIComponent(keyword)}`);
+    nav(`${PATHS.GUEST.RESULT}?request=${encodeURIComponent(keyword)}`);
   };
 
   return (

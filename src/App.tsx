@@ -31,6 +31,11 @@ import AuthAfterLayout from "./routes/AuthAfterLayout";
 import MypageGuest from "./pages/mypage/guest/MypageGuest";
 import EditProfileGuest from "./pages/editprofile/guest/EditProfileGuest";
 import HostCalendar from "./pages/host-calendar/HostCalendar";
+// react query 사용을 위한 전역 설정
+// yarn add @tanstack/react-query axios
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 // 테스트용 으로 적어둔거에요!!
 function Home() {
@@ -39,7 +44,7 @@ function Home() {
 
 function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Toaster position="bottom-center" reverseOrder={false} />
       <Routes>
         {/* 웹앱 사이즈의 레이아웃입니다 */}
@@ -113,7 +118,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
-    </>
+    </QueryClientProvider>
   );
 }
 

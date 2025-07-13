@@ -5,6 +5,7 @@ import { FaMapMarkerAlt } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
 import { GoStarFill } from "react-icons/go";
 import FavoriteIcon from "../../../components/FavoriteIcon";
+import { PATHS } from "../../../routes/paths";
 
 interface SearchResultCardProps {
   item: SearchResultItem;
@@ -22,7 +23,7 @@ const SearchResultCard = ({ item }: SearchResultCardProps) => {
   return (
     <div
       className="py-[1rem] flex gap-[2rem] cursor-pointer border-b border-[#ECECEC]"
-      onClick={() => nav(`/space/${item.id}`)}
+      onClick={() => nav(`${PATHS.SPACE}/${item.id}`)}
     >
       <div className="relative overflow-hidden flex-shrink-0 pb-[1rem]">
         <img

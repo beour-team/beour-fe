@@ -1,20 +1,21 @@
+import { useQuery } from "@tanstack/react-query";
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
-import { RecentReviews } from "../../../constants/dummy-data/recent-reviews-data";
+// import { RecentReviews } from "../../../constants/dummy-data/recent-reviews-data";
 import RecentReviewCard from "./RecentReviewCard";
-
-type Review = {
-  space_id: number;
-  id: number;
-  name: string;
-  nickname: string;
-  rating: number;
-  comment: string;
-  created_at: string;
-  review_images: { image_url: string }[];
-};
+import { fetchRecentReview } from "../../../api/guest-main/recent-review";
+import type { RecentReview } from "../../../types/RecentReview";
 
 const RecentReViewSlider = () => {
+  const {
+    data: reviews,
+    isLoading,
+    error,
+  } = useQuery<RecentReview[]>({
+    queryKey: ["recentReviews"],
+    queryFn: fetchRecentReview,
+  });
+
   const [sliderRef] = useKeenSlider<HTMLDivElement>({
     slides: {
       perView: 1.2,
@@ -23,11 +24,14 @@ const RecentReViewSlider = () => {
     mode: "free",
   });
 
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>리뷰를 불러오는데 실패했습니다.</div>;
+
   return (
     <div ref={sliderRef} className="keen-slider">
-      {RecentReviews.map((review: Review) => (
-        <div className="keen-slider__slide" key={review.id}>
-          <RecentReviewCard {...review} />
+      {reviews?.map((review) => (
+        <div className="keen-slider__slide" key={review.reviewId}>
+          <RecentReviewCard review={review} />
         </div>
       ))}
     </div>
