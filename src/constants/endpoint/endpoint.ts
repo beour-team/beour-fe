@@ -1,5 +1,5 @@
 // 서버 배포 후 수정 필요
-export const BASE_URL = "http://localhost:8080";
+export const BASE_URL = "http://3.35.1.103:8080";
 
 // 혹시 오타나 이상한 부분이 있으면 말씀 주세요,,,,,,ㅎ
 

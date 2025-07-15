@@ -19,6 +19,7 @@ export const PATHS = {
     REVIEW: "/reviewhost",
     SPACE_LIST: "/spacelist",
     CALENDAR: "/hostcalendar",
+    SPACE_SCHEDULE: "/hostspaceschedule",
   },
 
   GUEST: {

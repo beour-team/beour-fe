@@ -15,19 +15,21 @@ export const api = axios.create({
 // 요청 인터셉터: accessToken 자동 헤더 추가
 api.interceptors.request.use(
   (config) => {
-    // 리프레시 토큰 재발급 요청에서만 액세스 토큰을 헤더에 넣지 않음
+    // 🔥 중요: 리프레시 토큰 재발급 요청에서는 헤더에 액세스 토큰을 넣지 않음
+    // 재발급 API는 쿠키의 refresh 토큰만 사용하고, 헤더의 액세스 토큰은 필요 없음
     if (config.url && config.url.includes("/api/users/reissue")) {
-      // 재발급 요청에서는 액세스 토큰을 헤더에 포함시키지 않음
+      console.log("🔄 리프레시 토큰 재발급 요청 - 헤더에 액세스 토큰 제외");
       return config;
     }
 
     // 저장된 액세스 토큰 가져오기
     const token = localStorage.getItem("accessToken");
 
-    // 토큰이 있다면 headers에 Authorization 추가 (Bearer 접두사 포함)
+    // 토큰이 있다면 headers에 Authorization 추가 (일반 API 요청용)
     if (token) {
       config.headers = config.headers || {};
-      config.headers["Authorization"] = `${token}`;
+      // localStorage에 저장된 토큰은 이미 Bearer 접두사를 포함하고 있으므로 그대로 사용
+      config.headers["Authorization"] = token;
     }
     // 다시 요청
     return config;
@@ -42,9 +44,8 @@ api.interceptors.response.use(
   // 비정상인 경우에 실행 (만료된 경우)
   async (error) => {
     const originalRequest = error.config;
-    // 401 에러(만료 에러) & 재시도 플래그 없을 때만
 
-    // accessToken이 없거나(=10분 지나서 사라짐) 401 에러일 때, 그리고 아직 재시도 안했을 때만
+    // accessToken이 없거나 401 에러일 때, 그리고 아직 재시도 안했을 때만
     if (
       (error?.response?.status === 401 ||
         !localStorage.getItem("accessToken")) &&
@@ -52,15 +53,18 @@ api.interceptors.response.use(
     ) {
       originalRequest._retry = true; // 무한 반복 방지용 플래그
 
+      console.log("🔄 액세스 토큰 만료 감지 - 재발급 시도");
+
       // 재발급 요청
       try {
-        // 재발급 요청할 때 Authorization 헤더를 일부러 비워줌 (쿠키만 보내기)
+        // 🔥 중요: 재발급 요청할 때는 헤더에 액세스 토큰을 넣지 않음
+        // 오직 쿠키의 refresh 토큰만 사용
         const res = await api.post(
           `/api/users/reissue`,
-          {},
+          {}, // 빈 body
           {
-            withCredentials: true, // 쿠키 보내기
-            headers: {}, // Authorization 헤더 비우기
+            withCredentials: true, // 쿠키에 담긴 refresh 토큰 보내기
+            headers: {}, // Authorization 헤더 명시적으로 비우기
           }
         );
 
@@ -68,23 +72,25 @@ api.interceptors.response.use(
         const newAccessToken = res.data.data.accessToken;
 
         // 콘솔로 확인!!
-        console.log("새로 발급 받은 액세스 토큰 :", res.data);
+        console.log("✅ 새로 발급 받은 액세스 토큰 :", res.data);
 
-        // 새로 발급받은거 담기
+        // 새로 발급받은 토큰을 localStorage에 저장
         localStorage.setItem("accessToken", newAccessToken);
 
-        // 재요청 시 새 토큰으로 Authorization 헤더 갱신 (Bearer 접두사 포함)
-        originalRequest.headers["Authorization"] = `Bearer ${newAccessToken}`;
+        // 재요청 시 새 토큰으로 Authorization 헤더 갱신
+        // 새로 발급받은 토큰도 이미 Bearer 접두사를 포함하고 있으므로 그대로 사용
+        originalRequest.headers["Authorization"] = newAccessToken;
 
+        console.log("🚀 새로운 액세스 토큰으로 원래 요청 재시도");
         // 이제 원래 api 다시 시도
         return api(originalRequest);
 
         // 에러나면 아래 코드 실행
       } catch (refreshError) {
+        console.log("❌ 리프레시 토큰 재발급 실패 - 로그아웃 처리");
         // refresh 실패 시 로그아웃 등 처리
-        // 토큰 뺏기
+        // 액세스 토큰만 삭제 (리프레시 토큰은 쿠키로 관리되므로 서버에서 처리)
         localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
 
         // 로그인 화면으로 강제 추방
         window.location.href = "/login";
