@@ -1,5 +1,5 @@
 // import { NewSpacesData } from "../../../constants/dummy-data/newspaces-data";
-import { useNewSpaces } from "../../../hooks/guest-main/newSpaces";
+import { useNewSpaces } from "../../../hooks/guest-main/NewSpaces";
 import NewSpaceSlider from "./NewSpaceSlider";
 
 const NewSpace = () => {

@@ -41,7 +41,7 @@ const GuestResultPage = () => {
 
   const nav = useNavigate();
   const handleSearch = (keyword: string) => {
-    nav(`${PATHS.GUEST.RESULT}?request=${encodeURIComponent(keyword)}`);
+    nav(`${PATHS.GUEST.RESULT}?keyword=${encodeURIComponent(keyword)}`);
   };
 
   return (
