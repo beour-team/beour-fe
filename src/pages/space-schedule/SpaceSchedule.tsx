@@ -1,27 +1,4 @@
-/**
- * SpaceSchedule 컴포넌트 (메인 팝업)
- *
- * 📝 역할: 공간 스케줄을 설정할 수 있는 팝업 전체를 관리하는 메인 컴포넌트
- * 🎯 목적: 호스트가 자신의 공간을 언제, 몇 시에 대여할 수 있는지 설정할 수 있게 하기
- * 📱 기능:
- *   - 모바일 친화적 팝업 (하단에서 올라오는 형태)
- *   - 드래그로 팝업 닫기
- *   - 날짜 선택 (달력)
- *   - 시간 선택 (8시~22시)
- *   - 휴무일 설정
- *   - 모든 날짜 적용 옵션
- * 🏗️ 구조:
- *   - 각 기능별로 별도 컴포넌트로 분리
- *   - 상태 관리는 이 메인 컴포넌트에서 담당
- *   - 하위 컴포넌트들은 props로 데이터와 함수를 전달받음
- *
- * @author 개발팀
- * @since 2024
- */
-
-// React와 필요한 라이브러리들을 가져오기
 import React, { useState } from "react";
-// 분리된 컴포넌트들을 가져오기
 import {
   DragHandle,
   ScheduleHeader,
@@ -31,12 +8,14 @@ import {
   ApplyAllCheckbox,
   ApplyButton,
 } from "./components";
+import { useSpaceSchedule } from "../../hooks/space/useSpaceSchedule";
 
 // 팝업창에 필요한 데이터 타입 정의
 interface SpaceScheduleProps {
   isOpen: boolean; // 팝업이 열려있는지 여부
   onClose: () => void; // 팝업을 닫는 함수
   spaceName?: string; // 공간 이름 (선택사항)
+  spaceId?: number; // 공간 ID (API 호출용)
 }
 
 // 스케줄 팝업 컴포넌트 시작
@@ -44,7 +23,18 @@ const SpaceSchedule: React.FC<SpaceScheduleProps> = ({
   isOpen, // 팝업 열림/닫힘 상태
   onClose, // 팝업 닫기 함수
   spaceName = "게임 파티룸 플레이에 상성역점", // 기본 공간 이름
+  spaceId, // 공간 ID
 }) => {
+  // 🌟 API 데이터를 가져오는 훅
+  const {
+    data: spaceScheduleData,
+    loading,
+    error,
+    updateAvailableTimes,
+    updating,
+    // refetch, // 나중에 데이터 새로고침이 필요할 때 사용
+  } = useSpaceSchedule(spaceId);
+
   // 선택된 날짜를 저장하는 상태 (단일 선택 모드)
   const [selectedDates, setSelectedDates] = useState<Date | undefined>(
     undefined
@@ -72,15 +62,61 @@ const SpaceSchedule: React.FC<SpaceScheduleProps> = ({
   // 현재 드래그 중인지 여부를 저장하는 상태
   const [isDragging, setIsDragging] = useState(false);
 
-  const handleApply = () => {
-    // 선택된 데이터들을 콘솔에 출력
-    console.log("적용하기", {
+  const handleApply = async () => {
+    // 선택된 데이터들과 API 데이터를 콘솔에 출력
+    console.log("🎯 적용하기 - 선택된 설정:", {
       selectedDates, // 선택된 날짜들
       selectedTime, // 선택된 시간들
       isHoliday, // 휴무일 설정 여부
       applyToAll, // 모든 일자 적용 여부
     });
-    onClose(); // 팝업창 닫기
+
+    // spaceId가 없으면 업데이트 불가능
+    if (!spaceId) {
+      console.error("❌ spaceId가 없어서 업데이트 불가능");
+      alert("공간 정보를 찾을 수 없어요. 다시 시도해주세요.");
+      return;
+    }
+
+    // 선택된 날짜와 시간으로 업데이트할 데이터 생성
+    const availableTimes: {
+      date: string;
+      startTime: string;
+      endTime: string;
+    }[] = [];
+
+    if (selectedDates && selectedTime.length > 0) {
+      // 선택된 날짜를 YYYY-MM-DD 형식으로 변환
+      const dateString = selectedDates.toISOString().split("T")[0];
+
+      // 선택된 각 시간을 시간대로 변환 (예: 09:00 → 09:00-10:00)
+      selectedTime.forEach((time) => {
+        const [hours, minutes] = time.split(":");
+        const startTime = `${hours}:${minutes}`;
+        const endHour = parseInt(hours) + 1;
+        const endTime = `${endHour.toString().padStart(2, "0")}:${minutes}`;
+
+        availableTimes.push({
+          date: dateString,
+          startTime,
+          endTime,
+        });
+      });
+    }
+
+    console.log("📝 서버에 전송할 데이터:", { availableTimes });
+
+    try {
+      // API 호출로 대여 가능 시간 업데이트
+      const result = await updateAvailableTimes({ availableTimes });
+      console.log("✅ 대여 가능 시간 업데이트 성공:", result);
+
+      // 성공 시 팝업 닫기
+      onClose();
+    } catch (err) {
+      console.error("❌ 대여 가능 시간 업데이트 실패:", err);
+      // 에러 발생 시 팝업은 닫지 않고 사용자가 다시 시도할 수 있도록 함
+    }
   };
 
   const handleBackgroundClick = (e: React.MouseEvent) => {
@@ -124,7 +160,7 @@ const SpaceSchedule: React.FC<SpaceScheduleProps> = ({
   return (
     // 팝업 전체를 감싸는 배경 (반투명 검은색)
     <div
-      className="fixed bottom-0 inset-0 z-50 bg-black bg-opacity-50 flex items-end"
+      className="absolute bottom-0 inset-0 z-50 bg-black bg-opacity-50 flex items-end"
       onClick={handleBackgroundClick} // 배경 클릭 시 팝업 닫기
     >
       {/* 실제 팝업 내용이 들어가는 흰색 박스 */}
@@ -153,6 +189,35 @@ const SpaceSchedule: React.FC<SpaceScheduleProps> = ({
 
         {/* 팝업 내용 영역 */}
         <div className="w-full relative">
+          {/* 🔄 로딩 상태 표시 */}
+          {loading && (
+            <div className="text-center py-4 text-gray-500">
+              공간 스케줄 정보를 불러오는 중...
+            </div>
+          )}
+
+          {/* ❌ 에러 상태 표시 */}
+          {error && (
+            <div className="text-center py-4 text-red-500 bg-red-50 rounded-lg mb-4">
+              {error}
+            </div>
+          )}
+
+          {/* 📊 API 데이터 정보 표시 (개발용) */}
+          {spaceScheduleData && (
+            <div className="mb-4 p-3 bg-blue-50 rounded-lg text-sm text-blue-700">
+              <div>📊 현재 공간 ID: {spaceScheduleData.spaceId}</div>
+              <div>
+                ✅ 수정 가능한 시간:{" "}
+                {spaceScheduleData.editableTimeSlots?.length ?? 0}개
+              </div>
+              <div>
+                🔒 수정 불가능한 시간:{" "}
+                {spaceScheduleData.nonEditableTimeSlots?.length ?? 0}개
+              </div>
+            </div>
+          )}
+
           {/* 달력 영역 - 날짜 선택 */}
           <CalendarSection
             selectedDates={selectedDates}
@@ -176,6 +241,13 @@ const SpaceSchedule: React.FC<SpaceScheduleProps> = ({
             applyToAll={applyToAll}
             onToggle={() => setApplyToAll(!applyToAll)}
           />
+
+          {/* 업데이트 중일 때 로딩 표시 */}
+          {updating && (
+            <div className="text-center py-4 text-blue-500">
+              📝 대여 가능 시간을 업데이트 중...
+            </div>
+          )}
 
           {/* 적용하기 버튼 - 설정 완료 */}
           <ApplyButton onApply={handleApply} />
