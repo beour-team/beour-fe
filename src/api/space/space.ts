@@ -1,5 +1,4 @@
 import axios from "axios";
-import { api } from "../api";
 import type {
   SpaceAvailableTimesResponse,
   UpdateAvailableTimesRequest,
@@ -9,9 +8,6 @@ import { api } from "../api";
 import { API_SPACES } from "../../constants/endpoint/endpoint";
 import type { HostSpaceInfo } from "../../types/HostSpaceInfo";
 
-export const registerSpace = async (spaceData: unknown) => {
-  const response = await axios.post("/api/spaces", spaceData);
-  return response.data;
 export const registerSpace = async (spaceInfo: HostSpaceInfo, accessToken: string) => {
   try {
     console.log("registerSpace() 요청 데이터:", spaceInfo);

@@ -38,10 +38,12 @@ const HostCalendar = () => {
 
   return (
     <div>
-      <CalendarSection
-        selectedDates={selectedDates}
-        onSelect={setSelectedDates}
-      />
+      <div className="w-full mt-[2rem] relative px-[2rem] overflow-y-auto bg-cr-white rounded-t-[2rem]">
+        <CalendarSection
+          selectedDates={selectedDates}
+          onSelect={setSelectedDates}
+        />
+      </div>
       <div className="px-[2rem] min-h-screen bg-[#ECEEF1] px-4 py-6">
         <div className="pb-[2rem]">
           <div className="flex items-center">
