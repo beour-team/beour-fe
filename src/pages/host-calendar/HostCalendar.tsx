@@ -2,6 +2,15 @@ import React, { useState } from "react";
 import HostReservationCard from "./HostReservationCard";
 import SpaceListDown from "../../components/HostMainPage/SpaceListDown";
 import HostFooter from "../../components/HostMainPage/HostFooter";
+import {
+  DragHandle,
+  ScheduleHeader,
+  CalendarSection,
+  HolidayCheckbox,
+  TimeSelection,
+  ApplyAllCheckbox,
+  ApplyButton,
+} from "../space-schedule/components";
 
 const HostCalendar = () => {
   const [selected, setSelected] = useState("스윗라운지");
@@ -22,9 +31,19 @@ const HostCalendar = () => {
     setCards(cards.filter((card) => card.id !== id));
   };
 
+  // 선택된 날짜를 저장하는 상태 (단일 선택 모드)
+  const [selectedDates, setSelectedDates] = useState<Date | undefined>(
+    undefined
+  );
+
   return (
     <div>
-      <div>달력</div>
+      <div className="w-full mt-[2rem] relative px-[2rem] overflow-y-auto bg-cr-white rounded-t-[2rem]">
+        <CalendarSection
+          selectedDates={selectedDates}
+          onSelect={setSelectedDates}
+        />
+      </div>
       <div className="px-[2rem] min-h-screen bg-[#ECEEF1] px-4 py-6">
         <div className="pb-[2rem]">
           <div className="flex items-center">

@@ -3,15 +3,18 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { zodHostSpaceInfo } from "../../utils/zod/zodValidation";
-import { cancel_dark, error, camera } from "../../assets/theme";
+import { cancel_dark, error, camera, underArrow } from "../../assets/theme";
 import PageHeader from "../../components/header/PageHeader";
 import DaumPostcode from "react-daum-postcode";
 import { registerSpace } from "../../api/space/space.ts";
-import { selectedPurposeToEnum } from "../../utils/selectedPurposeToEnum";
 import type { HostSpaceInfo } from "../../types/HostSpaceInfo.ts";
 
 const HostSpaceRegisterInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const onValid = (data) => {
+    console.log("제출된 데이터:", data);
+  };
 
   const handleComplete = (data) => {
     const fullAddress = data.address;
@@ -26,10 +29,9 @@ const HostSpaceRegisterInfo = () => {
   const [images, setImages] = useState<File[]>([]);
   const [selectedPurpose, setSelectedPurpose] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const purposeList = ["단체 모임", "요리 연습", "바리스타 실습", "홈파티"];
-
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState([]);
+  const spaceCategory = location.state?.spaceCategory || "";
 
   const handleAddTag = () => {
     const newTag = tagInput.trim();
@@ -38,6 +40,15 @@ const HostSpaceRegisterInfo = () => {
     }
     setTagInput("");
   };
+
+  const purposeList = [
+    { value: "MEETING", label: "미팅" },
+    { value: "COOKING", label: "쿠킹" },
+    { value: "BARISTA", label: "바리스타" },
+    { value: "FLEA_MARKET", label: "플리마켓" },
+    { value: "FILMING", label: "촬영" },
+    { value: "ETC", label: "기타" },
+  ] as const;
 
   const handleRemoveTag = (tagToRemove: string) => {
     setTags((prev) => prev.filter((tag) => tag !== tagToRemove));
@@ -54,6 +65,7 @@ const HostSpaceRegisterInfo = () => {
     mode: "onChange",
     defaultValues: {
       address: selectedAddress,
+      spaceCategory: spaceCategory,
     },
   });
 
@@ -63,6 +75,9 @@ const HostSpaceRegisterInfo = () => {
     setImages(newImages);
   };
 
+  const imageUrls = images.map((img) => URL.createObjectURL(img));
+  const thumbnailUrl = imageUrls[0] || "";
+
   const onValidSubmit = async (data: HostSpaceInfo) => {
     if (images.length === 0) {
       alert("공간 사진을 하나 이상 업로드해주세요.");
@@ -71,37 +86,26 @@ const HostSpaceRegisterInfo = () => {
 
     try {
       const requestBody = {
-        hostId: 1,
         name: data.name,
-        spaceCategory: "CAFE",
-        useCategory: selectedPurposeToEnum(selectedPurpose),
-        maxCapacity: Number(data.max_capacity),
+        spaceCategory: data.spaceCategory, // 만약 선택한 카테고리가 있다면
+        useCategory: data.useCategory,
+        maxCapacity: Number(data.maxCapacity),
         address: data.address,
-        detailAddress: data.detail_address,
-        pricePerHour: Number(data.price_per_hour),
-        thumbnailUrl: "https://example.com/image.jpg",
-        description: data.description,
-        priceGuide: data.price_guide,
-        facilityNotice: data.facility_notice,
+        detailAddress: data.detailAddress,
+        pricePerHour: Number(data.pricePerHour),
+        thumbnailUrl: thumbnailUrl, // 업로드된 이미지 URL을 여기에
+        description: data.description, // 단순한 문자열
+        priceGuide: data.priceGuide,
+        facilityNotice: data.facilityNotice,
         notice: data.notice,
-        locationDescription: data.location_description,
-        refundPolicy: data.refund_policy,
-        websiteUrl: data.website_url,
-        tags,
-        availableTimes: [
-          {
-            date: "2025-05-22",
-            startTime: "10:00:00",
-            endTime: "18:00:00",
-          },
-          {
-            date: "2025-05-24",
-            startTime: "11:00:00",
-            endTime: "16:00:00",
-          },
-        ],
-        imageUrls: images.map((img) => URL.createObjectURL(img)),
+        locationDescription: data.locationDescription,
+        refundPolicy: data.refundPolicy,
+        // websiteUrl: data.websiteUrl, // 필요에 따라 추가
+        tags: tags,
+        imageUrls: imageUrls, // 서버에 업로드된 이미지 URL 리스트
       };
+
+      console.log("서버에 전송할 데이터:", requestBody); // 이 부분 추가
 
       const res = await registerSpace(requestBody);
       alert(`공간이 등록되었습니다. ID: ${res.id}`);
@@ -228,61 +232,68 @@ const HostSpaceRegisterInfo = () => {
 
           <div className="relative w-full">
             <select
-              {...register("spaceCategory")}
-              className="
-        w-full 
-        h-[5.6rem] 
-        rounded-[1rem] 
-        px-[1.7rem] 
-        pr-[4rem]  /* 화살표 공간 확보 */
-        text-[1.5rem] 
-        bg-[#F2F3F6] 
-        text-black 
-        appearance-none
-      "
+              {...register("useCategory")}
+              className={`w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] pr-[4rem] text-[1.5rem] bg-[#F2F3F6] text-black appearance-none
+        ${
+          errors.useCategory
+            ? "border border-[#FF3B30]"
+            : "border border-transparent"
+        }`}
               value={selectedPurpose}
-              onChange={(e) => setSelectedPurpose(e.target.value)}
+              onChange={(e) => {
+                const value = e.target.value as
+                  | "MEETING"
+                  | "COOKING"
+                  | "BARISTA"
+                  | "FLEA_MARKET"
+                  | "FILMING"
+                  | "ETC";
+                setSelectedPurpose(value);
+                setValue("useCategory", value);
+              }}
             >
               <option value="" disabled hidden>
                 카테고리를 선택해주세요
               </option>
               {purposeList.map((p) => (
-                <option key={p} value={p}>
-                  {p}
+                <option key={p.value} value={p.value}>
+                  {p.label}
                 </option>
               ))}
             </select>
 
             {/* 화살표 아이콘 */}
-            <svg
-              className="w-4 h-4 absolute right-[1.7rem] top-1/2 transform -translate-y-1/2 pointer-events-none text-[#B0B0B0]"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M19 9l-7 7-7-7"
-              />
-            </svg>
+            <img
+              src={underArrow}
+              alt="화살표 아이콘"
+              className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none"
+            />
           </div>
 
-          {errors.spaceCategory && (
+          {errors.useCategory && (
             <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
               <img src={error} alt="에러 아이콘" className="w-4 h-4" />
               <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
-                {errors.spaceCategory.message}
+                {errors.useCategory.message}
               </p>
             </div>
           )}
         </div>
 
+        {/* 수용 인원 */}
         <div className="flex flex-col gap-[0.8rem]">
           <label className="text-[1.5rem] font-medium text-black">
             수용 인원<span className="text-[#FF3B30]">*</span>
           </label>
+
+          {/* 숨겨진 input: register 연결 */}
+          <input
+            type="hidden"
+            {...register("maxCapacity", {
+              required: "수용 인원을 설정해주세요.",
+              valueAsNumber: true,
+            })}
+          />
 
           <div className="flex items-center justify-between">
             <span className="text-[1.5rem] font-bold text-black">
@@ -296,7 +307,8 @@ const HostSpaceRegisterInfo = () => {
                 onClick={() =>
                   setValue(
                     "maxCapacity",
-                    Math.max(1, (watch("maxCapacity") || 1) - 1)
+                    Math.max(1, (watch("maxCapacity") || 1) - 1),
+                    { shouldValidate: true } // 유효성 검사를 다시 트리거
                   )
                 }
               >
@@ -313,7 +325,9 @@ const HostSpaceRegisterInfo = () => {
                 type="button"
                 className="w-[3.2rem] h-[3.2rem] text-[2rem] text-[#868686] flex items-center justify-center"
                 onClick={() =>
-                  setValue("maxCapacity", (watch("maxCapacity") || 1) + 1)
+                  setValue("maxCapacity", (watch("maxCapacity") || 1) + 1, {
+                    shouldValidate: true,
+                  })
                 }
               >
                 +
@@ -338,6 +352,7 @@ const HostSpaceRegisterInfo = () => {
           </label>
           <div className="flex items-center gap-[0.8rem]">
             <input
+              {...register("pricePerHour", { valueAsNumber: true })}
               placeholder="시간당 가격을 입력해주세요"
               type="number"
               min={0}
@@ -362,6 +377,22 @@ const HostSpaceRegisterInfo = () => {
           )}
         </div>
 
+        {/* 기타 가격 안내 */}
+        <div className="flex flex-col gap-[0.8rem]">
+          <label className="text-[1.5rem] font-medium text-black">
+            기타 가격 안내
+          </label>
+          <textarea
+            {...register("priceGuide")}
+            placeholder="ex) 인원 추가시 5000원 추가"
+            maxLength={500}
+            className="w-full min-h-[7rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] resize-none"
+          />
+          <div className="text-right text-[1.2rem] text-[#B0B0B0]">
+            {watch("priceGuide")?.length || 0}/500자
+          </div>
+        </div>
+
         {/* 주소 */}
         <div className="flex flex-col gap-[0.8rem]">
           <label className="text-[1.5rem] font-medium text-black">
@@ -371,7 +402,12 @@ const HostSpaceRegisterInfo = () => {
             <input
               {...register("address")}
               placeholder="주소를 입력해주세요"
-              className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0]"
+              className={`w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] 
+                ${
+                  errors.address
+                    ? "border border-[#FF3B30]"
+                    : "border border-transparent"
+                }`}
               readOnly
             />
             <button
@@ -428,14 +464,13 @@ const HostSpaceRegisterInfo = () => {
             위치 정보
           </label>
           <input
-            {...register("description.locationDescription")}
+            {...register("locationDescription")}
             placeholder="위치 정보를 입력해주세요 (ex. 강남역 4번 출구 도보 5분)"
             className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0]"
           />
         </div>
 
         {/* 공간 태그 */}
-
         <div className="flex flex-col gap-[0.8rem]">
           <label className="text-[1.5rem] font-medium text-black">
             공간 태그
@@ -488,7 +523,12 @@ const HostSpaceRegisterInfo = () => {
             {...register("description")}
             placeholder="공간에 대한 설명을 자세하게 적어주세요 (ex. 공간 분위기, 구비 물품, 위치, 용도 등)"
             maxLength={2000}
-            className="w-full min-h-[10rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] resize-none"
+            className={`w-full min-h-[10rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] resize-none
+              ${
+                errors.description
+                  ? "border border-[#FF3B30]"
+                  : "border border-transparent"
+              }`}
           />
           <div className="text-right text-[1.2rem] text-[#B0B0B0]">
             {watch("description")?.length || 0}/2000자
@@ -509,13 +549,13 @@ const HostSpaceRegisterInfo = () => {
             공간 안내
           </label>
           <textarea
-            {...register("notice")}
+            {...register("facilityNotice")}
             placeholder="ex) 재활용 쓰레기 구비 되어있습니다"
             maxLength={500}
             className="w-full min-h-[7rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] resize-none"
           />
           <div className="text-right text-[1.2rem] text-[#B0B0B0]">
-            {watch("notice")?.length || 0}/500자
+            {watch("facilityNotice")?.length || 0}/500자
           </div>
         </div>
 
@@ -525,14 +565,27 @@ const HostSpaceRegisterInfo = () => {
             주의 사항<span className="text-[#FF3B30]">*</span>
           </label>
           <textarea
-            {...register("caution")}
+            {...register("notice")}
             placeholder="ex) 사용 후 청소 부탁드립니다"
             maxLength={500}
-            className="w-full min-h-[7rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] resize-none"
+            className={`w-full min-h-[10rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] resize-none
+              ${
+                errors.notice
+                  ? "border border-[#FF3B30]"
+                  : "border border-transparent"
+              }`}
           />
           <div className="text-right text-[1.2rem] text-[#B0B0B0]">
-            {watch("caution")?.length || 0}/500자
+            {watch("notice")?.length || 0}/500자
           </div>
+          {errors.notice && (
+            <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
+              <img src={error} alt="에러 아이콘" className="w-4 h-4" />
+              <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
+                {errors.notice.message}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* 환불 정책 */}
@@ -544,18 +597,30 @@ const HostSpaceRegisterInfo = () => {
             {...register("refundPolicy")}
             placeholder="ex) 예약일 1일 전까지 전액 환불"
             maxLength={500}
-            className="w-full min-h-[7rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] resize-none"
+            className={`w-full min-h-[10rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] resize-none
+              ${
+                errors.refundPolicy
+                  ? "border border-[#FF3B30]"
+                  : "border border-transparent"
+              }`}
           />
           <div className="text-right text-[1.2rem] text-[#B0B0B0]">
             {watch("refundPolicy")?.length || 0}/500자
           </div>
+          {errors.refundPolicy && (
+            <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
+              <img src={error} alt="에러 아이콘" className="w-4 h-4" />
+              <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
+                {errors.refundPolicy.message}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* 작성 완료 버튼 */}
         <button
           type="submit"
           className="w-full h-[5.6rem] mt-[2.4rem] bg-[#D9D9D9] text-[#868686] rounded-[1rem] text-[1.7rem] font-semibold"
-          disabled={!isValid}
         >
           작성 완료
         </button>

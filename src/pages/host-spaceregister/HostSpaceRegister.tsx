@@ -108,7 +108,11 @@ const HostSpaceRegister = () => {
       <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[40rem]">
         <button
           disabled={!selected}
-          onClick={() => navigate("/hostspaceregisterinfo")}
+          onClick={() =>
+            navigate("/hostspaceregisterinfo", {
+              state: { spaceCategory: selected },
+            })
+          }
           className={`w-full py-4 rounded-xl text-base font-semibold transition
             ${
               selected
