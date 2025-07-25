@@ -1,5 +1,7 @@
 // 서버 배포 후 수정 필요
-export const BASE_URL = "https://beour.store";
+export const BASE_URL = "https://beour.store/";
+// export const BASE_URL = "https://3.35.1.103:8080";
+// export const BASE_URL = "http://beour-bucket.s3-website.ap-northeast-2.amazonaws.com/";
 
 // 혹시 오타나 이상한 부분이 있으면 말씀 주세요,,,,,,ㅎ
 
