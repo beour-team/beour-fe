@@ -181,6 +181,7 @@ const SpaceList = () => {
         isOpen={scheduleModalOpen}
         onClose={handleScheduleClose}
         spaceName={selectedSpace?.spaceName}
+        spaceId={selectedSpace?.spaceId}
       />
     </div>
   );

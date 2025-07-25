@@ -45,12 +45,8 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // accessToken이 없거나 401 에러일 때, 그리고 아직 재시도 안했을 때만
-    if (
-      (error?.response?.status === 401 ||
-        !localStorage.getItem("accessToken")) &&
-      !originalRequest._retry
-    ) {
+    // 401 에러이고 아직 재시도 안했을 때만 재발급 시도
+    if (error?.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true; // 무한 반복 방지용 플래그
 
       console.log("🔄 액세스 토큰 만료 감지 - 재발급 시도");
@@ -59,14 +55,10 @@ api.interceptors.response.use(
       try {
         // 🔥 중요: 재발급 요청할 때는 헤더에 액세스 토큰을 넣지 않음
         // 오직 쿠키의 refresh 토큰만 사용
-        const res = await api.post(
-          `/api/users/reissue`,
-          {}, // 빈 body
-          {
-            withCredentials: true, // 쿠키에 담긴 refresh 토큰 보내기
-            headers: {}, // Authorization 헤더 명시적으로 비우기
-          }
-        );
+        const res = await api.post(`/api/token/reissue`, {
+          withCredentials: true, // 쿠키에 담긴 refresh 토큰 보내기
+          headers: {}, // Authorization 헤더 명시적으로 비우기
+        });
 
         // 새로 발급받은 토큰 가져오기
         const newAccessToken = res.data.data.accessToken;
@@ -89,10 +81,11 @@ api.interceptors.response.use(
       } catch (refreshError) {
         console.log("❌ 리프레시 토큰 재발급 실패 - 로그아웃 처리");
         // refresh 실패 시 로그아웃 등 처리
-        // 액세스 토큰만 삭제 (리프레시 토큰은 쿠키로 관리되므로 서버에서 처리)
+        // 액세스 토큰과 역할 정보 삭제
         localStorage.removeItem("accessToken");
+        localStorage.removeItem("role");
 
-        // 로그인 화면으로 강제 추방
+        // 로그인 화면으로 강제 이동
         window.location.href = "/login";
 
         // 실패처리
