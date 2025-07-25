@@ -24,6 +24,7 @@ import {
   SPACE_NOTICE_LENGTH,
   REFUND_POLICY_REQUIRED,
   REFUND_POLICY_LENGTH,
+  CATEGORY_REQUIRED,
 } from "../../constants/validation.constants";
 
 // 🔐 로그인 스키마
@@ -162,38 +163,56 @@ export const zodEditProfile = z
       message: "비밀번호가 일치하지 않습니다.",
     }
   );
-  
-  // 공간 등록 정보
-  export const zodHostSpaceInfo = z.object({
-    spaceName: z.string({ message: SPACE_NAME_REQUIRED }).min(1, {
-      message: SPACE_NAME_REQUIRED,
+
+export const zodHostSpaceInfo = z.object({
+  name: z.string({ message: SPACE_NAME_REQUIRED }).min(1, {
+    message: SPACE_NAME_REQUIRED,
+  }),
+
+  spaceCategory: z.string({ message: "공간 카테고리를 선택해주세요." }),
+
+  useCategory: z
+    .string({ message: "사용 카테고리를 선택해주세요." })
+    .refine((val) => val !== undefined, {
+      message: "사용 카테고리를 선택해주세요.",
     }),
-    price: z
-      .number({ message: PRICE_REQUIRED })
-      .min(1, { message: PRICE_REQUIRED })
-      .refine((val) => val >= 0, { message: PRICE_FORMAT }),
-    address: z.string({ message: ADDRESS_REQUIRED }).min(1, {
-      message: ADDRESS_REQUIRED,
-    }),
-    spaceCapacity: z
-      .number({ message: SPACE_CAPACITY_REQUIRED })
-      .min(1, { message: SPACE_CAPACITY_MIN })
-      .refine((val) => val >= 1, { message: SPACE_CAPACITY_MIN }),
-    purpose: z
-      .string({ message: SPACE_NAME_REQUIRED })
-      .min(1, { message: SPACE_NAME_REQUIRED }),
-    description: z
-      .string({ message: SPACE_DESCRIPTION_REQUIRED })
-      .min(1, { message: SPACE_DESCRIPTION_REQUIRED })
-      .max(2000, { message: SPACE_DESCRIPTION_LENGTH }),
-    notice: z
-      .string({ message: SPACE_NOTICE_REQUIRED })
-      .min(1, { message: SPACE_NOTICE_REQUIRED })
-      .max(500, { message: SPACE_NOTICE_LENGTH }),
-    refundPolicy: z
-      .string({ message: REFUND_POLICY_REQUIRED })
-      .min(1, { message: REFUND_POLICY_REQUIRED })
-      .max(500, { message: REFUND_POLICY_LENGTH }), 
-  });
-  
-  export type HostSpaceInfo = z.infer<typeof zodHostSpaceInfo>;
+
+  maxCapacity: z
+    .number({ message: SPACE_CAPACITY_REQUIRED })
+    .min(1, { message: SPACE_CAPACITY_MIN }),
+
+  address: z.string({ message: ADDRESS_REQUIRED }).min(1, {
+    message: ADDRESS_REQUIRED,
+  }),
+
+  detailAddress: z.string().optional(),
+
+  pricePerHour: z
+    .number({ message: PRICE_REQUIRED })
+    .min(1, { message: PRICE_REQUIRED })
+    .refine((val) => val > 0, { message: PRICE_FORMAT }),
+
+  // thumbnailUrl: z.string().url({ message: "썸네일 URL 형식이 잘못되었습니다." }),
+
+  description: z.string({ message: SPACE_DESCRIPTION_REQUIRED }).min(1, {
+    message: SPACE_DESCRIPTION_REQUIRED,
+  }),
+
+  priceGuide: z.string().optional(),
+
+  facilityNotice: z.string().optional(),
+
+  notice: z
+    .string({ message: SPACE_NOTICE_REQUIRED })
+    .min(1, { message: SPACE_NOTICE_REQUIRED })
+    .max(500, { message: SPACE_NOTICE_LENGTH }),
+
+  locationDescription: z.string().optional(),
+
+  refundPolicy: z
+    .string({ message: REFUND_POLICY_REQUIRED })
+    .min(1, { message: REFUND_POLICY_REQUIRED })
+    .max(500, { message: REFUND_POLICY_LENGTH }),
+
+  tags: z.array(z.string()).optional(),
+});

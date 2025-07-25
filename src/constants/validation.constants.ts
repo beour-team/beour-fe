@@ -57,3 +57,5 @@ export const SPACE_NOTICE_LENGTH = "주의 사항은 최대 500자 이내로 입
 export const REFUND_POLICY_REQUIRED = "환불 정책을 입력해주세요.";
 export const REFUND_POLICY_LENGTH = "환불 정책은 최대 500자 이내로 입력해주세요";
 
+//카테고리
+export const CATEGORY_REQUIRED = "카테고리를 선택해주세요.";
