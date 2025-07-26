@@ -2,15 +2,7 @@ import React, { useState } from "react";
 import HostReservationCard from "./HostReservationCard";
 import SpaceListDown from "../../components/HostMainPage/SpaceListDown";
 import HostFooter from "../../components/HostMainPage/HostFooter";
-import {
-  DragHandle,
-  ScheduleHeader,
-  CalendarSection,
-  HolidayCheckbox,
-  TimeSelection,
-  ApplyAllCheckbox,
-  ApplyButton,
-} from "../space-schedule/components";
+import { CalendarSection } from "../space-schedule/components";
 
 const HostCalendar = () => {
   const [selected, setSelected] = useState("스윗라운지");
@@ -22,12 +14,11 @@ const HostCalendar = () => {
       time: "18:00 - 19:00",
       people: "3",
       reserveId: "01234567",
-      initialStatus: "pending",
+      initialStatus: "pending" as const,
     },
-    // ...다른 카드들
   ]);
 
-  const handleDelete = (id) => {
+  const handleDelete = (id: number) => {
     setCards(cards.filter((card) => card.id !== id));
   };
 

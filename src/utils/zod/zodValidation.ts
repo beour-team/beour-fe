@@ -192,8 +192,6 @@ export const zodHostSpaceInfo = z.object({
     .min(1, { message: PRICE_REQUIRED })
     .refine((val) => val > 0, { message: PRICE_FORMAT }),
 
-  // thumbnailUrl: z.string().url({ message: "썸네일 URL 형식이 잘못되었습니다." }),
-
   description: z.string({ message: SPACE_DESCRIPTION_REQUIRED }).min(1, {
     message: SPACE_DESCRIPTION_REQUIRED,
   }),
@@ -215,4 +213,8 @@ export const zodHostSpaceInfo = z.object({
     .max(500, { message: REFUND_POLICY_LENGTH }),
 
   tags: z.array(z.string()).optional(),
+
+  thumbnailUrl: z.string().url({ message: "썸네일 URL 형식이 잘못되었습니다." }),
+
+  imageUrls: z.array(z.string().url()),
 });
