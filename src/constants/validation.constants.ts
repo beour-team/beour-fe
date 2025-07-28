@@ -6,7 +6,7 @@ export const ID_FORMAT = "아이디는 영어와 숫자 조합으로 5~15자여�
 // 비밀번호
 export const PASSWORD_REQUIRED = "비밀번호를 입력해주세요.";
 export const PASSWORD_FORMAT =
-  "비밀번호는 특수문자를 포함하여 4~20자여야 합니다.";
+  "비밀번호는 8자 이상 20자 이하, 특수문자를 1개 이상 포함시켜야합니다.";
 export const PASSWORD_CONFIRM_REQUIRED = "비밀번호를 한 번 더 입력해주세요.";
 export const PASSWORD_CONFIRM_INVALID = "비밀번호가 일치하지 않습니다.";
 

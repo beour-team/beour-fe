@@ -34,9 +34,9 @@ export const zodLogin = z.object({
 
   password: z
     .string({ message: PASSWORD_REQUIRED })
-    .min(4, { message: PASSWORD_FORMAT })
+    .min(8, { message: PASSWORD_FORMAT })
     .max(20, { message: PASSWORD_FORMAT })
-    .regex(/^[\w\W]{4,20}$/, { message: PASSWORD_FORMAT }),
+    .regex(/^(?=.*[!@#$%^&*(),.?":{}|<>]).*$/, { message: PASSWORD_FORMAT }),
 });
 
 // 📝 회원가입 스키마
@@ -48,7 +48,9 @@ export const zodSignUp = z
 
     password: z
       .string({ message: PASSWORD_REQUIRED })
-      .regex(/^[\w\W]{4,20}$/, { message: PASSWORD_FORMAT }),
+      .min(8, { message: PASSWORD_FORMAT })
+      .max(20, { message: PASSWORD_FORMAT })
+      .regex(/^(?=.*[!@#$%^&*(),.?":{}|<>]).*$/, { message: PASSWORD_FORMAT }),
 
     confirmPassword: z.string({ message: PASSWORD_CONFIRM_REQUIRED }),
 
@@ -108,8 +110,9 @@ export const zodEditProfile = z
     emailDomain: z.string().optional(),
     password: z
       .string()
-      .min(4, { message: PASSWORD_FORMAT })
+      .min(8, { message: PASSWORD_FORMAT })
       .max(20, { message: PASSWORD_FORMAT })
+      .regex(/^(?=.*[!@#$%^&*(),.?":{}|<>]).*$/, { message: PASSWORD_FORMAT })
       .optional()
       .or(z.literal("")),
     confirmPassword: z.string().optional(),
@@ -144,13 +147,18 @@ export const zodEditProfile = z
     (data) => {
       // 비밀번호가 입력되었다면 유효성 검사
       if (data.password && data.password.trim() !== "") {
-        return data.password.length >= 4 && data.password.length <= 20;
+        return (
+          data.password.length >= 8 &&
+          data.password.length <= 20 &&
+          /^(?=.*[!@#$%^&*(),.?":{}|<>]).*$/.test(data.password)
+        );
       }
       return true;
     },
     {
       path: ["password"],
-      message: "비밀번호는 4-20자 사이여야 합니다.",
+      message:
+        "비밀번호는 8자 이상 20자 이하, 특수문자를 1개 이상 포함시켜야합니다.",
     }
   )
   .refine(
@@ -217,7 +225,9 @@ export const zodHostSpaceInfo = z.object({
 
   tags: z.array(z.string()).optional(),
 
-  thumbnailUrl: z.string().url({ message: "썸네일 URL 형식이 잘못되었습니다." }),
+  thumbnailUrl: z
+    .string()
+    .url({ message: "썸네일 URL 형식이 잘못되었습니다." }),
 
   imageUrls: z.array(z.string().url()),
 });
