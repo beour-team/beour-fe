@@ -8,15 +8,20 @@ import PageHeader from "../../components/header/PageHeader";
 import DaumPostcode from "react-daum-postcode";
 import { registerSpace } from "../../api/space/space.ts";
 import type { HostSpaceInfo } from "../../types/HostSpaceInfo.ts";
+import { z } from "zod";
 
 const HostSpaceRegisterInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const onValid = (data) => {
+  const onValid = (data: HostSpaceInfo) => {
     console.log("제출된 데이터:", data);
   };
 
-  const handleComplete = (data) => {
+  interface AddressData {
+    address: string;
+  }
+
+  const handleComplete = (data: AddressData) => {
     const fullAddress = data.address;
     setValue("address", fullAddress);
     setIsModalOpen(false);
@@ -29,9 +34,10 @@ const HostSpaceRegisterInfo = () => {
   const [images, setImages] = useState<File[]>([]);
   const [selectedPurpose, setSelectedPurpose] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [tagInput, setTagInput] = useState("");
-  const [tags, setTags] = useState([]);
   const spaceCategory = location.state?.spaceCategory || "";
+
+  const [tags, setTags] = useState<string[]>([]);
+  const [tagInput, setTagInput] = useState("");
 
   const handleAddTag = () => {
     const newTag = tagInput.trim();
@@ -54,13 +60,15 @@ const HostSpaceRegisterInfo = () => {
     setTags((prev) => prev.filter((tag) => tag !== tagToRemove));
   };
 
+  type HostSpaceInfoType = z.infer<typeof zodHostSpaceInfo>;
+
   const {
     register,
     handleSubmit,
     setValue,
     watch,
     formState: { errors, isValid },
-  } = useForm<HostSpaceInfo>({
+  } = useForm<HostSpaceInfoType>({
     resolver: zodResolver(zodHostSpaceInfo),
     mode: "onChange",
     defaultValues: {
@@ -77,6 +85,8 @@ const HostSpaceRegisterInfo = () => {
 
   const imageUrls = images.map((img) => URL.createObjectURL(img));
   const thumbnailUrl = imageUrls[0] || "";
+
+  const accessToken = localStorage.getItem("accessToken") || "";
 
   const onValidSubmit = async (data: HostSpaceInfo) => {
     if (images.length === 0) {
@@ -107,7 +117,7 @@ const HostSpaceRegisterInfo = () => {
 
       console.log("서버에 전송할 데이터:", requestBody); // 이 부분 추가
 
-      const res = await registerSpace(requestBody);
+      const res = await registerSpace(requestBody, accessToken);
       alert(`공간이 등록되었습니다. ID: ${res.id}`);
       navigate("/spacelist");
     } catch (err) {
