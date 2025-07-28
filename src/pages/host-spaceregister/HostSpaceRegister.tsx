@@ -59,7 +59,15 @@ const spaceTypes = [
 const HostSpaceRegister = () => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState("");
-
+  const spaceTypeMap: Record<string, string> = {
+    카페: "CAFE",
+    식당: "RESTAURANT",
+    쿠킹_공방: "COOKING_WORKSHOP",
+    가족_공방: "FAMILY_WORKSHOP",
+    의상_공방: "CLOTH_WORKSHOP",
+    아트_공방: "ART_WORKSHOP",
+    기타: "ETC",
+  };
   return (
     <div className="min-h-screen bg-white px-4 pt-6 pb-[100px] relative">
       <PageHeader>공간 등록</PageHeader>
@@ -110,7 +118,9 @@ const HostSpaceRegister = () => {
           disabled={!selected}
           onClick={() =>
             navigate("/hostspaceregisterinfo", {
-              state: { spaceCategory: selected },
+              state: {
+                spaceCategory: spaceTypeMap[selected],
+              },
             })
           }
           className={`w-full py-4 rounded-xl text-base font-semibold transition
