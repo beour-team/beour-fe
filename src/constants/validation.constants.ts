@@ -15,7 +15,7 @@ export const NAME_REQUIRED = "이름을 입력해주세요.";
 export const NAME_FORMAT = "올바른 이름을 입력해주세요.";
 
 // 닉네임
-export const NICKNAME_REQUIRED = "닉네임을 1~8자로 입력해주세요.";
+export const NICKNAME_REQUIRED = "닉네임을 1~10자로 입력해주세요.";
 export const NICKNAME_CHECK_REQUIRED = "닉네임 중복을 확인해주세요.";
 export const NICKNAME_FORMAT =
   "닉네임은 공백 없이 한글, 영문, 숫자만 입력해주세요.";

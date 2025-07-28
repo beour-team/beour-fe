@@ -59,7 +59,7 @@ export const zodSignUp = z
     nickname: z
       .string({ message: NICKNAME_REQUIRED })
       .min(1, { message: NICKNAME_REQUIRED })
-      .max(8, { message: NICKNAME_REQUIRED }),
+      .max(10, { message: NICKNAME_REQUIRED }),
 
     phone: z
       .string({ message: PHONE_REQUIRED })
@@ -100,7 +100,7 @@ export const zodEditProfile = z
     nickName: z
       .string()
       .min(1, { message: NICKNAME_REQUIRED })
-      .max(8, { message: NICKNAME_REQUIRED })
+      .max(10, { message: NICKNAME_REQUIRED })
       .optional()
       .or(z.literal("")),
     phone: z.string().optional(),
@@ -118,13 +118,13 @@ export const zodEditProfile = z
     (data) => {
       // 닉네임이 입력되었다면 유효성 검사
       if (data.nickName && data.nickName.trim() !== "") {
-        return data.nickName.length >= 1 && data.nickName.length <= 8;
+        return data.nickName.length >= 1 && data.nickName.length <= 10;
       }
       return true;
     },
     {
       path: ["nickName"],
-      message: "닉네임은 1-8자 사이여야 합니다.",
+      message: "닉네임은 1-10자 사이여야 합니다.",
     }
   )
   .refine(

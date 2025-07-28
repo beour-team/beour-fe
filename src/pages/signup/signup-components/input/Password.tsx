@@ -1,5 +1,6 @@
 import type { UseFormRegister, FieldErrors } from "react-hook-form";
 import type { SignUpData } from "../../../../types/SignUp";
+import { warning } from "../../../../assets/theme";
 
 interface PasswordInputProps {
   register: UseFormRegister<SignUpData>;
@@ -24,9 +25,12 @@ const Password: React.FC<PasswordInputProps> = ({ register, errors }) => {
             {...register("password")}
           />
           {hasPasswordError && (
-            <span className="text-12-Medium text-red-500 mt-[0.4rem]">
-              {errors.password?.message}
-            </span>
+            <div className="flex gap-[0.6rem] items-center mt-[0.8rem]">
+              <img src={warning} alt="경고 아이콘" />
+              <span className="text-12-Medium text-red-500">
+                {errors.password?.message}
+              </span>
+            </div>
           )}
         </div>
 
@@ -40,9 +44,12 @@ const Password: React.FC<PasswordInputProps> = ({ register, errors }) => {
             {...register("confirmPassword")}
           />
           {hasConfirmPasswordError && (
-            <span className="text-12-Medium text-red-500 mt-[0.4rem]">
-              {errors.confirmPassword?.message}
-            </span>
+            <div className="flex gap-[0.6rem] items-center mt-[0.8rem]">
+              <img src={warning} alt="경고 아이콘" />
+              <span className="text-12-Medium text-red-500">
+                {errors.confirmPassword?.message}
+              </span>
+            </div>
           )}
         </div>
       </div>

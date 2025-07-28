@@ -1,5 +1,6 @@
 import type { UseFormRegister, FieldErrors } from "react-hook-form";
 import type { SignUpData } from "../../../../types/SignUp";
+import { warning } from "../../../../assets/theme";
 
 interface NameInputProps {
   register: UseFormRegister<SignUpData>;
@@ -23,9 +24,12 @@ const Name: React.FC<NameInputProps> = ({ register, errors }) => {
         />
       </div>
       {hasError && (
-        <span className="text-12-Medium text-red-500 mt-[0.4rem]">
-          {errors.name?.message}
-        </span>
+        <div className="flex gap-[0.6rem] items-center mt-[0.8rem]">
+          <img src={warning} alt="경고 아이콘" />
+          <span className="text-12-Medium text-red-500">
+            {errors.name?.message}
+          </span>
+        </div>
       )}
     </div>
   );

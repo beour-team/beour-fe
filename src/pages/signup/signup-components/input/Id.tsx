@@ -7,6 +7,7 @@ import type {
 } from "react-hook-form";
 import type { SignUpData } from "../../../../types/SignUp";
 import { useIdCheck } from "../../../../hooks/Check/useIdCheck";
+import { warning } from "../../../../assets/theme";
 
 interface IdInputProps {
   register: UseFormRegister<SignUpData>;
@@ -58,9 +59,12 @@ const Id: React.FC<IdInputProps> = ({
         </button>
       </div>
       {hasError && (
-        <span className="text-12-Medium text-red-500 mt-[0.4rem]">
-          {errors.loginId?.message}
-        </span>
+        <div className="flex gap-[0.6rem] items-center mt-[0.8rem]">
+          <img src={warning} alt="경고 아이콘" />
+          <span className="text-12-Medium text-red-500">
+            {errors.loginId?.message}
+          </span>
+        </div>
       )}
     </div>
   );

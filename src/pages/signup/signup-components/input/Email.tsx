@@ -1,7 +1,7 @@
 // Email.tsx
 
 import { useEffect, useRef, useState } from "react";
-import { topArrow, underArrow } from "../../../../assets/theme";
+import { topArrow, underArrow, warning } from "../../../../assets/theme";
 import { options } from "../../../../constants/domain/domain";
 import type { SignUpData } from "../../../../types/SignUp";
 import type {
@@ -97,9 +97,12 @@ const Email = ({ register, setValue, errors }: EmailProps) => {
         </div>
       </div>
       {(hasEmailError || hasEmailDomainError) && (
-        <span className="text-12-Medium text-red-500 mt-[0.4rem]">
-          {errors.email?.message || errors.emailDomain?.message}
-        </span>
+        <div className="flex gap-[0.6rem] items-center mt-[0.8rem]">
+          <img src={warning} alt="경고 아이콘" />
+          <span className="text-12-Medium text-red-500">
+            {errors.email?.message || errors.emailDomain?.message}
+          </span>
+        </div>
       )}
     </div>
   );
