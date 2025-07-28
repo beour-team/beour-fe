@@ -3,6 +3,8 @@ import type {
   SubmitHandler,
   UseFormHandleSubmit,
   UseFormRegister,
+  UseFormSetValue,
+  UseFormWatch,
 } from "react-hook-form";
 
 // 로그인 폼의 제출된 data 타입 지정
@@ -18,4 +20,6 @@ export interface LoginFormProps {
   register: UseFormRegister<LoginData>;
   errors: FieldErrors<LoginData>;
   isValid: boolean;
+  setValue: UseFormSetValue<LoginData>;
+  watch: UseFormWatch<LoginData>;
 }

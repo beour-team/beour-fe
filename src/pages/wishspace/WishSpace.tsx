@@ -1,126 +1,171 @@
-// yarn add tailwind-scrollbar-hide
+import { useState, useEffect } from "react";
+import WishSpaceGrid from "./wishspace-components/WishSpaceGrid";
 import PageHeader from "../../components/header/PageHeader";
-import { BlackStar, people, spot, star } from "../../assets/theme";
-
-const dummyList = [
-  {
-    spaceId: 1,
-    spaceName: "우리동네 공방",
-    region: "강남구",
-    maxCapacity: 10,
-    price: 15000,
-    thumbnailUrl: "https://example.com/image.jpg",
-    like: true,
-    average: 4.0,
-    tags: ["공방", "강남", "강남", "강남", "강남", "강남"],
-  },
-  {
-    spaceId: 3,
-    spaceName: "우리동네 베이킹 공방",
-    region: "마포구",
-    maxCapacity: 8,
-    price: 10000,
-    thumbnailUrl: "https://example.com/image.jpg",
-    like: true,
-    average: 3.0,
-    tags: ["공방", "마포", "와이파이"],
-  },
-  {
-    spaceId: 4,
-    spaceName: "성수 홈베이킹 스튜디오",
-    region: "성동구",
-    maxCapacity: 6,
-    price: 18000,
-    thumbnailUrl: "https://example.com/image.jpg",
-    like: true,
-    average: 4.0,
-    tags: ["성수", "엠지", "핫플"],
-  },
-];
-
-// 12개로 맞추기 위해 반복
-const wishSpaces = Array.from({ length: 12 }, (_, i) => {
-  const base = dummyList[i % dummyList.length];
-  return {
-    ...base,
-    spaceId: base.spaceId + i * 10,
-    spaceName: `${base.spaceName} ${i + 1}`,
-  };
-});
+import Modal from "../../components/modal/Modal";
+import Toast from "../../components/toast/Toast";
+import { useWishList } from "../../hooks/WishList/useWishList";
+import { useDeleteWishList } from "../../hooks/WishList/useDeleteWishList";
+import type { WishSpaceItem } from "../../types/WishSpace";
 
 const WishSpace = () => {
-  return (
-    <div>
-      <div className="mx-[2rem]">
+  // API 호출을 통한 찜 목록 데이터 가져오기
+  const { data: wishSpaces, isLoading, error } = useWishList();
+
+  // 찜 삭제 뮤테이션
+  const deleteWishListMutation = useDeleteWishList();
+
+  // 찜 공간 목록 상태 관리 (UI 업데이트를 위해)
+  const [localWishSpaces, setLocalWishSpaces] = useState<WishSpaceItem[]>([]);
+
+  // 모달 상태 관리
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSpace, setSelectedSpace] = useState<WishSpaceItem | null>(
+    null
+  );
+
+  // 토스트 상태 관리
+  const [isToastVisible, setIsToastVisible] = useState(false);
+
+  // API 데이터가 로드되면 로컬 상태 업데이트
+  useEffect(() => {
+    if (wishSpaces) {
+      setLocalWishSpaces(wishSpaces);
+    }
+  }, [wishSpaces]);
+
+  // 찜 삭제 기능 (모달을 통한 확인)
+  const handleToggleLike = (spaceId: number) => {
+    // 로딩 중이면 클릭 방지
+    if (deleteWishListMutation.isPending) {
+      return;
+    }
+
+    // 찜한 공간 찾기
+    const targetSpace = localWishSpaces.find(
+      (space) => space.spaceId === spaceId
+    );
+    if (targetSpace) {
+      setSelectedSpace(targetSpace);
+      setIsModalOpen(true);
+    }
+  };
+
+  // 모달에서 삭제 확인
+  const handleConfirmDelete = () => {
+    if (!selectedSpace) return;
+
+    // 즉시 UI 업데이트 (낙관적 업데이트)
+    setLocalWishSpaces((prev) =>
+      prev.filter((space) => space.spaceId !== selectedSpace.spaceId)
+    );
+
+    // 실제 API 호출
+    deleteWishListMutation.mutate(selectedSpace.spaceId, {
+      onSuccess: () => {
+        // 성공 시 토스트 메시지 표시
+        setIsToastVisible(true);
+      },
+      onError: () => {
+        // 에러 발생 시 UI 롤백
+        if (wishSpaces) {
+          setLocalWishSpaces(wishSpaces);
+        }
+      },
+    });
+
+    // 모달 닫기
+    setIsModalOpen(false);
+    setSelectedSpace(null);
+  };
+
+  // 모달 취소
+  const handleCancelDelete = () => {
+    setIsModalOpen(false);
+    setSelectedSpace(null);
+  };
+
+  // 공간 상세 페이지로 이동
+  const handleCardClick = (spaceId: number) => {
+    console.log("카드 클릭:", spaceId);
+  };
+
+  // 로딩 상태
+  if (isLoading) {
+    return (
+      <div className="pb-[2rem] px-[2rem]">
         <PageHeader>찜 공간</PageHeader>
-        <div className="text-13-Medium text-cr-500">총 12개</div>
+        <div className="flex justify-center items-center h-[20rem]">
+          <p className="text-cr-600 text-16-Medium">로딩 중...</p>
+        </div>
       </div>
-      <div className="grid grid-cols-2 gap-x-[0.8rem] gap-y-[2rem] px-[2rem] mt-[2rem]">
-        {wishSpaces.map((item) => (
-          <div
-            key={item.spaceId}
-            className="relative bg-white rounded-[1rem] overflow-hidden flex flex-col gap-[2rem]"
-          >
-            <div className="relative w-full h-[16rem] bg-gray-100 rounded-[1rem]">
-              <img
-                src={item.thumbnailUrl}
-                alt={item.spaceName}
-                className="w-full h-full object-cover"
-              />
-              <button className="absolute top-[1rem] right-[1rem] z-10">
-                {item.like ? (
-                  <img src={star} className="h-[2.7rem]" />
-                ) : (
-                  <img src={BlackStar} className="h-[2.7rem] " />
-                )}
-              </button>
-            </div>
-            <div className="flex flex-col gap-[1.2rem]">
-              <div
-                className="text-16-Bold font-semibold truncate"
-                title={item.spaceName}
-              >
-                {item.spaceName}
-              </div>
-              <div className="flex items-center text-[1rem] gap-[1.2rem] text-[#888]">
-                <div className="flex gap-[0.4rem]">
-                  <img src={spot} className="h-[1.5rem]" />
-                  <span className="text-13-Medium">{item.region}</span>
-                </div>
-                <div className="flex gap-[0.4rem]">
-                  <img src={people} className="h-[1.2rem]" />
-                  <span className="text-13-Medium">
-                    최대 {item.maxCapacity}인
-                  </span>
-                </div>
-              </div>
-              <div className="flex items-center gap-2 text-[1rem]">
-                <img src={star} className="h-[1.7rem]" />
-                <span className="text-13-Medium pt-[0.1rem]">
-                  {item.average.toFixed(1)}
-                  <span className="text-13-Medium text-cr-500">(103)</span>
-                </span>
-              </div>
-              <div className="relative h-[2.5rem]">
-                <div className="overflow-x-auto whitespace-nowrap scrollbar-hide h-full ">
-                  {item.tags.map((tag, idx) => (
-                    <span
-                      key={idx}
-                      className="inline-block rounded-[4.9rem] bg-[#E9EBEE] px-[1.2rem] text-[#9D9D9D] text-13-Medium h-full py-[0.6rem] mr-2"
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-                <div className="pointer-events-none absolute top-0 right-0 h-full w-[2rem] fade-right"></div>
-              </div>
-              <div className="font-black text-[#313131] text-16-ExtraBold mt-2">
-                {item.price.toLocaleString()}원/시간
-              </div>
-            </div>
+    );
+  }
+
+  // 에러 상태
+  if (error) {
+    return (
+      <div className="pb-[2rem] px-[2rem]">
+        <PageHeader>찜 공간</PageHeader>
+        <div className="flex justify-center items-center h-[20rem]">
+          <p className="text-cr-600 text-16-Medium">
+            {error.message || "찜 목록을 불러오는 중 오류가 발생했습니다."}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="pb-[2rem] px-[2rem] relative min-h-screen">
+      {/* 페이지 헤더 */}
+      <PageHeader>찜 공간</PageHeader>
+
+      {/* 찜 공간 총 개수 표시 */}
+      <div className="my-[1.6rem]">
+        <p className="text-cr-600 text-13-Medium">
+          총 {localWishSpaces.length}개
+        </p>
+      </div>
+
+      {/* 찜 공간이 없을 때 */}
+      {localWishSpaces.length === 0 ? (
+        <div className="flex flex-col justify-center items-center min-h-[calc(100vh-160px)] gap-[1.2rem]">
+          <div className="text-18-SemiBold text-cr-black">
+            아직 찜한 공간이 없어요
           </div>
-        ))}
-      </div>
+          <div className="text-14-Medium text-cr-500 text-center leading-[2.2rem]">
+            마음에 드는 공간을 찜해보세요
+          </div>
+        </div>
+      ) : (
+        /* 찜 공간 그리드 */
+        <WishSpaceGrid
+          spaces={localWishSpaces}
+          onToggleLike={handleToggleLike}
+          onCardClick={handleCardClick}
+        />
+      )}
+
+      {/* 삭제 확인 모달 */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCancelDelete}
+        title={`[${selectedSpace?.spaceName}]을(를)\n찜 목록에서 삭제하시겠습니까?`}
+        confirmText="삭제"
+        cancelText="취소"
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+        confirmButtonClass="bg-cr-red text-cr-white"
+        cancelButtonClass="bg-cr-500 text-cr-white"
+      />
+
+      {/* 삭제 완료 토스트 */}
+      <Toast
+        message="찜 공간에서 삭제했어요"
+        isVisible={isToastVisible}
+        onClose={() => setIsToastVisible(false)}
+        icon="✓"
+      />
     </div>
   );
 };

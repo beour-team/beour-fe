@@ -69,8 +69,8 @@ export const SearchData: Record<string, SearchResultItem[]> = {
       avg_rating: 4.8,
       max_capacity: 6,
       id: 1003,
-      lat: 37.498095,
-      lng: 127.02761,
+      lat: 37.504807,
+      lng: 127.025373,
       tags: ["카페", "단체모임", "루프탑", "공유주방"],
     },
     {

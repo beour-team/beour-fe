@@ -1,20 +1,20 @@
 // 서버 배포 후 수정 필요
-export const BASE_URL = "http://localhost:8080";
+export const BASE_URL = "https://beour.store";
 
 // 혹시 오타나 이상한 부분이 있으면 말씀 주세요,,,,,,ㅎ
 
 // 로그인 관련
-export const API_LOGIN = "/api/users/login";
+export const API_LOGIN = "/api/login";
 export const API_FIND_ID = "/api/users/find-login-id";
 export const API_RESET_PW = "/api/users/reset-pw";
-export const API_LOGOUT = "/logout";
-export const API_CHECK_LOGIN_ID = "/api/users/signup/check/loginId";
-export const API_CHECK_NICKNAME = "/api/users/signup/check/nickname";
-export const API_SIGNUP = "/api/users/signup";
+export const API_LOGOUT = "/api/logout";
+export const API_CHECK_LOGIN_ID = "/api/signup/check-duplicate/login-id";
+export const API_CHECK_NICKNAME = "/api/signup/check-duplicate/nickname";
+export const API_SIGNUP = "/api/signup";
 
 // 마이페이지 관련
 export const API_WITHDRAW = "/api/mypage/withdraw";
-export const API_MYPAGE = "/api/mypage";
+export const API_MYPAGE = "/api/users/me";
 export const API_MYPAGE_DETAIL = "/api/mypage/detail";
 export const API_UPDATE_PROFILE = "/api/mypage/detail"; // 닉네임, 핸드폰 번호 변경
 export const API_UPDATE_PASSWORD = "/api/mypage/password";
@@ -48,8 +48,8 @@ export const API_RESERVATION_FILTER = "/api/reservations/filter"; // (필터링/
 // 리뷰 대댓글 달기
 export const API_REVIEW_REPLY = "/api/reviews/{reviewId}/comments";
 
-// 마이페이지 - 내가 등록한 공간 리스트
-export const API_MY_SPACES = "/api/spaces/me/list";
+// 마이페이지 - 내가 등록한 공간 리스트 (수정됨)
+export const API_MY_SPACES = "/api/spaces/my-spaces";
 
 // 마이페이지 - 공간 상세 정보
 export const API_SPACE_DETAIL = "/api/spaces/{spaceId}";

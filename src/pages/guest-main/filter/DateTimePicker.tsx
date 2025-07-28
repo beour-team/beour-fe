@@ -2,6 +2,7 @@
 import { DayPicker } from "react-day-picker"; //react-day-picker 라이브러리 사용
 import "react-day-picker/dist/style.css";
 import { useState, useRef, useEffect } from "react";
+import { hours } from "../../../constants/guest-main/hour-data";
 import { format } from "date-fns";
 import { ko } from "date-fns/locale";
 import { formatTimeRanges } from "../../../utils/format-time-range";
@@ -32,25 +33,6 @@ const DateTimePicker = ({ onComplete }: DateTimePickerProps) => {
     return () => el.removeEventListener("wheel", handleWheel);
   }, []);
 
-  const hours = [
-    "08:00",
-    "09:00",
-    "10:00",
-    "11:00",
-    "12:00",
-    "13:00",
-    "14:00",
-    "15:00",
-    "16:00",
-    "17:00",
-    "18:00",
-    "19:00",
-    "20:00",
-    "21:00",
-    "22:00",
-    "23:00",
-    "00:00",
-  ];
   const handleComplete = () => {
     let text = "날짜 무관";
     if (!allDay && selectedDate) {

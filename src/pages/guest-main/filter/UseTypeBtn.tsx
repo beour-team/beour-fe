@@ -1,11 +1,15 @@
-// import { useState } from "react";
+import { useState } from "react";
 
 interface UseTypeBtnProps {
-  useType: string[];
-  setUseType: React.Dispatch<React.SetStateAction<string[]>>;
+  useType?: string[];
+  setUseType?: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
 const UseTypeBtn = ({ useType, setUseType }: UseTypeBtnProps) => {
+  const internalState = useState<string[]>([]);
+  const currentUseType = useType ?? internalState[0];
+  const currentSetUseType = setUseType ?? internalState[1];
+
   const buttonLabels = [
     "단체 모임",
     "요리 연습",
@@ -16,10 +20,10 @@ const UseTypeBtn = ({ useType, setUseType }: UseTypeBtnProps) => {
   ];
   // const [useType, setuseType] = useState<string[]>([]);
   const toggleSelection = (label: string) => {
-    if (useType.includes(label)) {
-      setUseType(useType.filter((item) => item !== label));
+    if (currentUseType.includes(label)) {
+      currentSetUseType(currentUseType.filter((item) => item !== label));
     } else {
-      setUseType([...useType, label]);
+      currentSetUseType([...currentUseType, label]);
     }
   };
 
@@ -29,8 +33,8 @@ const UseTypeBtn = ({ useType, setUseType }: UseTypeBtnProps) => {
         <button
           key={label}
           onClick={() => toggleSelection(label)}
-          className={`text-14-Medium px-7 py-[0.8rem] rounded-[1.4rem] ${
-            useType.includes(label)
+          className={`text-14-Medium px-8 py-[0.8rem] rounded-[1.4rem] ${
+            currentUseType.includes(label)
               ? "bg-cr-blue text-white"
               : "bg-cr-100 text-cr-500"
           }`}

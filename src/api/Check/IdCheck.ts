@@ -7,7 +7,7 @@ interface IdCheckParams {
 
 export const IdCheck = async ({ loginId }: IdCheckParams) => {
   try {
-    const response = await api.get(`${API_CHECK_LOGIN_ID}?loginId=${loginId}`);
+    const response = await api.get(`${API_CHECK_LOGIN_ID}?login-id=${loginId}`);
     return response.data;
   } catch (error: unknown) {
     if (error instanceof Error) {
