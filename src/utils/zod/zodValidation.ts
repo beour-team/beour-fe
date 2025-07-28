@@ -1,6 +1,5 @@
 import { z } from "zod";
 import {
-  EMAIL_FORMAT,
   EMAIL_REQUIRED,
   ID_FORMAT,
   ID_REQUIRED,
@@ -19,12 +18,10 @@ import {
   PRICE_FORMAT,
   ADDRESS_REQUIRED,
   SPACE_DESCRIPTION_REQUIRED,
-  SPACE_DESCRIPTION_LENGTH,
   SPACE_NOTICE_REQUIRED,
   SPACE_NOTICE_LENGTH,
   REFUND_POLICY_REQUIRED,
   REFUND_POLICY_LENGTH,
-  CATEGORY_REQUIRED,
 } from "../../constants/validation.constants";
 
 // 🔐 로그인 스키마
@@ -70,20 +67,26 @@ export const zodSignUp = z
         message: PHONE_FORMAT,
       }),
 
-    email: z.string({ message: EMAIL_REQUIRED }),
+    email: z
+      .string({ message: EMAIL_REQUIRED })
+      .min(1, { message: EMAIL_REQUIRED }),
 
     emailDomain: z
       .string({ message: EMAIL_REQUIRED })
-      .min(1, { message: EMAIL_FORMAT }),
+      .min(1, { message: "이메일 도메인을 선택해주세요." }),
   })
   .refine(
     (data) => {
-      const fullEmail = `${data.email}@${data.emailDomain}`;
-      return z.string().email().safeParse(fullEmail).success;
+      // 이메일과 도메인이 둘 다 입력되었을 때만 전체 이메일 형식 검증
+      if (data.email && data.emailDomain) {
+        const fullEmail = `${data.email}@${data.emailDomain}`;
+        return z.string().email().safeParse(fullEmail).success;
+      }
+      return true;
     },
     {
       path: ["email"],
-      message: "이메일 형식을 확인해주세요.",
+      message: "올바른 이메일 주소를 입력해주세요.",
     }
   )
   .refine((data) => data.password === data.confirmPassword, {

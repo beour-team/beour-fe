@@ -63,6 +63,7 @@ const SignUp = () => {
               alt="게스트"
             />
           </div>
+
           <div
             onClick={() => handleTypeSelect("HOST")}
             className={`flex gap-[1.6rem] rounded-[1rem] ${
