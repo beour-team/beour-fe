@@ -27,7 +27,7 @@ const SpaceLocation = ({
     window.kakao.maps.load(() => {
       const geocoder = new window.kakao.maps.services.Geocoder();
       // Geocoder 인스턴스 생성해서 주소 검색
-      geocoder.addressSearch(address, function (result, status) {
+      geocoder.addressSearch(address, function (result: any[], status: any) {
         if (status === window.kakao.maps.services.Status.OK) {
           const { y, x } = result[0]; //성공하면 좌표 꺼내서
           const coords = { lat: parseFloat(y), lng: parseFloat(x) }; //주소 변환 x:경도, y:위도

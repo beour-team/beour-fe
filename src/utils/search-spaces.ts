@@ -4,7 +4,7 @@ import type { SearchResultItem } from "../constants/dummy-data/search-data";
 
 declare global {
   interface Window {
-    kakao: typeof kakao;
+    kakao: any;
   }
 }
 
@@ -26,8 +26,8 @@ export function searchSpaces(
     ps.keywordSearch(
       keyword,
       (
-        data: kakao.maps.services.PlacesSearchResult,
-        status: kakao.maps.services.Status
+        data: any,
+        status: any
       ) => {
         if (
           status === window.kakao.maps.services.Status.OK &&
