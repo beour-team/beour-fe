@@ -9,7 +9,7 @@ export const API_FIND_ID = "/api/users/find-login-id";
 export const API_RESET_PW = "/api/users/reset-pw";
 export const API_LOGOUT = "/logout";
 export const API_CHECK_LOGIN_ID = "/api/signup/check-duplicate/login-id";
-export const API_CHECK_NICKNAME = "/api/users/signup/check/nickname";
+export const API_CHECK_NICKNAME = "/api/signup/check-duplicate/nickname";
 export const API_SIGNUP = "/api/users/signup";
 
 // 마이페이지 관련
