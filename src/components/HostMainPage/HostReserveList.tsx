@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import SpaceListDown from "./SpaceListDown";
 import ReservationCard from "./ReservationCard";
 import { filter, underArrow, topArrow } from "../../assets/theme";
 
@@ -17,13 +16,13 @@ const HostReserveList = () => {
     "폴인테이블",
   ];
 
-  const [cards, setCards] = useState([
+  const [cards] = useState([
     {
       id: 1,
       name: "강유진",
       place: "[스윗 라운지] 주방",
       time: "18:00 - 19:00",
-      people: "3",
+      people: 3,
       reserveId: "01234567",
       initialStatus: "pending",
     },
