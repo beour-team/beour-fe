@@ -24,6 +24,8 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ userType }) => {
     handleSubmit,
     setValue,
     watch,
+    setError,
+    clearErrors,
     formState: { errors, isValid },
   } = useForm<SignUpData>({
     resolver: zodResolver(zodSignUp),
@@ -61,24 +63,35 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ userType }) => {
       >
         <div className="flex flex-col gap-[1.6rem]">
           {/* 아이디 */}
-          <Id register={register} watch={watch} />
+          <Id
+            register={register}
+            watch={watch}
+            errors={errors}
+            setError={setError}
+            clearErrors={clearErrors}
+          />
 
           {/* 비밀번호 */}
-          <Password register={register} />
+          <Password register={register} errors={errors} />
 
           {/* 이름 */}
-          <Name register={register} />
+          <Name register={register} errors={errors} />
 
           {/* 닉네임 */}
-          <Nickname register={register} watch={watch} />
+          <Nickname
+            register={register}
+            watch={watch}
+            errors={errors}
+            setError={setError}
+            clearErrors={clearErrors}
+          />
 
           {/* 전화번호 */}
-          <Phone register={register} />
+          <Phone register={register} errors={errors} />
 
           {/* 이메일 */}
-          <Email register={register} setValue={setValue} />
+          <Email register={register} setValue={setValue} errors={errors} />
         </div>
-
         <button
           type="submit"
           disabled={!isValid}
