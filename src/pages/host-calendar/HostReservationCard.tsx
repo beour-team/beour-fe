@@ -1,21 +1,38 @@
 import React, { useState } from "react";
 import { clsx } from "clsx";
 import { clock, person, rightArrow } from "../../assets/theme";
+import type { HostReservationCardProps } from "../../types/HostReservationCardProps";
 
-const statusMap = {
+type Status = "pending" | "confirmed" | "cancelled";
+
+type Action = {
+  text: string;
+  color: string;
+  disabled: boolean;
+};
+
+type StatusMap = {
+  [key in Status]: {
+    label: string;
+    labelColor: string;
+    actions: Action[];
+  };
+};
+
+const statusMap: StatusMap = {
   pending: {
     label: "승인 대기",
     labelColor: "bg-cr-300 text-cr-600",
     actions: [
-      { text: "승인 거부", color: "bg-cr-500 text-white" },
-      { text: "예약 승인", color: "bg-cr-blue text-white" },
+      { text: "승인 거부", color: "bg-cr-500 text-white", disabled: false },
+      { text: "예약 승인", color: "bg-cr-blue text-white", disabled: false },
     ],
   },
   confirmed: {
     label: "예약 확정",
     labelColor: "bg-cr-blue text-white",
     actions: [
-      { text: "예약 취소", color: "bg-cr-red text-white" },
+      { text: "예약 취소", color: "bg-cr-red text-white", disabled: false },
       { text: "승인 완료", color: "bg-cr-200 text-cr-500", disabled: true },
     ],
   },
@@ -23,8 +40,12 @@ const statusMap = {
     label: "승인 취소",
     labelColor: "bg-cr-red30 text-cr-red",
     actions: [
-      { text: "예약 내역 삭제", color: "bg-cr-500 text-white" },
-      { text: "예약 재승인", color: "bg-cr-blue text-white" },
+      {
+        text: "예약 내역 삭제",
+        color: "bg-cr-500 text-white",
+        disabled: false,
+      },
+      { text: "예약 재승인", color: "bg-cr-blue text-white", disabled: false },
     ],
   },
 };
@@ -35,16 +56,16 @@ const HostReservationCard = ({
   time,
   people,
   reserveId,
-  initialStatus = "pending", // 초기 상태
-  onDelete = () => {}, // 예약 내역 삭제 콜백
-}) => {
+  initialStatus = "pending",
+  onDelete = () => {},
+}: HostReservationCardProps) => {
   // 상태를 useState로 관리
   const [status, setStatus] = useState(initialStatus);
 
   const statusData = statusMap[status];
 
   // 버튼 클릭 로직
-  const handleAction = (actionText) => {
+  const handleAction = (actionText: string) => {
     if (status === "pending") {
       if (actionText === "승인 거부") setStatus("cancelled");
       if (actionText === "예약 승인") setStatus("confirmed");
