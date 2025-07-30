@@ -1,7 +1,7 @@
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import NewSpaceUpload from "./NewSpaceUpload";
-import type { NewSpace } from "../../../types/NewSpaceType";
+import type { NewSpace } from "../../../types/guest-main/NewSpaceType";
 
 type NewSpaceSliderProps = {
   spaces: NewSpace[];

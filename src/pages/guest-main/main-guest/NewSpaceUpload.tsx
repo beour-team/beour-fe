@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { bluePlace } from "../../../assets/theme";
-import type { NewSpace } from "../../../types/NewSpaceType";
+import type { NewSpace } from "../../../types/guest-main/NewSpaceType";
 import { PATHS } from "../../../routes/paths";
 
 type NewSpaceUploadProps = {
@@ -33,9 +33,9 @@ const NewSpaceUpload = ({ space }: NewSpaceUploadProps) => {
             alt="파란색 장소마커"
             className="w-[2rem] h-[2rem]"
           />
-          <span className="text-12-Medium">{space.addressAndName}</span>
+          <span className="text-12-Medium text-cr-white">{space.addressAndName}</span>
         </div>
-        <div className="text-16-SemiBold py-3 whitespace-pre-line leading-[1.6]">
+        <div className="text-16-SemiBold py-3 whitespace-pre-line leading-[1.6] text-cr-white">
           {space.description}
         </div>
       </div>

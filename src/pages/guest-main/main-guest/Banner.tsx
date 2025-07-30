@@ -15,7 +15,7 @@ const Banner = () => {
 
   const { data, isLoading, isError } = useBanner();
   if (isLoading) return <div>배너 로딩 중...</div>;
-  if (isError) return <div>배너를 불러오는 데 실패했습니다</div>;
+  if (isError) return <div> </div>;
 
   return (
     <div className="py-[2rem]">

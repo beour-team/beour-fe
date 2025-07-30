@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import type { SearchResultItem } from "../../../constants/dummy-data/search-data";
+import type { SearchResultItems } from "../../../types/guest-main/SearchResultItems";
 import { FaMapMarkerAlt } from "react-icons/fa";
 import { IoPersonSharp } from "react-icons/io5";
 import { GoStarFill } from "react-icons/go";
@@ -8,7 +8,7 @@ import FavoriteIcon from "../../../components/FavoriteIcon";
 import { PATHS } from "../../../routes/paths";
 
 interface SearchResultCardProps {
-  item: SearchResultItem;
+  item: SearchResultItems;
 }
 
 const SearchResultCard = ({ item }: SearchResultCardProps) => {
@@ -23,12 +23,12 @@ const SearchResultCard = ({ item }: SearchResultCardProps) => {
   return (
     <div
       className="py-[1rem] flex gap-[2rem] cursor-pointer border-b border-[#ECECEC]"
-      onClick={() => nav(`${PATHS.SPACE}/${item.id}`)}
+      onClick={() => nav(`${PATHS.SPACE}/${item.spaceId}`)}
     >
       <div className="relative overflow-hidden flex-shrink-0 pb-[1rem]">
         <img
-          src={item.thumbnail_url}
-          alt={item.name}
+          src={item.thumbnailUrl}
+          alt={item.spaceName}
           className="w-[12.7rem] h-[15.8rem] object-cover rounded-[1rem]"
         />
         <button
@@ -40,7 +40,7 @@ const SearchResultCard = ({ item }: SearchResultCardProps) => {
       </div>
 
       <div className="flex flex-col justify-between py-2 ">
-        <div className="text-18-SemiBold pb-[1.4rem]">{item.name}</div>
+        <div className="text-18-SemiBold pb-[1.4rem]">{item.spaceName}</div>
 
         <div className="flex items-center text-[1.2rem] pb-[1.4rem] gap-4">
           <div className="flex gap-[0.4rem] items-center">
@@ -49,13 +49,13 @@ const SearchResultCard = ({ item }: SearchResultCardProps) => {
           </div>
           <div className="flex gap-[0.4rem] items-center">
             <IoPersonSharp className="text-cr-700 text-[1.5rem]" />
-            <span className="text-[#505050]">최대 {item.max_capacity}인</span>
+            <span className="text-[#505050]">최대 {item.maxCapacity}인</span>
           </div>
         </div>
 
         <div className="flex text-[1.2rem] pb-[1rem] gap-[0.4rem] items-center">
           <GoStarFill className="text-cr-yellow text-[1.5rem]" />
-          <span className="text-13-Bold">{item.avg_rating}</span>
+          <span className="text-13-Bold">{item.average}</span>
         </div>
 
         <div className="w-full overflow-hidden">
@@ -72,7 +72,7 @@ const SearchResultCard = ({ item }: SearchResultCardProps) => {
         </div>
 
         <div className="text-18-ExtraBold text-right pt-[1.5rem]">
-          {item.price_per_hour}원/시간
+          {item.price.toLocaleString()}원/시간
         </div>
       </div>
     </div>

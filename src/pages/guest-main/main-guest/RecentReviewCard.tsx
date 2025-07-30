@@ -3,7 +3,7 @@ import { FaStar } from "react-icons/fa";
 import { placemark } from "../../../assets/theme";
 import { formatRelativeTime } from "../../../utils/relative-time";
 import { useNavigate } from "react-router-dom";
-import type { RecentReview } from "../../../types/RecentReview";
+import type { RecentReview } from "../../../types/guest-main/RecentReview";
 import { PATHS } from "../../../routes/paths";
 
 type Props = {

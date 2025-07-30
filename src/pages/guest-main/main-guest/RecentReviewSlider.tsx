@@ -4,7 +4,7 @@ import { useKeenSlider } from "keen-slider/react";
 // import { RecentReviews } from "../../../constants/dummy-data/recent-reviews-data";
 import RecentReviewCard from "./RecentReviewCard";
 import { fetchRecentReview } from "../../../api/guest-main/recent-review";
-import type { RecentReview } from "../../../types/RecentReview";
+import type { RecentReview } from "../../../types/guest-main/RecentReview";
 
 const RecentReViewSlider = () => {
   const {
@@ -25,7 +25,7 @@ const RecentReViewSlider = () => {
   });
 
   if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>리뷰를 불러오는데 실패했습니다.</div>;
+  if (error) return <div>최근 등록된 리뷰가 없습니다.</div>;
 
   return (
     <div ref={sliderRef} className="keen-slider">
