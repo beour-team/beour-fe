@@ -10,6 +10,7 @@ interface SpaceCardProps {
   onMenuClose: () => void;
   onEdit: (id: number) => void;
   onDelete: (id: number) => void;
+  onScheduleOpen: (space: MySpace) => void;
 }
 
 const SpaceCard: React.FC<SpaceCardProps> = ({
@@ -19,6 +20,7 @@ const SpaceCard: React.FC<SpaceCardProps> = ({
   onMenuClose,
   onEdit,
   onDelete,
+  onScheduleOpen,
 }) => {
   return (
     <div className="w-full flex flex-col gap-[1.2rem] border-b border-[#ECECEC] py-[2.7rem] relative">
@@ -75,7 +77,10 @@ const SpaceCard: React.FC<SpaceCardProps> = ({
         </div>
       </div>
 
-      <button className="w-full h-[4.4rem] bg-cr-blue text-cr-white rounded-[0.8rem] py-[1.2rem] flex items-center justify-center text-14-SemiBold gap-[0.4rem]">
+      <button
+        onClick={() => onScheduleOpen(space)}
+        className="w-full h-[4.4rem] bg-cr-blue text-cr-white rounded-[0.8rem] py-[1.2rem] flex items-center justify-center text-14-SemiBold gap-[0.4rem]"
+      >
         <div className="w-[2.4rem] h-[2.4rem] flex items-center justify-center">
           <img src={calendar2} alt="달력 아이콘" />
         </div>

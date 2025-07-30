@@ -8,12 +8,16 @@ import { plus } from "../../assets/theme";
 import { Link } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import FloatingAddButton from "./spacelist-components/FloatingAddButton";
+import SpaceSchedule from "../space-schedule/SpaceSchedule";
+import type { MySpace } from "../../types/MySpace";
 
 const SpaceList = () => {
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedSpaceId, setSelectedSpaceId] = useState<number | null>(null);
   const [selectedSpaceName, setSelectedSpaceName] = useState<string>("");
+  const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
+  const [selectedSpace, setSelectedSpace] = useState<MySpace | null>(null);
 
   // API 호출
   const { data: spaceList, isLoading, error } = useMySpaceList();
@@ -61,6 +65,16 @@ const SpaceList = () => {
     setDeleteModalOpen(false);
     setSelectedSpaceId(null);
     setSelectedSpaceName("");
+  };
+
+  const handleScheduleOpen = (space: MySpace) => {
+    setSelectedSpace(space);
+    setScheduleModalOpen(true);
+  };
+
+  const handleScheduleClose = () => {
+    setScheduleModalOpen(false);
+    setSelectedSpace(null);
   };
 
   // 로딩 상태
@@ -134,6 +148,7 @@ const SpaceList = () => {
             onMenuClose={handleMenuClose}
             onEdit={handleEdit}
             onDelete={handleDelete}
+            onScheduleOpen={handleScheduleOpen}
           />
         ))
       )}
@@ -142,8 +157,7 @@ const SpaceList = () => {
       <Modal
         isOpen={deleteModalOpen}
         onClose={handleDeleteCancel}
-        title={`[ ${selectedSpaceName} ]을\n내 공간에서 삭제하시겠어요?`}
-        message="삭제 후엔 복구가 불가능해요"
+        title={`[ ${selectedSpaceName} ]을\n내 공간에서 삭제하시겠어요?\n\n삭제 후엔 복구가 불가능해요`}
         confirmText={isDeleting ? "삭제 중..." : "삭제하기"}
         cancelText="닫기"
         onConfirm={handleDeleteConfirm}
@@ -161,6 +175,14 @@ const SpaceList = () => {
 
       {/* 플로팅 공간 추가 버튼 */}
       <FloatingAddButton />
+
+      {/* 스케줄 팝업 */}
+      <SpaceSchedule
+        isOpen={scheduleModalOpen}
+        onClose={handleScheduleClose}
+        spaceName={selectedSpace?.spaceName}
+        spaceId={selectedSpace?.spaceId}
+      />
     </div>
   );
 };

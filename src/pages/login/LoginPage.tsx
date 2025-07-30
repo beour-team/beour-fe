@@ -33,6 +33,8 @@ const LoginPage: React.FC = () => {
     register,
     formState: { errors, isValid },
     handleSubmit,
+    setValue,
+    watch,
   } = useForm<LoginData>({ resolver: zodResolver(zodLogin), mode: "onChange" });
 
   // SubmitHandler 는 type Helper 로 폼에서 제출하는 데이터를 검사하는 함수
@@ -67,20 +69,24 @@ const LoginPage: React.FC = () => {
           <ToolTip>로그인 유형을 선택해주세요</ToolTip>
 
           {activeTab === "guest" ? (
-            <HostLoginForm
-              onSubmit={onSubmit}
-              handleSubmit={handleSubmit}
-              register={register}
-              errors={errors}
-              isValid={isValid}
-            />
-          ) : (
             <GuestLoginForm
               onSubmit={onSubmit}
               handleSubmit={handleSubmit}
               register={register}
               errors={errors}
               isValid={isValid}
+              setValue={setValue}
+              watch={watch}
+            />
+          ) : (
+            <HostLoginForm
+              onSubmit={onSubmit}
+              handleSubmit={handleSubmit}
+              register={register}
+              errors={errors}
+              isValid={isValid}
+              setValue={setValue}
+              watch={watch}
             />
           )}
 

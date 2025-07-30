@@ -1,90 +1,87 @@
-// yarn add tailwind-scrollbar-hide
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import WishSpaceGrid from "./wishspace-components/WishSpaceGrid";
 import PageHeader from "../../components/header/PageHeader";
-
-// WishSpaceItem 인터페이스 정의
-interface WishSpaceItem {
-  spaceId: number;
-  spaceName: string;
-  region: string;
-  maxCapacity: number;
-  price: number;
-  thumbnailUrl: string;
-  like: boolean;
-  average: number;
-  tags: string[];
-}
-
-// 더미 데이터 (실제 API 연동 시 제거 예정)
-const dummyList: WishSpaceItem[] = [
-  {
-    spaceId: 1,
-    spaceName: "게임 파티룸 플레이앤 샤인",
-    region: "삼성동",
-    maxCapacity: 3,
-    price: 99000,
-    thumbnailUrl: "https://example.com/image.jpg",
-    like: true,
-    average: 4.2,
-    tags: ["파티", "바베큐", "루프탑", "루프탑", "루프탑"],
-  },
-  {
-    spaceId: 2,
-    spaceName: "게임 파티룸 플레이앤 샤인",
-    region: "삼성동",
-    maxCapacity: 3,
-    price: 99003,
-    thumbnailUrl: "https://example.com/image.jpg",
-    like: true,
-    average: 4.2,
-    tags: ["파티", "바베큐", "루프탑", "루프탑", "루프탑"],
-  },
-  {
-    spaceId: 3,
-    spaceName: "우리동네 베이킹 공방",
-    region: "마포구",
-    maxCapacity: 8,
-    price: 85000,
-    thumbnailUrl: "https://example.com/image.jpg",
-    like: true,
-    average: 4.5,
-    tags: ["공방", "베이킹", "와이파이"],
-  },
-  {
-    spaceId: 4,
-    spaceName: "성수 홈베이킹 스튜디오",
-    region: "성동구",
-    maxCapacity: 6,
-    price: 75000,
-    thumbnailUrl: "https://example.com/image.jpg",
-    like: true,
-    average: 4.0,
-    tags: ["성수", "베이킹", "핫플"],
-  },
-];
+import Modal from "../../components/modal/Modal";
+import Toast from "../../components/toast/Toast";
+import { useWishList } from "../../hooks/WishList/useWishList";
+import { useDeleteWishList } from "../../hooks/WishList/useDeleteWishList";
+import type { WishSpaceItem } from "../../types/WishSpace";
 
 const WishSpace = () => {
-  // 찜 공간 목록 상태 관리 (12개로 확장)
-  const [wishSpaces, setWishSpaces] = useState<WishSpaceItem[]>(() =>
-    Array.from({ length: 12 }, (_, i) => {
-      const base = dummyList[i % dummyList.length];
-      return {
-        ...base,
-        spaceId: base.spaceId + i * 10,
-        spaceName:
-          i < 2 ? base.spaceName : `${base.spaceName} ${Math.floor(i / 2) + 1}`,
-      };
-    })
+  // API 호출을 통한 찜 목록 데이터 가져오기
+  const { data: wishSpaces, isLoading, error } = useWishList();
+
+  // 찜 삭제 뮤테이션
+  const deleteWishListMutation = useDeleteWishList();
+
+  // 찜 공간 목록 상태 관리 (UI 업데이트를 위해)
+  const [localWishSpaces, setLocalWishSpaces] = useState<WishSpaceItem[]>([]);
+
+  // 모달 상태 관리
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedSpace, setSelectedSpace] = useState<WishSpaceItem | null>(
+    null
   );
 
-  // 찜 토글 기능
+  // 토스트 상태 관리
+  const [isToastVisible, setIsToastVisible] = useState(false);
+
+  // API 데이터가 로드되면 로컬 상태 업데이트
+  useEffect(() => {
+    if (wishSpaces) {
+      setLocalWishSpaces(wishSpaces);
+    }
+  }, [wishSpaces]);
+
+  // 찜 삭제 기능 (모달을 통한 확인)
   const handleToggleLike = (spaceId: number) => {
-    setWishSpaces((prev) =>
-      prev.map((space) =>
-        space.spaceId === spaceId ? { ...space, like: !space.like } : space
-      )
+    // 로딩 중이면 클릭 방지
+    if (deleteWishListMutation.isPending) {
+      return;
+    }
+
+    // 찜한 공간 찾기
+    const targetSpace = localWishSpaces.find(
+      (space) => space.spaceId === spaceId
     );
+    if (targetSpace) {
+      setSelectedSpace(targetSpace);
+      setIsModalOpen(true);
+    }
+  };
+
+  // 모달에서 삭제 확인
+  const handleConfirmDelete = () => {
+    if (!selectedSpace) return;
+
+    // 즉시 UI 업데이트 (낙관적 업데이트)
+    setLocalWishSpaces((prev) =>
+      prev.filter((space) => space.spaceId !== selectedSpace.spaceId)
+    );
+
+    // 실제 API 호출
+    deleteWishListMutation.mutate(selectedSpace.spaceId, {
+      onSuccess: () => {
+        // 성공 시 토스트 메시지 표시
+        setIsToastVisible(true);
+      },
+      onError: () => {
+        // 에러 발생 시 UI 롤백
+        if (wishSpaces) {
+          setLocalWishSpaces(wishSpaces);
+        }
+      },
+    });
+
+    // 모달 닫기
+    setIsModalOpen(false);
+    setSelectedSpace(null);
+  };
+
+  // 모달 취소
+  const handleCancelDelete = () => {
+    setIsModalOpen(false);
+    setSelectedSpace(null);
   };
 
   // 공간 상세 페이지로 이동
@@ -92,21 +89,82 @@ const WishSpace = () => {
     console.log("카드 클릭:", spaceId);
   };
 
+  // 로딩 상태
+  if (isLoading) {
+    return (
+      <div className="pb-[2rem] px-[2rem]">
+        <PageHeader>찜 공간</PageHeader>
+        <div className="flex justify-center items-center h-[20rem]">
+          <p className="text-cr-600 text-16-Medium">로딩 중...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // 에러 상태
+  if (error) {
+    return (
+      <div className="pb-[2rem] px-[2rem]">
+        <PageHeader>찜 공간</PageHeader>
+        <div className="flex justify-center items-center h-[20rem]">
+          <p className="text-cr-600 text-16-Medium">
+            {error.message || "찜 목록을 불러오는 중 오류가 발생했습니다."}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="pb-[2rem] px-[2rem]">
+    <div className="pb-[2rem] px-[2rem] relative min-h-screen">
       {/* 페이지 헤더 */}
       <PageHeader>찜 공간</PageHeader>
 
       {/* 찜 공간 총 개수 표시 */}
       <div className="my-[1.6rem]">
-        <p className="text-cr-600 text-13-Medium">총 {wishSpaces.length}개</p>
+        <p className="text-cr-600 text-13-Medium">
+          총 {localWishSpaces.length}개
+        </p>
       </div>
 
-      {/* 찜 공간 그리드 */}
-      <WishSpaceGrid
-        spaces={wishSpaces}
-        onToggleLike={handleToggleLike}
-        onCardClick={handleCardClick}
+      {/* 찜 공간이 없을 때 */}
+      {localWishSpaces.length === 0 ? (
+        <div className="flex flex-col justify-center items-center min-h-[calc(100vh-160px)] gap-[1.2rem]">
+          <div className="text-18-SemiBold text-cr-black">
+            아직 찜한 공간이 없어요
+          </div>
+          <div className="text-14-Medium text-cr-500 text-center leading-[2.2rem]">
+            마음에 드는 공간을 찜해보세요
+          </div>
+        </div>
+      ) : (
+        /* 찜 공간 그리드 */
+        <WishSpaceGrid
+          spaces={localWishSpaces}
+          onToggleLike={handleToggleLike}
+          onCardClick={handleCardClick}
+        />
+      )}
+
+      {/* 삭제 확인 모달 */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCancelDelete}
+        title={`[${selectedSpace?.spaceName}]을(를)\n찜 목록에서 삭제하시겠습니까?`}
+        confirmText="삭제"
+        cancelText="취소"
+        onConfirm={handleConfirmDelete}
+        onCancel={handleCancelDelete}
+        confirmButtonClass="bg-cr-red text-cr-white"
+        cancelButtonClass="bg-cr-500 text-cr-white"
+      />
+
+      {/* 삭제 완료 토스트 */}
+      <Toast
+        message="찜 공간에서 삭제했어요"
+        isVisible={isToastVisible}
+        onClose={() => setIsToastVisible(false)}
+        icon="✓"
       />
     </div>
   );

@@ -1,6 +1,5 @@
 import { z } from "zod";
 import {
-  EMAIL_FORMAT,
   EMAIL_REQUIRED,
   ID_FORMAT,
   ID_REQUIRED,
@@ -19,7 +18,6 @@ import {
   PRICE_FORMAT,
   ADDRESS_REQUIRED,
   SPACE_DESCRIPTION_REQUIRED,
-  SPACE_DESCRIPTION_LENGTH,
   SPACE_NOTICE_REQUIRED,
   SPACE_NOTICE_LENGTH,
   REFUND_POLICY_REQUIRED,
@@ -36,9 +34,9 @@ export const zodLogin = z.object({
 
   password: z
     .string({ message: PASSWORD_REQUIRED })
-    .min(4, { message: PASSWORD_FORMAT })
+    .min(8, { message: PASSWORD_FORMAT })
     .max(20, { message: PASSWORD_FORMAT })
-    .regex(/^[\w\W]{4,20}$/, { message: PASSWORD_FORMAT }),
+    .regex(/^(?=.*[!@#$%^&*(),.?":{}|<>]).*$/, { message: PASSWORD_FORMAT }),
 });
 
 // 📝 회원가입 스키마
@@ -50,7 +48,9 @@ export const zodSignUp = z
 
     password: z
       .string({ message: PASSWORD_REQUIRED })
-      .regex(/^[\w\W]{4,20}$/, { message: PASSWORD_FORMAT }),
+      .min(8, { message: PASSWORD_FORMAT })
+      .max(20, { message: PASSWORD_FORMAT })
+      .regex(/^(?=.*[!@#$%^&*(),.?":{}|<>]).*$/, { message: PASSWORD_FORMAT }),
 
     confirmPassword: z.string({ message: PASSWORD_CONFIRM_REQUIRED }),
 
@@ -69,20 +69,26 @@ export const zodSignUp = z
         message: PHONE_FORMAT,
       }),
 
-    email: z.string({ message: EMAIL_REQUIRED }),
+    email: z
+      .string({ message: EMAIL_REQUIRED })
+      .min(1, { message: EMAIL_REQUIRED }),
 
     emailDomain: z
       .string({ message: EMAIL_REQUIRED })
-      .min(1, { message: EMAIL_FORMAT }),
+      .min(1, { message: "이메일 도메인을 선택해주세요." }),
   })
   .refine(
     (data) => {
-      const fullEmail = `${data.email}@${data.emailDomain}`;
-      return z.string().email().safeParse(fullEmail).success;
+      // 이메일과 도메인이 둘 다 입력되었을 때만 전체 이메일 형식 검증
+      if (data.email && data.emailDomain) {
+        const fullEmail = `${data.email}@${data.emailDomain}`;
+        return z.string().email().safeParse(fullEmail).success;
+      }
+      return true;
     },
     {
       path: ["email"],
-      message: "이메일 형식을 확인해주세요.",
+      message: "올바른 이메일 주소를 입력해주세요.",
     }
   )
   .refine((data) => data.password === data.confirmPassword, {
@@ -104,8 +110,9 @@ export const zodEditProfile = z
     emailDomain: z.string().optional(),
     password: z
       .string()
-      .min(4, { message: PASSWORD_FORMAT })
+      .min(8, { message: PASSWORD_FORMAT })
       .max(20, { message: PASSWORD_FORMAT })
+      .regex(/^(?=.*[!@#$%^&*(),.?":{}|<>]).*$/, { message: PASSWORD_FORMAT })
       .optional()
       .or(z.literal("")),
     confirmPassword: z.string().optional(),
@@ -140,13 +147,18 @@ export const zodEditProfile = z
     (data) => {
       // 비밀번호가 입력되었다면 유효성 검사
       if (data.password && data.password.trim() !== "") {
-        return data.password.length >= 4 && data.password.length <= 20;
+        return (
+          data.password.length >= 8 &&
+          data.password.length <= 20 &&
+          /^(?=.*[!@#$%^&*(),.?":{}|<>]).*$/.test(data.password)
+        );
       }
       return true;
     },
     {
       path: ["password"],
-      message: "비밀번호는 4-20자 사이여야 합니다.",
+      message:
+        "비밀번호는 8자 이상 20자 이하, 특수문자를 1개 이상 포함시켜야합니다.",
     }
   )
   .refine(
@@ -162,38 +174,60 @@ export const zodEditProfile = z
       message: "비밀번호가 일치하지 않습니다.",
     }
   );
-  
-  // 공간 등록 정보
-  export const zodHostSpaceInfo = z.object({
-    spaceName: z.string({ message: SPACE_NAME_REQUIRED }).min(1, {
-      message: SPACE_NAME_REQUIRED,
+
+export const zodHostSpaceInfo = z.object({
+  name: z.string({ message: SPACE_NAME_REQUIRED }).min(1, {
+    message: SPACE_NAME_REQUIRED,
+  }),
+
+  spaceCategory: z.string({ message: "공간 카테고리를 선택해주세요." }),
+
+  useCategory: z
+    .string({ message: "사용 카테고리를 선택해주세요." })
+    .refine((val) => val !== undefined, {
+      message: "사용 카테고리를 선택해주세요.",
     }),
-    price: z
-      .number({ message: PRICE_REQUIRED })
-      .min(1, { message: PRICE_REQUIRED })
-      .refine((val) => val >= 0, { message: PRICE_FORMAT }),
-    address: z.string({ message: ADDRESS_REQUIRED }).min(1, {
-      message: ADDRESS_REQUIRED,
-    }),
-    spaceCapacity: z
-      .number({ message: SPACE_CAPACITY_REQUIRED })
-      .min(1, { message: SPACE_CAPACITY_MIN })
-      .refine((val) => val >= 1, { message: SPACE_CAPACITY_MIN }),
-    purpose: z
-      .string({ message: SPACE_NAME_REQUIRED })
-      .min(1, { message: SPACE_NAME_REQUIRED }),
-    description: z
-      .string({ message: SPACE_DESCRIPTION_REQUIRED })
-      .min(1, { message: SPACE_DESCRIPTION_REQUIRED })
-      .max(2000, { message: SPACE_DESCRIPTION_LENGTH }),
-    notice: z
-      .string({ message: SPACE_NOTICE_REQUIRED })
-      .min(1, { message: SPACE_NOTICE_REQUIRED })
-      .max(500, { message: SPACE_NOTICE_LENGTH }),
-    refundPolicy: z
-      .string({ message: REFUND_POLICY_REQUIRED })
-      .min(1, { message: REFUND_POLICY_REQUIRED })
-      .max(500, { message: REFUND_POLICY_LENGTH }), 
-  });
-  
-  export type HostSpaceInfo = z.infer<typeof zodHostSpaceInfo>;
+
+  maxCapacity: z
+    .number({ message: SPACE_CAPACITY_REQUIRED })
+    .min(1, { message: SPACE_CAPACITY_MIN }),
+
+  address: z.string({ message: ADDRESS_REQUIRED }).min(1, {
+    message: ADDRESS_REQUIRED,
+  }),
+
+  detailAddress: z.string().optional(),
+
+  pricePerHour: z
+    .number({ message: PRICE_REQUIRED })
+    .min(1, { message: PRICE_REQUIRED })
+    .refine((val) => val > 0, { message: PRICE_FORMAT }),
+
+  description: z.string({ message: SPACE_DESCRIPTION_REQUIRED }).min(1, {
+    message: SPACE_DESCRIPTION_REQUIRED,
+  }),
+
+  priceGuide: z.string().optional(),
+
+  facilityNotice: z.string().optional(),
+
+  notice: z
+    .string({ message: SPACE_NOTICE_REQUIRED })
+    .min(1, { message: SPACE_NOTICE_REQUIRED })
+    .max(500, { message: SPACE_NOTICE_LENGTH }),
+
+  locationDescription: z.string().optional(),
+
+  refundPolicy: z
+    .string({ message: REFUND_POLICY_REQUIRED })
+    .min(1, { message: REFUND_POLICY_REQUIRED })
+    .max(500, { message: REFUND_POLICY_LENGTH }),
+
+  tags: z.array(z.string()).optional(),
+
+  thumbnailUrl: z
+    .string()
+    .url({ message: "썸네일 URL 형식이 잘못되었습니다." }),
+
+  imageUrls: z.array(z.string().url()),
+});

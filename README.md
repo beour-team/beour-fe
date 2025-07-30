@@ -47,3 +47,11 @@
   상수: UPPER_SNAKE_CASE"
 
 ```
+
+## [폴더 및 상수 컨벤션]
+```
+컴포넌트, 인터페이스, 타입, 파일 명: PascalCase
+폴더,일반 파일 명: kebab-case
+변수, 함수 명: camelCase
+상수: UPPER_SNAKE_CASE
+```

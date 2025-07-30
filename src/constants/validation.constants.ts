@@ -6,7 +6,7 @@ export const ID_FORMAT = "아이디는 영어와 숫자 조합으로 5~15자여�
 // 비밀번호
 export const PASSWORD_REQUIRED = "비밀번호를 입력해주세요.";
 export const PASSWORD_FORMAT =
-  "비밀번호는 특수문자를 포함하여 4~20자여야 합니다.";
+  "비밀번호는 8자 이상 20자 이하, 특수문자를 1개 이상 포함시켜야합니다.";
 export const PASSWORD_CONFIRM_REQUIRED = "비밀번호를 한 번 더 입력해주세요.";
 export const PASSWORD_CONFIRM_INVALID = "비밀번호가 일치하지 않습니다.";
 
@@ -47,7 +47,8 @@ export const ADDRESS_REQUIRED = "주소를 입력해주세요.";
 
 //공간 설명
 export const SPACE_DESCRIPTION_REQUIRED = "공간 설명을 입력해주세요.";
-export const SPACE_DESCRIPTION_LENGTH = "공간 설명은 최대 2000자 이내로 입력해주세요"
+export const SPACE_DESCRIPTION_LENGTH =
+  "공간 설명은 최대 2000자 이내로 입력해주세요";
 
 //주의 사항
 export const SPACE_NOTICE_REQUIRED = "주의 사항을 입력해주세요.";
@@ -55,5 +56,8 @@ export const SPACE_NOTICE_LENGTH = "주의 사항은 최대 500자 이내로 입
 
 //환불 정책
 export const REFUND_POLICY_REQUIRED = "환불 정책을 입력해주세요.";
-export const REFUND_POLICY_LENGTH = "환불 정책은 최대 500자 이내로 입력해주세요";
+export const REFUND_POLICY_LENGTH =
+  "환불 정책은 최대 500자 이내로 입력해주세요";
 
+//카테고리
+export const CATEGORY_REQUIRED = "카테고리를 선택해주세요.";

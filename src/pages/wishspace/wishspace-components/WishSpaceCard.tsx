@@ -1,17 +1,6 @@
 import { BlackStar, people, spot, star } from "../../../assets/theme";
 import SpaceTagScroll from "./SpaceTagScroll";
-
-interface WishSpaceItem {
-  spaceId: number;
-  spaceName: string;
-  region: string;
-  maxCapacity: number;
-  price: number;
-  thumbnailUrl: string;
-  like: boolean;
-  average: number;
-  tags: string[];
-}
+import type { WishSpaceItem } from "../../../types/WishSpace";
 
 interface WishSpaceCardProps {
   item: WishSpaceItem;
@@ -91,7 +80,7 @@ const WishSpaceCard = ({
           <img src={star} className="h-[1.6rem] w-[1.6rem]" />
           <span className="text-13-Medium text-cr-black">
             {item.average.toFixed(1)}
-            <span className="text-cr-500">(103)</span>
+            <span className="text-cr-500">({item.reviewCount})</span>
           </span>
         </div>
 
