@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -14,9 +14,9 @@ import { useEffect } from "react";
 const HostSpaceRegisterInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const onValid = (data: HostSpaceInfo) => {
-    console.log("제출된 데이터:", data);
-  };
+  // const onValid = (data: HostSpaceInfo) => {
+  //   console.log("제출된 데이터:", data);
+  // };
 
   interface AddressData {
     address: string;
@@ -34,7 +34,6 @@ const HostSpaceRegisterInfo = () => {
 
   const [images, setImages] = useState<File[]>([]);
   const [selectedPurpose, setSelectedPurpose] = useState("");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const spaceCategory = location.state?.spaceCategory || "";
 
   const [tags, setTags] = useState<string[]>([]);
@@ -68,7 +67,7 @@ const HostSpaceRegisterInfo = () => {
     handleSubmit,
     setValue,
     watch,
-    formState: { errors, isValid },
+    formState: { errors },
   } = useForm<HostSpaceInfoType>({
     resolver: zodResolver(zodHostSpaceInfo),
     mode: "onChange",

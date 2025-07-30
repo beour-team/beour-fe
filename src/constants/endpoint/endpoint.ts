@@ -15,9 +15,9 @@ export const API_SIGNUP = "/api/signup";
 // 마이페이지 관련
 export const API_WITHDRAW = "/api/mypage/withdraw";
 export const API_MYPAGE = "/api/users/me";
-export const API_MYPAGE_DETAIL = "/api/mypage/detail";
-export const API_UPDATE_PROFILE = "/api/mypage/detail"; // 닉네임, 핸드폰 번호 변경
-export const API_UPDATE_PASSWORD = "/api/mypage/password";
+export const API_MYPAGE_DETAIL = "/api/users/me/detail";
+export const API_UPDATE_PROFILE = "/api/users/me/detail"; // 닉네임, 핸드폰 번호 변경
+export const API_UPDATE_PASSWORD = "/api/users/me/password";
 
 // 배너 관련
 export const API_BANNERS = "/api/banners";

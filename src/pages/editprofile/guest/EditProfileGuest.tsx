@@ -21,6 +21,8 @@ const EditProfileGuest: React.FC = () => {
     setValue, // 필드 초기 값 설정
     watch, // 실시간 입력 데이터 확인
     reset, // 필드 초기화
+    setError, // 에러 설정
+    clearErrors, // 에러 클리어
     formState: { errors },
   } = useForm<EditProfile>({
     // resolver는 미리 만들어둔 스키마 zodEditProfile 이랑 연결
@@ -156,6 +158,8 @@ const EditProfileGuest: React.FC = () => {
         watch={watch}
         onSubmit={onSubmit}
         errors={errors}
+        setError={setError}
+        clearErrors={clearErrors}
       />
     </div>
   );
