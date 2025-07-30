@@ -21,7 +21,7 @@
     "@mui/material": "^7.1.0",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tanstack/react-query": "^5.82.0",
-    "axios": "^1.10.0",
+    "axios": "^1.11.0",
     "daisyui": "^5.0.43",
     "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",

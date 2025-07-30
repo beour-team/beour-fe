@@ -1,10 +1,10 @@
 // 서버 배포 후 수정 필요
-export const BASE_URL = import.meta.env.VITE_API_URL;
+export const BASE_URL = "https://beour.store";
 
 // 혹시 오타나 이상한 부분이 있으면 말씀 주세요,,,,,,ㅎ
 
 // 로그인 관련
-export const API_LOGIN = "/api/users/login";
+export const API_LOGIN = "/api/login";
 export const API_FIND_ID = "/api/users/find-login-id";
 export const API_RESET_PW = "/api/users/reset-pw";
 export const API_LOGOUT = "/logout";

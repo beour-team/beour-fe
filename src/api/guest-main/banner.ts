@@ -10,7 +10,7 @@ export interface Banner {
 // 비동기 함수
 export const fetchBanners = async (): Promise<Banner[]> => {
   const res = await axios.get("/api/banners"); //http 요청
-  const result = res.data;
+  // const result = res.data;
 
   // 명세서 구조 {code, httpStatus, data}여서
 
