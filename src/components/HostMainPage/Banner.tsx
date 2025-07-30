@@ -1,13 +1,9 @@
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
-import "swiper/css";
-import "swiper/css/pagination";
+import { hostmainbanner } from "../../assets/theme";
 
 const Banner = () => {
-  const dummyImages = [
-    "https://img.freepik.com/free-photo/abstract-luxury-gold-yellow-gradient-studio-wall-well-use-as-background-layout-banner-product-presentation_1258-56101.jpg?semt=ais_hybrid&w=740",
-    "https://img.freepik.com/premium-photo/abstract-background-design-rough-caribbean-green-color_851755-75771.jpg?semt=ais_hybrid&w=740",
-  ];
+  const dummyImages = [hostmainbanner];
 
   return (
     <div className="w-full h-[66px] mb-6">

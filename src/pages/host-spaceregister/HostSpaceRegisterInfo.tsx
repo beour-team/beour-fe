@@ -9,6 +9,7 @@ import DaumPostcode from "react-daum-postcode";
 import { registerSpace } from "../../api/space/space.ts";
 import type { HostSpaceInfo } from "../../types/HostSpaceInfo.ts";
 import { z } from "zod";
+import { useEffect } from "react";
 
 const HostSpaceRegisterInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -82,6 +83,10 @@ const HostSpaceRegisterInfo = () => {
     newImages.splice(index, 1);
     setImages(newImages);
   };
+
+  useEffect(() => {
+    console.log("폼 에러 상태:", errors);
+  }, [errors]);
 
   const imageUrls = images.map((img) => URL.createObjectURL(img));
   const thumbnailUrl = imageUrls[0] || "";

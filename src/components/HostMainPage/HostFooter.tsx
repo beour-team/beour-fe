@@ -2,8 +2,6 @@ import { useNavigate } from "react-router-dom";
 import {
   home,
   home_click,
-  nearby,
-  nearby_click,
   reservations,
   reservations_click,
   guest,
@@ -20,7 +18,7 @@ const footerItems = [
   },
   {
     label: "마이페이지",
-    path: "/hostpage",
+    path: "/mypagehost",
     icon: guest,
     clickIcon: guest_click,
   },
