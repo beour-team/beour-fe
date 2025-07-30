@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import HostReservationCard from "./HostReservationCard";
 import SpaceListDown from "../../components/HostMainPage/SpaceListDown";
 import HostFooter from "../../components/HostMainPage/HostFooter";
