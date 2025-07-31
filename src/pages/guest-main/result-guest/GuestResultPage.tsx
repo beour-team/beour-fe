@@ -6,6 +6,7 @@ import SearchResult from "./SearchResult";
 import BackButton from "../../../components/BackButton";
 import { PATHS } from "../../../routes/paths";
 import useSpacesSearch from "../../../hooks/guest-result/useSpacesSearch";
+import { leftArrow, rightArrow } from "../../../assets/theme";
 
 const GuestResultPage = () => {
   const location = useLocation();
@@ -13,23 +14,47 @@ const GuestResultPage = () => {
   const params = new URLSearchParams(location.search);
 
   const keyword = params.get("keyword") || ""; // 검색어 추출
+  const spacecategory = params.get("spacecategory") || "";
+  const usecategory = params.get("usecategory") || "";
   const pageParam = params.get("page");
   const initialPage = pageParam ? parseInt(pageParam, 10) : 0;
 
   const [page, setPage] = useState(initialPage);
 
-  const { spaces, last, loading } = useSpacesSearch({ keyword, page });
- 
+  const buildQuery = (pageNum: number) => {
+    const q = new URLSearchParams();
+    if (keyword) q.set("keyword", keyword);
+    else if (spacecategory) q.set("spacecategory", spacecategory);
+    else if (usecategory) q.set("usecategory", usecategory);
+    q.set("page", pageNum.toString());
+    return q.toString();
+  };
 
-  const handleSearch = (keyword: string) => {
+  const { spaces, last, loading } = useSpacesSearch({
+    keyword,
+    spacecategory,
+    usecategory,
+    page,
+  });
+
+  const handleSearch = (newKeyword: string) => {
     setPage(0); // 검색어 바뀌면 페이지 초기화
-    nav(`${PATHS.GUEST.RESULT}?keyword=${encodeURIComponent(keyword)}&page=0`);
+    nav(
+      `${PATHS.GUEST.RESULT}?keyword=${encodeURIComponent(newKeyword)}&page=0`
+    );
   };
 
   const handleNextPage = () => {
     const nextPage = page + 1;
     setPage(nextPage);
-    nav(`${PATHS.GUEST.RESULT}?keyword=${encodeURIComponent(keyword)}&page=${nextPage}`);
+    nav(`${PATHS.GUEST.RESULT}?${buildQuery(nextPage)}`);
+  };
+
+  const handlePrevPage = () => {
+    if (page <= 0) return;
+    const prevPage = page - 1;
+    setPage(prevPage);
+    nav(`${PATHS.GUEST.RESULT}?${buildQuery(prevPage)}`);
   };
 
   return (
@@ -47,10 +72,11 @@ const GuestResultPage = () => {
         <ResultToolbar totalCount={spaces.length} />
         <SearchResult results={spaces} />
       </div>
-        {/* 대충 */}
-      {!last && (
-        <button onClick={handleNextPage}>다음 페이지</button>
-      )}
+
+      <div className="flex justify-center gap-4 my-[1rem] text-16-Medium cursor-pointer">
+        {page > 0 && <img src={leftArrow} onClick={handlePrevPage} />}
+        {!last && <img src={rightArrow} onClick={handleNextPage} />}
+      </div>
     </div>
   );
 };

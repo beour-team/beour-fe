@@ -22,7 +22,7 @@ const SearchResultCard = ({ item }: SearchResultCardProps) => {
 
   return (
     <div
-      className="py-[1rem] flex gap-[2rem] cursor-pointer border-b border-[#ECECEC]"
+      className="relative py-[1rem] flex gap-[2rem] cursor-pointer border-b border-[#ECECEC]"
       onClick={() => nav(`${PATHS.SPACE}/${item.spaceId}`)}
     >
       <div className="relative overflow-hidden flex-shrink-0 pb-[1rem]">
@@ -59,7 +59,7 @@ const SearchResultCard = ({ item }: SearchResultCardProps) => {
         </div>
 
         <div className="w-full overflow-hidden">
-          <div className="flex gap-2 overflow-x-auto scrollbar-hide max-w-full">
+          <div className="flex gap-2 overflow-x-auto scrollbar-hide max-w-full pb-[3.5rem]">
             {item.tags.map((tag, index) => (
               <div
                 key={index}
@@ -71,7 +71,7 @@ const SearchResultCard = ({ item }: SearchResultCardProps) => {
           </div>
         </div>
 
-        <div className="text-18-ExtraBold text-right pt-[1.5rem]">
+        <div className="absolute bottom-1 right-1 text-18-ExtraBold pb-[1.3rem]">
           {item.price.toLocaleString()}원/시간
         </div>
       </div>

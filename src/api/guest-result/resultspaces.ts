@@ -1,6 +1,6 @@
 import type { SearchResultItems } from "../../types/guest-main/SearchResultItems";
 import axios from "axios";
-import { API_SPACE_SEARCH, BASE_URL } from "../../constants/endpoint/endpoint";
+import { API_SPACE_SEARCH, API_SPACE_CATEGORY, BASE_URL, API_SPACE_USE_CATEGORY } from "../../constants/endpoint/endpoint";
 
 
 export interface FetchSpacesResponse {
@@ -10,11 +10,28 @@ export interface FetchSpacesResponse {
 }
 
 export const fetchSpacesAPI = async (
-  keyword: string,
+  type: "keyword" | "spacecategory" | "usecategory",
+  value: string,
   page: number
 ): Promise<FetchSpacesResponse> => {
-  const response = await axios.get(BASE_URL + API_SPACE_SEARCH, {
-    params: { keyword, page },
+  let endpoint = "";
+
+  switch (type) {
+    case "keyword":
+      endpoint = API_SPACE_SEARCH;
+      break;
+    case "spacecategory":
+      endpoint = API_SPACE_CATEGORY;
+      break;
+    case "usecategory":
+      endpoint = API_SPACE_USE_CATEGORY;
+      break;
+    default:
+      throw new Error("Invalid search type");
+  }
+
+  const response = await axios.get(BASE_URL + endpoint, {
+    params: { [type]: value, page },
   });
   return response.data.data;
 };

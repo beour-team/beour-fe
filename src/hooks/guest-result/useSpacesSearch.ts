@@ -3,7 +3,9 @@ import { fetchSpacesAPI } from "../../api/guest-result/resultspaces";
 import type { SearchResultItems } from "../../types/guest-main/SearchResultItems";
 
 interface UseSpacesSearchProps {
-  keyword: string;
+  keyword?: string;
+  spacecategory?: string;
+  usecategory?: string;
   page: number;
 }
 
@@ -15,7 +17,10 @@ interface UseSpacesSearchReturn {
   error: Error | null;
 }
 
-const useSpacesSearch = ({ keyword, page }: UseSpacesSearchProps): UseSpacesSearchReturn => {
+const useSpacesSearch = ({ keyword,
+  spacecategory,
+  usecategory,
+  page, }: UseSpacesSearchProps): UseSpacesSearchReturn => {
   const [spaces, setSpaces] = useState<SearchResultItems[]>([]);
   const [totalPage, setTotalPage] = useState(1);
   const [last, setLast] = useState(true);
@@ -23,13 +28,22 @@ const useSpacesSearch = ({ keyword, page }: UseSpacesSearchProps): UseSpacesSear
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    if (!keyword) return;
+    const value = keyword || spacecategory || usecategory || "";
+    const type = keyword
+      ? "keyword"
+      : spacecategory
+      ? "spacecategory"
+      : usecategory
+      ? "usecategory"
+      : null;
+
+    if (!value || !type) return;
 
     const fetchData = async () => {
       setLoading(true);
       setError(null);
       try {
-        const data = await fetchSpacesAPI(keyword, page);
+        const data = await fetchSpacesAPI(type, value, page);
         setSpaces(data.spaces);
         setLast(data.last);
         setTotalPage(data.totalPage);
@@ -42,7 +56,7 @@ const useSpacesSearch = ({ keyword, page }: UseSpacesSearchProps): UseSpacesSear
     };
 
     fetchData();
-  }, [keyword, page]);
+  }, [keyword, spacecategory, usecategory, page]);
 
   return { spaces, totalPage, last, loading, error };
 };
