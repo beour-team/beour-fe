@@ -15,11 +15,7 @@ export const registerSpace = async (
     console.log("registerSpace() 요청 데이터:", spaceInfo);
     console.log("보내는 토큰:", accessToken);
 
-    const response = await api.post(API_SPACES, spaceInfo, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
+    const response = await api.post(API_SPACES, spaceInfo);
 
     console.log("서버 응답 데이터:", response.data); // 응답 확인
 
