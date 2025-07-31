@@ -25,8 +25,7 @@ const Nickname: React.FC<NickNameInputProps> = ({
   clearErrors,
 }) => {
   const nickname = watch("nickname") || "";
-  const { mutate: checkNicknameMutate, isPending } =
-    useNicknameCheck<SignUpData>();
+  const { mutate: checkNicknameMutate, isPending } = useNicknameCheck();
 
   const handleCheckNickname = () => {
     if (!nickname) {
@@ -37,7 +36,6 @@ const Nickname: React.FC<NickNameInputProps> = ({
       nickname,
       setError,
       clearErrors,
-      fieldName: "nickname" as keyof SignUpData,
     });
   };
 
