@@ -1,7 +1,7 @@
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
-  title: string;
+  title: React.ReactNode;
   confirmText?: string;
   cancelText?: string;
   onConfirm: () => void;
@@ -44,9 +44,13 @@ const Modal: React.FC<ModalProps> = ({
     >
       <div className="bg-cr-white flex flex-col justify-between gap-[2rem] rounded-[1.6rem] p-[1.6rem] w-[30rem] ">
         <div className="flex flex-col gap-[1.6rem]">
-          <h2 className="text-16-SemiBold whitespace-pre-line leading-[2.6rem] text-cr-black">
-            {title}
-          </h2>
+          <p className="text-16-SemiBold text-cr-black whitespace-pre-line leading-[2.6rem]">
+            {title} 을 내 공간에서 삭제하시겠어요?
+            <br />
+            <span className="text-14-Medium text-cr-500">
+              삭제 후엔 복구가 불가능해요
+            </span>
+          </p>
         </div>
 
         <div className="flex gap-[0.4rem]">

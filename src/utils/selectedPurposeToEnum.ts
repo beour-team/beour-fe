@@ -1,8 +1,8 @@
-import type { HostSpaceInfo } from "../../pages/types/HostSpaceInfo";
+import type { HostSpaceInfo } from "../types/HostSpaceInfo";
 
 export const selectedPurposeToEnum = (
   purpose: string
-): HostSpaceInfo["use_category"] => {
+): HostSpaceInfo["useCategory"] => {
   switch (purpose) {
     case "모임":
       return "MEETING";
