@@ -1,6 +1,6 @@
 // 게스트 메인화면 - 최근 등록된 리뷰
 export interface RecentReview {
-  reviewId: number; //여기 필요해요 ㅠㅠ
+  reviewId: number;
   spaceName: string;
   reviewerNickName: string;
   reviewCreatedAt: string;

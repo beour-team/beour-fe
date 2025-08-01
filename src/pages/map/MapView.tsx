@@ -1,13 +1,16 @@
 import { useEffect, useState, useRef } from "react";
 import { Map, CustomOverlayMap } from "react-kakao-maps-sdk";
-import Searchbar from "../../components/Searchbar";
-import SearchResultCard from "../../pages/guest-main/result-guest/SearchResultCard";
-import type { SearchResultItem } from "../../constants/dummy-data/search-data";
 import { AnimatePresence, motion } from "framer-motion"; //yarn add framer-motion 설치해주세요
 import type { PanInfo } from "framer-motion";
-import { SearchData } from "../../constants/dummy-data/search-data";
-import { searchSpaces } from "../../utils/search-spaces";
 import { FaMapMarkerAlt } from "react-icons/fa";
+
+import Searchbar from "../../components/Searchbar";
+import SearchResultCard from "../../pages/guest-main/result-guest/SearchResultCard";
+
+import { useNearbySpaces } from "../../hooks/map/useNearbySpaces";
+import { fetchSimpleSpaceInfo } from "../../api/map/map";
+import { transformSimple } from "../../utils/transform";
+import type { SearchResultItems } from "../../types/guest-main/SearchResultItems";
 
 const MapView = () => {
   const [myLocation, setMyLocation] = useState<{
@@ -21,12 +24,44 @@ const MapView = () => {
   } | null>(null); // 지도 중심 상태 관리
 
   const mapRef = useRef<kakao.maps.Map | null>(null); //지도 인스턴스 접근용
-  const [filteredSpaces, setFilteredSpaces] = useState<SearchResultItem[]>(
-    SearchData["삼성역"]
-  );
-  const [selectedSpace, setSelectedSpace] = useState<SearchResultItem | null>(
+  const [selectedSpace, setSelectedSpace] = useState<SearchResultItems | null>(
     null
   );
+  const spaces = useNearbySpaces(
+    myLocation?.lat ?? null,
+    myLocation?.lng ?? null
+  );
+
+  const handleSearch = (lat: number, lng: number) => {
+    const newCenter = { lat, lng };
+    setMapCenter(newCenter);
+    setMyLocation(newCenter);
+  };
+
+  const handleKeywordSearch = (keyword: string) => {
+    if (!window.kakao?.maps) {
+      console.warn("Kakao Maps SDK가 아직 로드되지 않았습니다.");
+      return;
+    }
+
+    window.kakao.maps.load(() => {
+      const ps = new window.kakao.maps.services.Places();
+
+      ps.keywordSearch(keyword, (data, status) => {
+        if (
+          status === window.kakao.maps.services.Status.OK &&
+          data.length > 0
+        ) {
+          const lat = parseFloat(data[0].y);
+          const lng = parseFloat(data[0].x);
+
+          handleSearch(lat, lng); // 기존 구현된 중심 이동 함수 호출
+        } else {
+          alert("검색 결과가 없습니다.");
+        }
+      });
+    });
+  };
 
   // 내 위치 가져오기 (현재 위치 기반)
   useEffect(() => {
@@ -49,22 +84,25 @@ const MapView = () => {
     }
   }, []);
 
-  // 검색 기능 처리 함수
-  const handleSearch = (keyword: string) => {
-    searchSpaces(keyword, (center, results) => {
-      setMapCenter(center); // 지도 중심 이동
-      setFilteredSpaces(results);
-    });
+  // 마커 클릭 시 상세 정보 조회
+  const handleMarkerClick = async (spaceId: number) => {
+    try {
+      const info = await fetchSimpleSpaceInfo(spaceId);
+      setSelectedSpace(transformSimple(info, spaceId));
+    } catch (e) {
+      console.error("공간 상세 조회 실패:", e);
+    }
   };
 
   return (
     <div className="w-full h-[90rem] relative">
       <div className="absolute top-5 left-1/2 -translate-x-1/2 z-10 w-[80%] max-w-xl">
-        <Searchbar onSearch={handleSearch} bgcolor="white" />
+        <Searchbar onSearch={handleKeywordSearch} bgcolor="white" />
       </div>
+
       {myLocation ? (
         <Map
-          center={mapCenter || { lat: myLocation.lat, lng: myLocation.lng }}
+          center={mapCenter || myLocation}
           style={{ width: "100%", height: "100%" }}
           level={5}
           ref={mapRef}
@@ -85,21 +123,26 @@ const MapView = () => {
           </CustomOverlayMap>
 
           {/* 공간리스트 표시 */}
-          {filteredSpaces.map((space) => (
+          {spaces.map((space) => (
             <CustomOverlayMap
-              key={space.id}
-              position={{ lat: space.lat, lng: space.lng }}
+              key={space.spaceId}
+              position={{ lat: space.latitude, lng: space.longitude }}
               yAnchor={1} //마커 하단이 기준점이 되도록
             >
               <div
-                onClick={() => setSelectedSpace(space)}
+                onClick={() => handleMarkerClick(space.spaceId)}
                 style={{
-                  color: selectedSpace?.id === space.id ? "#000000" : "#6B96F9",
+                  color:
+                    selectedSpace?.spaceId === space.spaceId
+                      ? "#000000"
+                      : "#6B96F9",
                   cursor: "pointer",
                   transition: "transform 0.2s",
                   transformOrigin: "bottom center",
                   transform:
-                    selectedSpace?.id === space.id ? "scale(1.25)" : "scale(1)",
+                    selectedSpace?.spaceId === space.spaceId
+                      ? "scale(1.25)"
+                      : "scale(1)",
                 }}
               >
                 <FaMapMarkerAlt size={27} />
