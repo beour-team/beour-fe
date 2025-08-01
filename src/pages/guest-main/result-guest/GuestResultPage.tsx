@@ -1,46 +1,60 @@
 import { useNavigate, useLocation } from "react-router-dom";
-import { SearchData } from "../../../constants/dummy-data/search-data";
+import { useState } from "react";
 import Searchbar from "../../../components/Searchbar";
 import ResultToolbar from "./ResultToolbar";
 import SearchResult from "./SearchResult";
 import BackButton from "../../../components/BackButton";
+import { PATHS } from "../../../routes/paths";
+import useSpacesSearch from "../../../hooks/guest-result/useSpacesSearch";
+import { leftArrow, rightArrow } from "../../../assets/theme";
 
-//임시데이터(삼성역으로만 검색해야 나옴)로 만든 결과화면
 const GuestResultPage = () => {
   const location = useLocation();
+  const nav = useNavigate();
   const params = new URLSearchParams(location.search);
 
-  const region = params.get("region") || "";
-  const min = Number(params.get("priceMin")) || 0;
-  const max = Number(params.get("priceMax")) || 999999;
-  const capacity = Number(params.get("capacity")) || 0;
-  const spaceTypes = params.getAll("spaceType");
-  const useTypes = params.getAll("useType");
+  const keyword = params.get("keyword") || ""; // 검색어 추출
+  const spacecategory = params.get("spacecategory") || "";
+  const usecategory = params.get("usecategory") || "";
+  const pageParam = params.get("page");
+  const initialPage = pageParam ? parseInt(pageParam, 10) : 0;
 
-  const keyword = params.get("request") || ""; // 검색어 추출
-  const rawData = SearchData[keyword] || []; // 필터링
+  const [page, setPage] = useState(initialPage);
 
-  const filteredData = rawData.filter((item) => {
-    const matchRegion = region ? item.address.includes(region) : true;
-    const matchPrice = item.price_per_hour >= min && item.price_per_hour <= max;
-    const matchCapacity = item.max_capacity >= capacity;
-    const matchSpaceType =
-      spaceTypes.length > 0 ? spaceTypes.includes(item.category) : true;
-    const matchUseType =
-      useTypes.length > 0 ? useTypes.includes(item.use) : true;
+  const buildQuery = (pageNum: number) => {
+    const q = new URLSearchParams();
+    if (keyword) q.set("keyword", keyword);
+    else if (spacecategory) q.set("spacecategory", spacecategory);
+    else if (usecategory) q.set("usecategory", usecategory);
+    q.set("page", pageNum.toString());
+    return q.toString();
+  };
 
-    return (
-      matchRegion &&
-      matchPrice &&
-      matchCapacity &&
-      matchSpaceType &&
-      matchUseType
-    );
+  const { spaces, last, loading } = useSpacesSearch({
+    keyword,
+    spacecategory,
+    usecategory,
+    page,
   });
 
-  const nav = useNavigate();
-  const handleSearch = (keyword: string) => {
-    nav(`/space/search?request=${encodeURIComponent(keyword)}`);
+  const handleSearch = (newKeyword: string) => {
+    setPage(0); // 검색어 바뀌면 페이지 초기화
+    nav(
+      `${PATHS.GUEST.RESULT}?keyword=${encodeURIComponent(newKeyword)}&page=0`
+    );
+  };
+
+  const handleNextPage = () => {
+    const nextPage = page + 1;
+    setPage(nextPage);
+    nav(`${PATHS.GUEST.RESULT}?${buildQuery(nextPage)}`);
+  };
+
+  const handlePrevPage = () => {
+    if (page <= 0) return;
+    const prevPage = page - 1;
+    setPage(prevPage);
+    nav(`${PATHS.GUEST.RESULT}?${buildQuery(prevPage)}`);
   };
 
   return (
@@ -51,9 +65,17 @@ const GuestResultPage = () => {
           <Searchbar onSearch={handleSearch} />
         </div>
       </div>
+
+      {loading && <div>로딩 중...</div>}
+
       <div className="mx-[1rem]">
-        <ResultToolbar totalCount={filteredData.length} />
-        <SearchResult results={filteredData} />
+        <ResultToolbar totalCount={spaces.length} />
+        <SearchResult results={spaces} />
+      </div>
+
+      <div className="flex justify-center gap-4 my-[1rem] text-16-Medium cursor-pointer">
+        {page > 0 && <img src={leftArrow} onClick={handlePrevPage} />}
+        {!last && <img src={rightArrow} onClick={handleNextPage} />}
       </div>
     </div>
   );

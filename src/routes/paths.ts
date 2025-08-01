@@ -5,7 +5,7 @@ export const PATHS = {
   HOME: "/",
   LOGIN: "/login",
   SIGNUP: "/signup",
-  SPACE: "/space",
+  SPACE: "/spaces",
   SIGNUPFORM: "/signup/form",
   SIGNUPCOMPLETE: "/signup/complete",
 
@@ -25,7 +25,7 @@ export const PATHS = {
   GUEST: {
     MAIN: "/guest",
     SEARCH: "/search",
-    RESULT: "/space/search",
+    RESULT: "/spaces/search",
     FILTER: "/filter",
     MAP: "/nearby",
     MYPAGE: "/mypageguest",

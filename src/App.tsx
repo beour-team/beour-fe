@@ -32,10 +32,15 @@ import EditProfileGuest from "./pages/editprofile/guest/EditProfileGuest";
 import HostCalendar from "./pages/host-calendar/HostCalendar";
 import HostReview from "./pages/review/host/HostReview";
 import GuestReview from "./pages/review/guest/GuestReview";
+// react query 사용을 위한 전역 설정
+// yarn add @tanstack/react-query axios
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Toaster position="bottom-center" reverseOrder={false} />
       <Routes>
         {/* 웹앱 사이즈의 레이아웃입니다 */}
@@ -110,7 +115,7 @@ function App() {
           </Route>
         </Route>
       </Routes>
-    </>
+    </QueryClientProvider>
   );
 }
 

@@ -1,13 +1,7 @@
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
 import NewSpaceUpload from "./NewSpaceUpload";
-
-type NewSpace = {
-  thumbnail_url: string;
-  location: string;
-  name: string;
-  description: string;
-};
+import type { NewSpace } from "../../../types/guest-main/NewSpaceType";
 
 type NewSpaceSliderProps = {
   spaces: NewSpace[];
@@ -29,7 +23,7 @@ const NewSpaceSlider = ({ spaces }: NewSpaceSliderProps) => {
     >
       {spaces.map((space, idx) => (
         <div className="keen-slider__slide box-border" key={idx}>
-          <NewSpaceUpload space={space} spaceId={idx} />
+          <NewSpaceUpload space={space} />
         </div>
       ))}
     </div>
