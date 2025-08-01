@@ -11,7 +11,13 @@ const HostReserveList = () => {
   const nav = useNavigate();
   const [showCategories, setShowCategories] = useState(false);
 
-  const today = "2025년 5월 7일";
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1; // 0부터 시작하니까 +1
+  const date = now.getDate();
+
+  const today = `${year}년 ${month}월 ${date}일`;
 
   //dummy data;
   const categories = [
