@@ -7,12 +7,12 @@ import NewSpace from "./NewSpace";
 import GuestFooter from "../../../components/GuestFooter";
 import Searchbar from "../../../components/Searchbar";
 import RecentReview from "./RecentReView";
-// import { guestLogo } from "../../../assets/theme";
+import { PATHS } from "../../../routes/paths";
 
 const GuestMainPage = () => {
   const nav = useNavigate();
   const handleSearch = (keyword: string) => {
-    nav(`/space/search?request=${encodeURIComponent(keyword)}`);
+    nav(`${PATHS.GUEST.RESULT}?keyword=${encodeURIComponent(keyword)}`);
   };
 
   return (

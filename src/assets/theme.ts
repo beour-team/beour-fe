@@ -6,8 +6,6 @@ import home from "./img/home.svg";
 import home_click from "./img/home_click.svg";
 import reservations from "./img/reservations.svg";
 import reservations_click from "./img/reservations_click.svg";
-import banner from "./img/bannerImg.png";
-import banner2 from "./img/banner2.png";
 import newspace from "./img/newspace1.png";
 import newspace2 from "./img/newspace2.png";
 import art from "./img/art.svg";
@@ -69,7 +67,7 @@ import trash from "./img/trash.svg";
 import calendar2 from "./img/calender2.svg";
 import cancel_dark from "./img/cancel_dark.png";
 import error from "./img/error.svg";
-import camera from "./img/camera.svg";
+import camera from "./img/Camera.svg";
 import space_cafe from "./img/space_cafe.png";
 import space_cloth from "./img/space_cloth.png";
 import space_cooking from "./img/space_cooking.png";
@@ -118,8 +116,6 @@ export {
   home_click,
   reservations,
   reservations_click,
-  banner,
-  banner2,
   newspace,
   newspace2,
   art,
