@@ -69,7 +69,7 @@ import trash from "./img/trash.svg";
 import calendar2 from "./img/calender2.svg";
 import cancel_dark from "./img/cancel_dark.png";
 import error from "./img/error.svg";
-import camera from "./img/camera.svg";
+import camera from "./img/Camera.svg";
 import space_cafe from "./img/space_cafe.png";
 import space_cloth from "./img/space_cloth.png";
 import space_cooking from "./img/space_cooking.png";
