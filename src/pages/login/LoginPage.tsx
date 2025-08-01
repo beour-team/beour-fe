@@ -22,8 +22,8 @@ const LoginPage: React.FC = () => {
   // 게스트와 호스트 폼을 나누는 탭 상태 관리
   const [activeTab, setActiveTab] = useState<TabType>("guest");
 
-  // 로그인 mutation
-  const loginMutation = useLogin();
+  // 로그인 mutation과 에러 상태
+  const { mutate: loginMutate, loginError, clearError } = useLogin();
 
   // react-hook-form 과 zod 연결
   // 유효성 검사를 위한 스키마는 utils > zod > zodValidation 에 저장
@@ -42,11 +42,14 @@ const LoginPage: React.FC = () => {
   const onSubmit: SubmitHandler<LoginData> = async (data) => {
     console.log("입력된 로그인 데이터:", data);
 
+    // 이전 에러 초기화
+    clearError();
+
     // 역할 가져오기
     const role = activeTab === "guest" ? "GUEST" : "HOST";
 
     // 로그인에 필요한 데이터 입력
-    loginMutation.mutate({
+    loginMutate({
       loginId: data.id,
       password: data.password,
       role,
@@ -102,7 +105,7 @@ const LoginPage: React.FC = () => {
           </div>
         </div>
       </div>
-      <ErrorMessage errors={errors} warning={warning} />
+      <ErrorMessage errors={errors} warning={warning} apiError={loginError} />
     </div>
   );
 };
