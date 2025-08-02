@@ -6,7 +6,6 @@ import { zodLogin } from "../../utils/zod/zodValidation";
 import { warning } from "../../assets/theme";
 import { Link } from "react-router-dom";
 import { useLogin } from "../../hooks/Login/useLogin";
-import PageHeader from "../../components/header/PageHeader";
 import Title from "../../components/title/Title";
 import HostLoginForm from "./login-components/loginForm/HostLoginForm";
 import GuestLoginForm from "./login-components/loginForm/GuestLoginForm";
@@ -59,7 +58,16 @@ const LoginPage: React.FC = () => {
   return (
     <div className="h-screen w-full px-[2rem] flex flex-col pb-[2.5rem] justify-between">
       <div>
-        <PageHeader>로그인</PageHeader>
+        <header className="min-h-[7.5rem] flex w-full items-center justify-center">
+          <Link to={PATHS.HOME}>
+            <h1
+              className="text-24-Bold p-[0.4rem]"
+              style={{ fontFamily: `"Poppins", sans-serif` }}
+            >
+              Be:our
+            </h1>
+          </Link>
+        </header>
         <div className="flex justify-between flex-col pt-[1.6rem]">
           <Title>
             서비스 이용을 위해
