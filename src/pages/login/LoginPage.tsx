@@ -6,7 +6,6 @@ import { zodLogin } from "../../utils/zod/zodValidation";
 import { warning } from "../../assets/theme";
 import { Link } from "react-router-dom";
 import { useLogin } from "../../hooks/Login/useLogin";
-import PageHeader from "../../components/header/PageHeader";
 import Title from "../../components/title/Title";
 import HostLoginForm from "./login-components/loginForm/HostLoginForm";
 import GuestLoginForm from "./login-components/loginForm/GuestLoginForm";
@@ -22,8 +21,8 @@ const LoginPage: React.FC = () => {
   // 게스트와 호스트 폼을 나누는 탭 상태 관리
   const [activeTab, setActiveTab] = useState<TabType>("guest");
 
-  // 로그인 mutation
-  const loginMutation = useLogin();
+  // 로그인 mutation과 에러 상태
+  const { mutate: loginMutate, loginError, clearError } = useLogin();
 
   // react-hook-form 과 zod 연결
   // 유효성 검사를 위한 스키마는 utils > zod > zodValidation 에 저장
@@ -42,11 +41,14 @@ const LoginPage: React.FC = () => {
   const onSubmit: SubmitHandler<LoginData> = async (data) => {
     console.log("입력된 로그인 데이터:", data);
 
+    // 이전 에러 초기화
+    clearError();
+
     // 역할 가져오기
     const role = activeTab === "guest" ? "GUEST" : "HOST";
 
     // 로그인에 필요한 데이터 입력
-    loginMutation.mutate({
+    loginMutate({
       loginId: data.id,
       password: data.password,
       role,
@@ -56,7 +58,16 @@ const LoginPage: React.FC = () => {
   return (
     <div className="h-screen w-full px-[2rem] flex flex-col pb-[2.5rem] justify-between">
       <div>
-        <PageHeader>로그인</PageHeader>
+        <header className="min-h-[7.5rem] flex w-full items-center justify-center">
+          <Link to={PATHS.HOME}>
+            <h1
+              className="text-24-Bold p-[0.4rem]"
+              style={{ fontFamily: `"Poppins", sans-serif` }}
+            >
+              Be:our
+            </h1>
+          </Link>
+        </header>
         <div className="flex justify-between flex-col pt-[1.6rem]">
           <Title>
             서비스 이용을 위해
@@ -102,7 +113,7 @@ const LoginPage: React.FC = () => {
           </div>
         </div>
       </div>
-      <ErrorMessage errors={errors} warning={warning} />
+      <ErrorMessage errors={errors} warning={warning} apiError={loginError} />
     </div>
   );
 };

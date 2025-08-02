@@ -34,9 +34,9 @@ export const zodLogin = z.object({
 
   password: z
     .string({ message: PASSWORD_REQUIRED })
-    .min(8, { message: PASSWORD_FORMAT })
-    .max(20, { message: PASSWORD_FORMAT })
-    .regex(/^(?=.*[!@#$%^&*(),.?":{}|<>]).*$/, { message: PASSWORD_FORMAT }),
+    .min(8, { message: PASSWORD_REQUIRED })
+    .max(20, { message: PASSWORD_REQUIRED })
+    .regex(/^(?=.*[!@#$%^&*(),.?":{}|<>]).*$/, { message: PASSWORD_REQUIRED }),
 });
 
 // 📝 회원가입 스키마

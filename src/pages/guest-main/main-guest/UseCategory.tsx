@@ -10,6 +10,7 @@ const UseCategory = () => {
             imgSrc={item.imgSrc}
             label={item.label}
             categoryType="usecategory"
+            useCategoryCode={item.code}
           />
         </div>
       ))}
