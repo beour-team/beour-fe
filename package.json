@@ -20,7 +20,7 @@
     "@mantine/hooks": "^8.1.2",
     "@mui/material": "^7.2.0",
     "@tailwindcss/line-clamp": "^0.4.4",
-    "@tanstack/react-query": "^5.83.0",
+    "@tanstack/react-query": "^5.84.1",
     "axios": "^1.11.0",
     "daisyui": "^5.0.43",
     "date-fns": "^4.1.0",
