@@ -1,23 +1,26 @@
-// api/host/host.ts
-
 import { api } from "../api";
 import { API_HOST_SPACES } from "../../constants/endpoint/endpoint";
-import axios from "axios";
 
-// 호스트 공간 목록 조회
-export const getHostSpaces = async (): Promise<string[]> => {
+export interface HostSpace {
+  spaceId: number;
+  spaceName: string;
+}
+
+export interface HostSpacesResponse {
+  code: number;
+  httpStatus: string;
+  data: HostSpace[];
+}
+
+// host.ts
+export const getHostSpaces = async (): Promise<{ spaceId: number; spaceName: string }[]> => {
   try {
-    const response = await api.get(API_HOST_SPACES);
-    const data = response.data.data;
+    console.log("accessToken in localStorage:", localStorage.getItem("accessToken"));
 
-    // spaceName만 추출해서 반환
-    return data.map((space: { spaceName: string }) => space.spaceName);
+    const response = await api.get(API_HOST_SPACES);
+    return response.data.data;
   } catch (error) {
-    if (axios.isAxiosError(error)) {
-      console.log("❌ API 응답 에러:", error.response?.data);
-    } else {
-      console.log("❌ 알 수 없는 에러:", error);
-    }
+    console.error("❌ API 응답 에러:", error);
     throw error;
   }
 };

@@ -28,14 +28,14 @@ const HostReserveList = () => {
     "폴인테이블",
   ];
 
-  //API 연동 부분
   // const [categories, setCategories] = useState<string[]>([]);
 
   // useEffect(() => {
   //   const fetchCategories = async () => {
   //     try {
-  //       const spaceNames = await getHostSpaces();
-  //       setCategories(["전체", ...spaceNames]);
+  //       const hostSpaces = await getHostSpaces();
+  //       const spaceNames = hostSpaces.map((space) => space.spaceName); // ✅ 수정됨
+  //       setCategories(["전체", ...spaceNames]); // ✅ 이제 문자열 배열
   //     } catch (error) {
   //       console.error("공간 목록을 불러오는데 실패했습니다.", error);
   //     }
