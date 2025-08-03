@@ -79,12 +79,12 @@ export const API_REVIEW_COMMENT_DELETE = "/api/review-comments/{commentId}";
 // 게스트(사용자) 관련
 // =====================
 // 메인화면 - 공간 검색
-export const API_SPACE_SEARCH = "/api/space/search?request={keyword}";
+export const API_SPACE_SEARCH = "/api/spaces/keyword";
 export const API_SPACE_SEARCH_FILTER = "/api/spaces/search/filter";
-export const API_SPACE_SEARCH_CATEGORY =
-  "/api/spaces/search/spacecategory?spacecategory={value}";
-export const API_SPACE_SEARCH_USE_CATEGORY =
-  "/api/spaces/search/usecategory?usecategory={value}";
+export const API_SPACE_CATEGORY =
+  "/api/spaces/spacecategory";
+export const API_SPACE_USE_CATEGORY =
+  "/api/spaces/usecategory";
 export const API_SPACES_NEW = "/api/spaces/new";
 export const API_REVIEWS_NEW = "/api/reviews/new";
 
