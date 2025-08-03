@@ -154,7 +154,7 @@ const GuestReserveDetailPage = () => {
         )}
       </div>
 
-      <div className="fixed bottom-0 left-[51.5%] -translate-x-1/2 bg-white z-50 py-[1.5rem]">
+      <div className="fixed bottom-0 left-[50%] -translate-x-1/2 bg-white z-50 py-[1.5rem]">
         <div className="mt-[2rem]">
           {category === "past" || category === "cancel" ? (
             <button className="text-cr-white text-16-Medium h-[5rem] w-[38.4rem] rounded-[1rem] bg-cr-blue">
