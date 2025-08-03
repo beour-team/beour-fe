@@ -26,6 +26,7 @@ export const API_BANNER_CLICK = "/api/banners/{bannerId}/click";
 // 메인화면 - 예약 데이터
 export const API_RESERVATION_SUMMARY =
   "/api/reservations/summary?spaceId={spaceId}&date={date}";
+export const API_HOST_SPACES = "/api/host/spaces";
 
 // 공간 등록
 export const API_SPACES = "/api/spaces";

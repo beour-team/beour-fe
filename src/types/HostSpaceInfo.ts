@@ -7,7 +7,7 @@ export interface HostSpaceInfo {
   address: string;
   detailAddress?: string;
   pricePerHour: number;
-  thumbnailUrl: string;
+  thumbnailUrl: File;
 
   description: string;
   priceGuide?: string;
@@ -18,5 +18,5 @@ export interface HostSpaceInfo {
   // websiteUrl: string;
 
   tags?: string[];
-  imageUrls: string[];
+  imageUrls: File[]; // 이미지 파일 배열
 }

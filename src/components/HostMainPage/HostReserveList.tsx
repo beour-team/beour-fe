@@ -1,13 +1,25 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ReservationCard from "./ReservationCard";
 import { filter, underArrow, topArrow } from "../../assets/theme";
+import { useState } from "react";
+
+// API 연동 킬때는 이 부분 주석 해제
+// import { useEffect, useState } from "react";
+// import { getHostSpaces } from "../../api/Host/hostmainspace";
 
 const HostReserveList = () => {
   const nav = useNavigate();
   const [showCategories, setShowCategories] = useState(false);
 
-  const today = "2025년 5월 7일";
+  const now = new Date();
+
+  const year = now.getFullYear();
+  const month = now.getMonth() + 1; // 0부터 시작하니까 +1
+  const date = now.getDate();
+
+  const today = `${year}년 ${month}월 ${date}일`;
+
+  //dummy data;
   const categories = [
     "전체",
     "콩집 키친 서..",
@@ -15,6 +27,22 @@ const HostReserveList = () => {
     "스윗라운지",
     "폴인테이블",
   ];
+
+  // const [categories, setCategories] = useState<string[]>([]);
+
+  // useEffect(() => {
+  //   const fetchCategories = async () => {
+  //     try {
+  //       const hostSpaces = await getHostSpaces();
+  //       const spaceNames = hostSpaces.map((space) => space.spaceName); // ✅ 수정됨
+  //       setCategories(["전체", ...spaceNames]); // ✅ 이제 문자열 배열
+  //     } catch (error) {
+  //       console.error("공간 목록을 불러오는데 실패했습니다.", error);
+  //     }
+  //   };
+
+  //   fetchCategories();
+  // }, []);
 
   const [cards] = useState([
     {
@@ -26,7 +54,15 @@ const HostReserveList = () => {
       reserveId: "01234567",
       initialStatus: "pending",
     },
-    // ...다른 카드들
+    {
+      id: 2,
+      name: "김철수",
+      place: "[온귤] 작업실",
+      time: "15:00 - 17:00",
+      people: 8,
+      reserveId: "49926365",
+      initialStatus: "pending",
+    },
   ]);
 
   const [active, setActive] = useState("온귤");
