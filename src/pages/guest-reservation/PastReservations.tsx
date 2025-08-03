@@ -1,29 +1,48 @@
-import { rightArrow, space3 } from "../../assets/theme";
+import { useState } from "react";
+import { rightArrow, leftArrow } from "../../assets/theme";
 import ReserveTag from "../../components/guest-result/ReserveTag";
-import { pastReservationData } from "../../constants/dummy-data/reserve-data";
-import { formatReservationDateTime } from "../../utils/data-formatter";
 import ReviewButton from "./ReviewButton";
-import { PATHS } from "../../routes/paths";
 import { useNavigate } from "react-router-dom";
-import { user } from "../../constants/dummy-data/dummy-user";
+import { PATHS } from "../../routes/paths";
+import { formatReservationDateTime } from "../../utils/data-formatter";
+import { usePastReservations } from "../../hooks/guest-reservation/usePastReservations";
+// import { pastReservationData } from "../../constants/dummy-data/reserve-data";
+// import { user } from "../../constants/dummy-data/dummy-user";
 
 //백엔드 api에 태그 필요
 const PastReservations = () => {
+  const [page, setPage] = useState(0);
+  const { data, isLoading, error } = usePastReservations(page);
   const nav = useNavigate();
+
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>에러가 발생했습니다.</div>;
+
+  const reservations = data?.reservations ?? [];
+  const last = data?.last ?? true;
+
+  const handlePrevPage = () => {
+    if (page > 0) setPage((prev) => prev - 1);
+  };
+
+  const handleNextPage = () => {
+    if (!last) setPage((prev) => prev + 1);
+  };
+
   return (
     <div>
       <div className="mx-[2rem] text-13-Medium text-cr-600 my-[2rem]">
-        총 {pastReservationData.length}개
+        총 {reservations.length}개
       </div>
 
       <div className="border border-[#ECECEC]"></div>
 
       <div>
-        {pastReservationData.map((reservation, index) => (
+        {reservations.map((reservation, index) => (
           <div
             key={reservation.reservationId}
             className={`my-[1rem] py-[2rem] ${
-              index !== pastReservationData.length
+              index !== reservations.length
                 ? "border-b-[0.2rem] border-[#ECECEC]"
                 : ""
             }`}
@@ -38,7 +57,7 @@ const PastReservations = () => {
 
               <div className="flex items-center gap-5">
                 <img
-                  src={space3}
+                  src={reservation.spaceThumbImageUrl}
                   alt="공간 사진"
                   className="w-[8.5rem] h-[8.5rem] rounded-[1.2rem]"
                 />
@@ -71,10 +90,7 @@ const PastReservations = () => {
                           `${PATHS.GUEST.RESERVATIONS}/${reservation.reservationId}`,
                           {
                             state: {
-                              reservation: {
-                                ...reservation,
-                                user,
-                              },
+                              reservation,
                               category: "past",
                             },
                           }
@@ -93,11 +109,18 @@ const PastReservations = () => {
               </div>
               <ReviewButton
                 date={reservation.date}
-                hasReview={reservation.hasReview}
+                hasReview={reservation.reviewId !== 0}
               />
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="flex justify-center gap-4 my-[1rem] text-16-Medium cursor-pointer">
+        {page > 0 && (
+          <img src={leftArrow} alt="이전" onClick={handlePrevPage} />
+        )}
+        {!last && <img src={rightArrow} alt="다음" onClick={handleNextPage} />}
       </div>
     </div>
   );

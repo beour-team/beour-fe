@@ -6,7 +6,7 @@ import { PATHS } from "../../routes/paths";
 import { useNavigate } from "react-router-dom";
 import { user } from "../../constants/dummy-data/dummy-user";
 
-//백엔드 api에 태그 필요
+//취소된 예약 목록이 필요해요
 const CanceledReservations = () => {
   const nav = useNavigate();
 

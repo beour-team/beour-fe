@@ -20,7 +20,7 @@ export const API_UPDATE_PROFILE = "/api/users/me/detail"; // 닉네임, 핸드�
 export const API_UPDATE_PASSWORD = "/api/users/me/password";
 
 // 배너 관련
-export const API_BANNERS = "/api/banners";
+export const API_BANNERS = "/api/users/banners";
 export const API_BANNER_CLICK = "/api/banners/{bannerId}/click";
 
 // 메인화면 - 예약 데이터
@@ -80,17 +80,15 @@ export const API_REVIEW_COMMENT_DELETE = "/api/review-comments/{commentId}";
 // 메인화면 - 공간 검색
 export const API_SPACE_SEARCH = "/api/spaces/keyword";
 export const API_SPACE_SEARCH_FILTER = "/api/spaces/search/filter";
-export const API_SPACE_CATEGORY =
-  "/api/spaces/spacecategory";
-export const API_SPACE_USE_CATEGORY =
-  "/api/spaces/usecategory";
+export const API_SPACE_CATEGORY = "/api/spaces/spacecategory";
+export const API_SPACE_USE_CATEGORY = "/api/spaces/usecategory";
 export const API_SPACES_NEW = "/api/spaces/new";
 export const API_REVIEWS_NEW = "/api/reviews/new";
 
 // 공간예약
 export const API_SPACE_RESERVE = "/api/spaces/reserve";
-export const API_RESERVATION_CURRENT = "/api/reservation?guestId={guestId}";
-export const API_RESERVATION_PAST = "/api/reservation/past?guestId={guestId}";
+export const API_RESERVATION_CURRENT = "/api/reservations/current";
+export const API_RESERVATION_PAST = "/api/reservations/past";
 export const API_RESERVATION_CANCEL_GUEST =
   "/api/reservation/cancel?reservationId={reservationId}";
 export const API_SPACE_DETAIL_GUEST = "/api/spaces/{spaceId}";
@@ -102,8 +100,7 @@ export const API_WISHLIST = "/api/wishlist?spaceId={id}";
 export const API_WISHLIST_DELETE = "/api/wishlist?spaceId={id}";
 
 // 내 주변
-export const API_SPACES_NEARBY =
-  "/api/spaces/nearby?latitude={latitude}&longitude={longitude}&radiusKm={km}&userId={id}";
+export const API_SPACES_NEARBY = "/api/spaces/nearby";
 export const API_SPACE_SIMPLE = "/api/space/{spaceId}/simple";
 
 // 나의 예약
