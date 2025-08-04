@@ -56,8 +56,6 @@ function App() {
               <Route path={PATHS.HOME} element={<GuestMainPage />} />
               <Route path={PATHS.HOST.MAIN} element={<HostMainpage />} />
               <Route path={PATHS.GUEST.MAIN} element={<GuestMainPage />} />
-              <Route path={PATHS.HOST.MYPAGE} element={<MypageHost />} />
-              <Route path={PATHS.GUEST.MYPAGE} element={<MypageGuest />} />
               <Route path={PATHS.GUEST.FILTER} element={<GuestFilterPage />} />
               <Route path={PATHS.GUEST.SEARCH} element={<GuestSearchPage />} />
               <Route path={PATHS.GUEST.MAP} element={<GuestMapPage />} />
@@ -72,6 +70,10 @@ function App() {
               />
               <Route path={`${PATHS.SPACE}/:spaceId`} element={<SpacePage />} />
             </Route>
+
+            {/* 로그인 상태와 관계없이 접근 가능한 페이지 */}
+            <Route path={PATHS.HOST.MYPAGE} element={<MypageHost />} />
+            <Route path={PATHS.GUEST.MYPAGE} element={<MypageGuest />} />
 
             {/* 엑세스 토큰이 있을 경우 이동 가능한 페이지 */}
             <Route element={<AuthLayout />}>

@@ -98,7 +98,7 @@ const SpaceList = () => {
   if (isLoading) {
     return (
       <div className="relative px-[2rem] min-h-screen pb-[8rem] bg-cr-white">
-        <PageHeader>내 공간</PageHeader>
+        <PageHeader backTo={PATHS.HOST.MYPAGE}>내 공간</PageHeader>
         <div className="flex flex-col justify-center items-center min-h-[calc(100vh-160px)] gap-[1.2rem]">
           <div className="text-18-SemiBold text-cr-black">
             공간을 불러오는 중...
@@ -115,7 +115,7 @@ const SpaceList = () => {
   if (error) {
     return (
       <div className="relative px-[2rem] min-h-screen pb-[8rem] bg-white">
-        <PageHeader>내 공간</PageHeader>
+        <PageHeader backTo={PATHS.HOST.MYPAGE}>내 공간</PageHeader>
         <div className="flex flex-col justify-center items-center min-h-[calc(100vh-160px)] gap-[1.2rem]">
           <div className="text-18-SemiBold text-cr-black">
             문제가 발생했어요
@@ -130,7 +130,7 @@ const SpaceList = () => {
 
   return (
     <div className="relative px-[2rem] min-h-screen pb-[8rem] bg-white">
-      <PageHeader>내 공간</PageHeader>
+      <PageHeader backTo={PATHS.HOST.MYPAGE}>내 공간</PageHeader>
       <div className="w-full text-13-Medium text-cr-600 mb-[1.2rem]">
         총 {spaces.length}개
       </div>

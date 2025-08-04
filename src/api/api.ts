@@ -45,8 +45,11 @@ api.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
 
-    // 401 에러이고 아직 재시도 안했을 때만 재발급 시도
-    if (error?.response?.status === 401 && !originalRequest._retry) {
+    // 450, 451 에러이고 아직 재시도 안했을 때만 재발급 시도
+    if (
+      (error?.response?.status === 450 || error?.response?.status === 451) &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true; // 무한 반복 방지용 플래그
 
       console.log("🔄 액세스 토큰 만료 감지 - 재발급 시도");
