@@ -6,7 +6,7 @@ import { zodHostSpaceInfo } from "../../utils/zod/zodValidation";
 import { cancel_dark, error, camera, underArrow } from "../../assets/theme";
 import PageHeader from "../../components/header/PageHeader";
 import DaumPostcode from "react-daum-postcode";
-import { registerSpace } from "../../api/space/space.ts";
+// import { registerSpace } from "../../api/space/space.ts";
 import type { HostSpaceInfo } from "../../types/HostSpaceInfo.ts";
 import { z } from "zod";
 
@@ -25,7 +25,6 @@ const HostSpaceRegisterInfo = () => {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const selectedAddress = location.state?.selectedAddress || "";
 
   const [images, setImages] = useState<File[]>([]);
   const [selectedPurpose, setSelectedPurpose] = useState("");
@@ -66,11 +65,9 @@ const HostSpaceRegisterInfo = () => {
   } = useForm<HostSpaceInfoType>({
     resolver: zodResolver(zodHostSpaceInfo),
     mode: "onChange",
-    defaultValues: {
-      address: selectedAddress,
-      spaceCategory: spaceCategory,
-    },
   });
+
+  const isFormValid = Object.keys(errors).length === 0;
 
   const handleDelete = (index: number) => {
     const newImages = [...images];
@@ -82,10 +79,17 @@ const HostSpaceRegisterInfo = () => {
     console.log("폼 에러 상태:", errors);
   }, [errors]);
 
-  const imageUrls = images.map((img) => URL.createObjectURL(img));
-  const thumbnailUrl = imageUrls[0] || "";
+  useEffect(() => {
+    console.log("선택된 spaceCategory:", spaceCategory);
+  }, [spaceCategory]);
 
-  const accessToken = localStorage.getItem("accessToken") || "";
+  useEffect(() => {
+    if (spaceCategory) {
+      setValue("spaceCategory", spaceCategory);
+    }
+  }, [spaceCategory, setValue]);
+
+  // const accessToken = localStorage.getItem("accessToken") || "";
 
   const onValidSubmit = async (data: HostSpaceInfo) => {
     if (images.length === 0) {
@@ -94,31 +98,34 @@ const HostSpaceRegisterInfo = () => {
     }
 
     try {
-      const requestBody = {
-        name: data.name,
-        spaceCategory: data.spaceCategory, // 만약 선택한 카테고리가 있다면
-        useCategory: data.useCategory,
-        maxCapacity: Number(data.maxCapacity),
-        address: data.address,
-        detailAddress: data.detailAddress,
-        pricePerHour: Number(data.pricePerHour),
-        thumbnailUrl: thumbnailUrl, // 업로드된 이미지 URL을 여기에
-        description: data.description, // 단순한 문자열
-        priceGuide: data.priceGuide,
-        facilityNotice: data.facilityNotice,
-        notice: data.notice,
-        locationDescription: data.locationDescription,
-        refundPolicy: data.refundPolicy,
-        // websiteUrl: data.websiteUrl, // 필요에 따라 추가
-        tags: tags,
-        imageUrls: imageUrls, // 서버에 업로드된 이미지 URL 리스트
-      };
+      const formData = new FormData(); // ✅ 빈 FormData로 생성
 
-      console.log("서버에 전송할 데이터:", requestBody); // 이 부분 추가
+      // 텍스트 필드
+      formData.append("name", data.name);
+      formData.append("spaceCategory", spaceCategory);
+      formData.append("useCategory", data.useCategory);
+      formData.append("maxCapacity", String(data.maxCapacity));
+      formData.append("address", data.address);
+      formData.append("detailAddress", String(data.detailAddress));
+      formData.append("pricePerHour", String(data.pricePerHour));
+      formData.append("description", data.description);
+      formData.append("priceGuide", String(data.priceGuide));
+      formData.append("facilityNotice", String(data.facilityNotice));
+      formData.append("notice", data.notice);
+      formData.append("locationDescription", String(data.locationDescription));
+      formData.append("refundPolicy", data.refundPolicy);
+      formData.append("tags", JSON.stringify(tags));
 
-      const res = await registerSpace(requestBody, accessToken);
-      alert(`공간이 등록되었습니다. ID: ${res.id}`);
-      navigate("/spacelist");
+      // 이미지 파일들
+      images.forEach((file) => {
+        formData.append("imagesUrls", file); // 서버에서 images[]로 받도록 하면 여러 개 전송 가능
+      });
+      formData.append("thumbnailUrl", images[0]); // 첫번째 이미지를 대표 썸네일로 지정
+
+      // const res = await registerSpace(formData); // ✅ FormData 넘김
+
+      alert(`공간이 등록되었습니다. `);
+      navigate("/hostmain");
     } catch (err) {
       alert("공간 등록에 실패했습니다.");
       console.error(err);
@@ -196,13 +203,21 @@ const HostSpaceRegisterInfo = () => {
             accept="image/*"
             multiple
             className="hidden"
+            {...register("thumbnailUrl", {
+              required: true,
+            })}
             onChange={(e) => {
-              const files = Array.from(e.target.files || []);
+              const files = Array.from(e.target.files ?? []);
               if (images.length + files.length > 10) {
                 alert("최대 10장까지 업로드할 수 있습니다.");
                 return;
               }
-              setImages([...images, ...files]);
+              const nextImages = [...images, ...files];
+              setImages(nextImages);
+
+              // 🟡 useForm에 실제 string url/filename 혹은 file 객체 배열로 넘겨주기
+              setValue("imageUrls", nextImages); // file 객체 배열로 보낼 경우 zod도 맞게 수정 필요
+              setValue("thumbnailUrl", nextImages[0] || ""); // 첫번째 이미지를 대표 썸네일로 지정
             }}
           />
         </div>
@@ -629,7 +644,14 @@ const HostSpaceRegisterInfo = () => {
         {/* 작성 완료 버튼 */}
         <button
           type="submit"
-          className="w-full h-[5.6rem] mt-[2.4rem] bg-[#D9D9D9] text-[#868686] rounded-[1rem] text-[1.7rem] font-semibold"
+          disabled={!isFormValid}
+          className={`w-full h-[5.6rem] mt-[2.4rem] rounded-[1rem] text-[1.7rem] font-semibold transition
+    ${
+      isFormValid
+        ? "bg-black text-white"
+        : "bg-[#D9D9D9] text-[#868686] cursor-not-allowed"
+    }
+  `}
         >
           작성 완료
         </button>

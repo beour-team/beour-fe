@@ -226,8 +226,15 @@ export const zodHostSpaceInfo = z.object({
   tags: z.array(z.string()).optional(),
 
   thumbnailUrl: z
-    .string()
-    .url({ message: "썸네일 URL 형식이 잘못되었습니다." }),
-
-  imageUrls: z.array(z.string().url()),
+    .instanceof(File, {
+      message: "썸네일 이미지를 업로드해주세요.",
+    }),
+    
+    imageUrls: z
+    .array(z.instanceof(File))
+    .min(1, { message: "이미지를 최소 1장 이상 업로드해주세요." }),
+  
 });
+
+export type HostSpaceInfo = z.infer<typeof zodHostSpaceInfo>;
+

@@ -17,40 +17,21 @@ export const useReviewList = (): UseReviewListReturn => {
 
   const fetchReviews = async () => {
     try {
-      setLoading(true);
-      setError(null);
+      setLoading(true); // 로딩 시작
+      setError(null); // 이전 에러 초기화
 
-      const accessToken = localStorage.getItem("accessToken");
-
-      if (!accessToken) {
-        setError("로그인이 필요합니다.");
-        return;
-      }
-
+      // API 호출 (토큰 처리는 api.ts에서 자동 처리)
       const data = await getReviewList();
-      setReviews(data);
+      setReviews(data); // 성공시 데이터 저장
     } catch (err) {
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 403) {
-          setError(
-            "호스트 권한이 필요합니다. 호스트로 로그인했는지 확인해주세요."
-          );
-        } else if (err.response?.status === 401) {
-          setError("인증이 필요합니다. 다시 로그인해주세요.");
-        } else {
-          setError(
-            err.response?.data?.message ||
-              err.message ||
-              "알 수 없는 오류가 발생했습니다."
-          );
-        }
+      // 에러 발생시 메시지 설정 (api.ts에서 이미 토큰/권한 처리 완료)
+      if (err instanceof AxiosError && err.response?.data?.message) {
+        setError(err.response.data.message); // 백엔드 에러 메시지 사용
       } else {
-        setError(
-          err instanceof Error ? err.message : "알 수 없는 오류가 발생했습니다."
-        );
+        setError("리뷰를 불러오는데 실패했습니다."); // 기본 에러 메시지
       }
     } finally {
-      setLoading(false);
+      setLoading(false); // 로딩 종료
     }
   };
 

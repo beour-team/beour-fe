@@ -57,6 +57,7 @@ const SearchResultCard = ({ item }: SearchResultCardProps) => {
           <GoStarFill className="text-cr-yellow text-[1.5rem]" />
           <span className="text-13-Bold">{item.average}</span>
         </div>
+        {/* reviewCount넣기 */}
 
         <div className="w-full overflow-hidden">
           <div className="flex gap-2 overflow-x-auto scrollbar-hide max-w-full pb-[3.5rem]">
@@ -72,7 +73,9 @@ const SearchResultCard = ({ item }: SearchResultCardProps) => {
         </div>
 
         <div className="absolute bottom-1 right-1 text-18-ExtraBold pb-[1.3rem]">
-          {item.price.toLocaleString()}원/시간
+          {item?.price != null
+            ? `${item.price.toLocaleString()}원/시간`
+            : "가격 미정"}
         </div>
       </div>
     </div>

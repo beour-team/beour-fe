@@ -14,12 +14,35 @@ import { useLocation, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { PATHS } from "../../routes/paths";
 import PageHeader from "../../components/header/PageHeader";
+import { useDeleteReservation } from "../../hooks/guest-reservation/useDeleteReservation";
 
 const GuestReserveDetailPage = () => {
   const location = useLocation();
   const reservation = location.state?.reservation;
   const category = location.state?.category;
   const nav = useNavigate();
+
+  const { mutate: cancelReservation, isPending } = useDeleteReservation();
+
+  const handleCancel = () => {
+    if (!reservation?.reservationId) return;
+
+    cancelReservation(reservation.reservationId, {
+      onSuccess: () => {
+        toast.success("예약이 취소되었습니다.");
+        nav(PATHS.GUEST.RESERVATIONS);
+      },
+      onError: () => {
+        toast.error("예약 취소 중 오류가 발생했습니다.");
+      },
+    });
+  };
+
+  const handleCancelClick = () => {
+    if (window.confirm("정말 예약을 취소하시겠어요?")) {
+      handleCancel();
+    }
+  };
 
   return (
     <div>
@@ -182,7 +205,11 @@ const GuestReserveDetailPage = () => {
             </button>
           ) : (
             <div className="flex items-center justify-center gap-5">
-              <button className="text-cr-white text-16-Medium h-[5rem] w-[19rem] rounded-[1rem] bg-cr-600">
+              <button
+                onClick={handleCancelClick}
+                disabled={isPending}
+                className="text-cr-white text-16-Medium h-[5rem] w-[19rem] rounded-[1rem] bg-cr-600"
+              >
                 예약 취소하기
               </button>
               <button className="text-cr-white text-16-Medium h-[5rem] w-[19rem] rounded-[1rem] bg-cr-blue">

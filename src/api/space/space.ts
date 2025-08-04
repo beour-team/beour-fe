@@ -5,28 +5,50 @@ import type {
 } from "../../types/SpaceSchedule";
 import { api } from "../api";
 import { API_SPACES } from "../../constants/endpoint/endpoint";
-import type { HostSpaceInfo } from "../../types/HostSpaceInfo";
+import type { AxiosError } from "axios";
+// import type { HostSpaceInfo } from "../../types/HostSpaceInfo";
+
+export interface RegisterSpaceResponse {
+  code: number;
+  httpStatus: string;
+  data: string; // "공간이 등록되었습니다. ID: 123"
+}
 
 export const registerSpace = async (
-  spaceInfo: HostSpaceInfo,
-  accessToken: string
-) => {
+  formData: FormData
+): Promise<RegisterSpaceResponse> => {
   try {
-    console.log("registerSpace() 요청 데이터:", spaceInfo);
-    console.log("보내는 토큰:", accessToken);
+    const response = await api.post<RegisterSpaceResponse>(API_SPACES, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
-    const response = await api.post(API_SPACES, spaceInfo);
-
-    console.log("서버 응답 데이터:", response.data); // 응답 확인
-
-    return response.data;
-  } catch (error: unknown) {
-    console.error("registerSpace() 에러:", error); // 실제 에러 로그 출력
-    if (error instanceof Error) {
-      throw new Error(error.message);
+    if (response.data.code === 200) {
+      return response.data;
     } else {
-      throw new Error("공간 등록 중 에러 발생");
+      throw new Error("공간 등록에 실패했습니다.");
     }
+  } catch (err: unknown) {
+    const error = err as AxiosError;
+
+    if (error?.response?.status === 400) {
+      throw new Error("필수 입력값이 누락되었거나 형식이 올바르지 않습니다.");
+    }
+
+    if (error?.response?.status === 401) {
+      throw new Error("로그인이 필요합니다.");
+    }
+
+    if (error?.response?.status === 403) {
+      throw new Error("공간 등록 권한이 없습니다.");
+    }
+
+    if (error?.response?.status === 404) {
+      throw new Error("요청한 리소스를 찾을 수 없습니다.");
+    }
+
+    throw new Error("공간 등록 중 오류가 발생했습니다.");
   }
 };
 
