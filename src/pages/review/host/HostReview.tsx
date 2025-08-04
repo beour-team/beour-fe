@@ -9,6 +9,7 @@ import ReviewTabBar from "../review-components/ReviewTabBar";
 import ReviewStatistics from "../review-components/ReviewStatistics";
 import ReviewEmptyState from "../review-components/ReviewEmptyState";
 import ReviewLoadingState from "../review-components/ReviewLoadingState";
+import { PATHS } from "../../../routes/paths";
 
 const HostReview = () => {
   const [activeTab, setActiveTab] = useState("guest");
@@ -42,7 +43,7 @@ const HostReview = () => {
     <div>
       {/* 헤더 영역 */}
       <div className="px-[2rem] border-b border-cr-200">
-        <PageHeader>리뷰 관리</PageHeader>
+        <PageHeader backTo={PATHS.HOST.MYPAGE}>리뷰 관리</PageHeader>
 
         <ReviewTabBar activeTab={activeTab} onTabChange={setActiveTab} />
 
