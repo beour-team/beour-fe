@@ -15,6 +15,10 @@
   font-size: 10px;
   color: #000;
 }
+body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
 
 /* Reset + 전역 스타일 */
 html,

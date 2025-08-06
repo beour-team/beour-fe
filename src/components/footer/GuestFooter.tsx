@@ -8,7 +8,7 @@ import {
   reservations_click,
   guest,
   guest_click,
-} from "../assets/theme";
+} from "../../assets/theme";
 
 const footerItems = [
   { label: "홈", path: "/guest", icon: home, clickIcon: home_click },
@@ -38,10 +38,13 @@ const GuestFooter = () => {
   const currentPath = location.pathname;
 
   return (
-    <footer className="fixed bottom-0 left-0 w-full bg-transparent z-50 flex justify-center">
+    <footer className="relative w-full bg-transparent flex justify-center ">
       <div
         className="
-      w-full max-w-[41rem] min-w-[32rem] mx-auto h-[7rem] flex justify-around items-center bg-white rounded-t-[1rem]"
+      fixed bottom-0 left-50% w-full max-w-[43rem] min-w-[32rem] mx-auto h-[5.7rem] flex justify-around items-center bg-white"
+        style={{
+          boxShadow: "0 -5px 14.6px 0 rgba(0, 0, 0, 0.05)",
+        }}
       >
         {footerItems.map((item) => {
           const isClick = currentPath === item.path;
@@ -50,7 +53,7 @@ const GuestFooter = () => {
           return (
             <div
               key={item.path}
-              className="flex flex-col items-center cursor-pointer"
+              className="flex flex-col items-center cursor-pointer w-[5.2rem]"
               onClick={() => {
                 nav(item.path);
               }}
@@ -58,7 +61,7 @@ const GuestFooter = () => {
               <img
                 src={iconSrc}
                 alt={item.label}
-                className="w-[2.6rem] h-[2.6rem] mb-2"
+                className="w-[2.4rem] h-[2.4rem] mb-2"
               />
 
               <span
