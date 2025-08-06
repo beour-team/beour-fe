@@ -8,8 +8,15 @@ import { useDeleteWishList } from "../../hooks/WishList/useDeleteWishList";
 import type { WishSpaceItem } from "../../types/WishSpace";
 
 const WishSpace = () => {
+  // 현재 페이지 상태 (0부터 시작)
+  const [currentPage, setCurrentPage] = useState(0);
+
   // API 호출을 통한 찜 목록 데이터 가져오기
-  const { data: wishSpaces, isLoading, error } = useWishList();
+  const {
+    data: wishSpaceResponse,
+    isLoading,
+    error,
+  } = useWishList(currentPage);
 
   // 찜 삭제 뮤테이션
   const deleteWishListMutation = useDeleteWishList();
@@ -28,10 +35,16 @@ const WishSpace = () => {
 
   // API 데이터가 로드되면 로컬 상태 업데이트
   useEffect(() => {
-    if (wishSpaces) {
-      setLocalWishSpaces(wishSpaces);
+    if (wishSpaceResponse?.spaces) {
+      if (currentPage === 0) {
+        // 첫 페이지일 때는 새로 설정
+        setLocalWishSpaces(wishSpaceResponse.spaces);
+      } else {
+        // 추가 페이지일 때는 기존 데이터에 추가
+        setLocalWishSpaces((prev) => [...prev, ...wishSpaceResponse.spaces]);
+      }
     }
-  }, [wishSpaces]);
+  }, [wishSpaceResponse, currentPage]);
 
   // 찜 삭제 기능 (모달을 통한 확인)
   const handleToggleLike = (spaceId: number) => {
@@ -67,8 +80,8 @@ const WishSpace = () => {
       },
       onError: () => {
         // 에러 발생 시 UI 롤백
-        if (wishSpaces) {
-          setLocalWishSpaces(wishSpaces);
+        if (wishSpaceResponse?.spaces) {
+          setLocalWishSpaces(wishSpaceResponse.spaces);
         }
       },
     });
@@ -89,8 +102,15 @@ const WishSpace = () => {
     console.log("카드 클릭:", spaceId);
   };
 
+  // 더 많은 데이터 로드하기
+  const handleLoadMore = () => {
+    if (wishSpaceResponse && !wishSpaceResponse.last) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
   // 로딩 상태
-  if (isLoading) {
+  if (isLoading && currentPage === 0) {
     return (
       <div className="pb-[2rem] px-[2rem]">
         <PageHeader>찜 공간</PageHeader>
@@ -138,12 +158,27 @@ const WishSpace = () => {
           </div>
         </div>
       ) : (
-        /* 찜 공간 그리드 */
-        <WishSpaceGrid
-          spaces={localWishSpaces}
-          onToggleLike={handleToggleLike}
-          onCardClick={handleCardClick}
-        />
+        <div>
+          {/* 찜 공간 그리드 */}
+          <WishSpaceGrid
+            spaces={localWishSpaces}
+            onToggleLike={handleToggleLike}
+            onCardClick={handleCardClick}
+          />
+
+          {/* 더보기 버튼 */}
+          {wishSpaceResponse && !wishSpaceResponse.last && (
+            <div className="flex justify-center mt-[2rem]">
+              <button
+                onClick={handleLoadMore}
+                disabled={isLoading}
+                className="px-[2rem] py-[1rem] bg-cr-primary text-white rounded-lg disabled:opacity-50"
+              >
+                {isLoading ? "로딩 중..." : "더보기"}
+              </button>
+            </div>
+          )}
+        </div>
       )}
 
       {/* 삭제 확인 모달 */}

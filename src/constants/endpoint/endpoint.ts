@@ -98,7 +98,7 @@ export const API_RESERVATION_AVAILABLE_TIMES =
 
 // 찜
 export const API_WISHLIST = "/api/wishlist?spaceId={id}";
-export const API_WISHLIST_DELETE = "/api/wishlist?spaceId={id}";
+export const API_WISHLIST_DELETE = "/api/spaces/{id}/likes";
 
 // 내 주변
 export const API_SPACES_NEARBY = "/api/spaces/nearby";
@@ -107,8 +107,8 @@ export const API_SPACE_SIMPLE = "/api/space/{spaceId}/simple";
 // 나의 예약
 export const API_REVIEW_WRITE = "/api/reviews/write";
 
-// 마이페이지 - 찜 목록 조회
-export const API_WISHLIST_ALL = "/api/wishlist/all";
+// 마이페이지 - 찜 목록 조회 (페이징)
+export const API_WISHLIST_ALL = "/api/likes";
 
 // 마이페이지 - 리뷰 관련
 export const API_REVIEW_LIST = "/api/reviews/list";

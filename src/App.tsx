@@ -26,7 +26,7 @@ import SignUpPage from "./pages/signup/SignUpPage";
 import SignUp from "./pages/signup/SignUp";
 import SIgnUpComplete from "./pages/signup/SIgnUpComplete";
 import AuthLayout from "./routes/AuthLayout";
-import AuthAfterLayout from "./routes/AuthAfterLayout";
+// import AuthAfterLayout from "./routes/AuthAfterLayout";
 import MypageGuest from "./pages/mypage/guest/MypageGuest";
 import EditProfileGuest from "./pages/editprofile/guest/EditProfileGuest";
 import HostCalendar from "./pages/host-calendar/HostCalendar";
@@ -48,28 +48,28 @@ function App() {
           {/* 컨텐츠를 담을 레이아웃입니다 */}
           <Route element={<Contents />}>
             {/* 엑세스 토큰이 없을 경우 이동 가능한 페이지 */}
-            <Route element={<AuthAfterLayout />}>
-              <Route path={PATHS.LOGIN} element={<LoginPage />} />
-              <Route path={PATHS.SIGNUP} element={<SignUp />} />
-              <Route path={PATHS.SIGNUPFORM} element={<SignUpPage />} />
-              <Route path={PATHS.SIGNUPCOMPLETE} element={<SIgnUpComplete />} />
-              <Route path={PATHS.HOME} element={<GuestMainPage />} />
-              <Route path={PATHS.HOST.MAIN} element={<HostMainpage />} />
-              <Route path={PATHS.GUEST.MAIN} element={<GuestMainPage />} />
-              <Route path={PATHS.GUEST.FILTER} element={<GuestFilterPage />} />
-              <Route path={PATHS.GUEST.SEARCH} element={<GuestSearchPage />} />
-              <Route path={PATHS.GUEST.MAP} element={<GuestMapPage />} />
-              <Route path={PATHS.GUEST.RESULT} element={<GuestResultPage />} />
-              <Route
-                path={`${PATHS.GUEST.RESERVATIONS}/:id`}
-                element={<GuestReserveDetailPage />}
-              />
-              <Route
-                path={PATHS.GUEST.RESERVECOMPLETED}
-                element={<ReserveCompletePage />}
-              />
-              <Route path={`${PATHS.SPACE}/:spaceId`} element={<SpacePage />} />
-            </Route>
+            {/* <Route element={<AuthAfterLayout />}> */}
+            <Route path={PATHS.LOGIN} element={<LoginPage />} />
+            <Route path={PATHS.SIGNUP} element={<SignUp />} />
+            <Route path={PATHS.SIGNUPFORM} element={<SignUpPage />} />
+            <Route path={PATHS.SIGNUPCOMPLETE} element={<SIgnUpComplete />} />
+            <Route path={PATHS.HOME} element={<GuestMainPage />} />
+            <Route path={PATHS.HOST.MAIN} element={<HostMainpage />} />
+            <Route path={PATHS.GUEST.MAIN} element={<GuestMainPage />} />
+            <Route path={PATHS.GUEST.FILTER} element={<GuestFilterPage />} />
+            <Route path={PATHS.GUEST.SEARCH} element={<GuestSearchPage />} />
+            <Route path={PATHS.GUEST.MAP} element={<GuestMapPage />} />
+            <Route path={PATHS.GUEST.RESULT} element={<GuestResultPage />} />
+            <Route
+              path={`${PATHS.GUEST.RESERVATIONS}/:id`}
+              element={<GuestReserveDetailPage />}
+            />
+            <Route
+              path={PATHS.GUEST.RESERVECOMPLETED}
+              element={<ReserveCompletePage />}
+            />
+            <Route path={`${PATHS.SPACE}/:spaceId`} element={<SpacePage />} />
+            {/* </Route> */}
 
             {/* 로그인 상태와 관계없이 접근 가능한 페이지 */}
             <Route path={PATHS.HOST.MYPAGE} element={<MypageHost />} />
