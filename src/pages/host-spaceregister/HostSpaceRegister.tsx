@@ -69,14 +69,14 @@ const HostSpaceRegister = () => {
     기타: "ETC",
   };
   return (
-    <div className="min-h-screen bg-white px-4 pt-6 pb-[100px] relative">
+    <div className="min-h-screen bg-white px-[2rem] relative">
       <PageHeader>공간 등록</PageHeader>
 
-      <h2 className="text-24-Bold font-bold mt-8">공간 유형을</h2>
-      <br></br>
-      <div className="flex justify-between items-end mb-12">
-        <h2 className="text-24-Bold font-bold">입력해주세요.</h2>
-      </div>
+      <h2 className="text-24-Bold font-bold leading-[3.5rem] mb-[3.6rem] mt-[1.8rem]">
+        공간 유형을
+        <br />
+        입력해주세요.
+      </h2>
 
       <div className="grid grid-cols-2 gap-[1rem]">
         {spaceTypes.map(({ label, image, selectedImage }) => {
@@ -85,27 +85,23 @@ const HostSpaceRegister = () => {
             <button
               key={label}
               onClick={() => setSelected(label)}
-              className={`relative w-full h-[10rem] rounded-xl border text-16-Bold text-left p-[1rem] transition-all
+              className={`relative w-full h-[8rem] flex  justify-between rounded-[1rem] text-16-Bold  py-[1.2rem] px-[1.2rem] transition-all
                 ${
                   isSelected
-                    ? "bg-[#4C8EFF] text-white border-[#4C8EFF]"
-                    : "bg-[#F2F3F6] text-black border-transparent"
+                    ? "bg-cr-blue text-cr-white "
+                    : "bg-cr-100 text-cr-black "
                 }
               `}
             >
-              <span className="text-[1rem] font-medium text-lg absolute top-[2rem] left-[2rem]">
-                {label}
-              </span>
+              <span className="text-16-SemiBold">{label}</span>
 
               <div
-                className={`absolute bottom-[2rem] right-[2rem] w-[5rem] h-[5rem] rounded-full transition
-                  
-                `}
+                className={`absolute bottom-[2rem] right-[2rem] rounded-full transition`}
               >
                 <img
                   src={isSelected ? selectedImage : image}
                   alt={`${label} 아이콘`}
-                  className="w-full h-full object-contain p-[0.5rem]"
+                  className="w-[3.2rem] h-[3.2rem] object-cover"
                 />
               </div>
             </button>
@@ -113,27 +109,25 @@ const HostSpaceRegister = () => {
         })}
       </div>
 
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 w-[40rem]">
-        <button
-          disabled={!selected}
-          onClick={() =>
-            navigate("/hostspaceregisterinfo", {
-              state: {
-                spaceCategory: spaceTypeMap[selected],
-              },
-            })
-          }
-          className={`w-full py-4 rounded-xl text-base font-semibold transition
+      <button
+        disabled={!selected}
+        onClick={() =>
+          navigate("/hostspaceregisterinfo", {
+            state: {
+              spaceCategory: spaceTypeMap[selected],
+            },
+          })
+        }
+        className={`max-w-[40rem] w-full h-[5rem] rounded-xl font-semibold transition fixed left-1/2 -translate-x-1/2 bottom-[2rem] text-16-SemiBold
             ${
               selected
-                ? "bg-black text-white"
-                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                ? "bg-cr-black text-cr-white"
+                : "bg-cr-100 text-cr-black cursor-not-allowed"
             }
           `}
-        >
-          선택 완료
-        </button>
-      </div>
+      >
+        선택 완료
+      </button>
     </div>
   );
 };
