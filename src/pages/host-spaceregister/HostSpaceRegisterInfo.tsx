@@ -1,9 +1,15 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { zodHostSpaceInfo } from "../../utils/zod/zodValidation";
-import { cancel_dark, error, camera, underArrow } from "../../assets/theme";
+import {
+  cancel_dark,
+  camera,
+  underArrow,
+  warning,
+  topArrow,
+} from "../../assets/theme";
 import PageHeader from "../../components/header/PageHeader";
 import DaumPostcode from "react-daum-postcode";
 // import { registerSpace } from "../../api/space/space.ts";
@@ -12,6 +18,10 @@ import { z } from "zod";
 
 const HostSpaceRegisterInfo = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 드롭다운 상태 관리
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   interface AddressData {
     address: string;
@@ -75,6 +85,21 @@ const HostSpaceRegisterInfo = () => {
     setImages(newImages);
   };
 
+  // 드롭다운 외부 클릭 시 닫기
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   useEffect(() => {
     console.log("폼 에러 상태:", errors);
   }, [errors]);
@@ -133,35 +158,40 @@ const HostSpaceRegisterInfo = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white px-4 pt-6 pb-[100px] relative">
+    <div className="min-h-screen bg-cr-white px-[2rem] relative">
       {/* Header */}
       <PageHeader backTo="/hostspaceregister">공간 등록</PageHeader>
 
-      <h2 className="text-24-Bold font-bold mt-8">공간 정보를</h2>
-      <br></br>
       <div className="flex justify-between items-end mb-12">
-        <h2 className="text-24-Bold font-bold">입력해주세요.</h2>
-        <span className="text-12 text-cr-red whitespace-nowrap">
-          * 필수입력
+        <h2 className="text-24-Bold leading-[3.5rem]">
+          공간 정보를
+          <br />
+          입력해주세요.
+        </h2>
+        <span className="text-12-Regular text-cr-red mb-[0.6rem]">
+          *필수입력
         </span>
       </div>
 
       <form
-        className="flex flex-col gap-6"
+        className="flex flex-col gap-[1.6rem]"
         onSubmit={handleSubmit(onValidSubmit)}
       >
         <div>
-          <div className="flex gap-2 overflow-x-auto">
+          <div
+            className="flex gap-[0.8rem] overflow-x-auto py-[0.5rem] scrollbar-hide scroll-smooth"
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
             {/* 카메라 아이콘 / 업로드 버튼 */}
             {images.length < 10 && (
               <label
                 htmlFor="image-upload"
-                className="text-14-Medium flex flex-col items-center justify-center w-24 h-24 flex-none bg-[#F2F3F6] rounded-md cursor-pointer border text-gray-400"
+                className="text-14-Medium flex flex-col items-center justify-center w-[9rem] h-[9rem] bg-cr-100 rounded-[1rem] cursor-pointer text-cr-500 flex-shrink-0"
               >
                 <img
                   src={camera}
                   alt="카메라 아이콘"
-                  className="w-8 h-8 mb-1"
+                  className="w-[2.4rem] h-[2.4rem] mb-[0.4rem]"
                 />
                 {images.length}/10
               </label>
@@ -171,28 +201,30 @@ const HostSpaceRegisterInfo = () => {
             {images.map((img, idx) => (
               <div
                 key={idx}
-                className="relative flex-none w-24 h-24 rounded-md overflow-hidden border"
+                className="relative w-[9rem] h-[9rem] rounded-[1rem] flex-shrink-0"
               >
-                <img
-                  src={URL.createObjectURL(img)}
-                  alt={`preview-${idx}`}
-                  className="w-full h-full object-cover"
-                />
+                <div className="w-full h-full rounded-[1rem] overflow-hidden">
+                  <img
+                    src={URL.createObjectURL(img)}
+                    alt={`preview-${idx}`}
+                    className="w-full h-full object-cover"
+                  />
+
+                  {/* 대표 사진 라벨 */}
+                  {idx === 0 && (
+                    <div className="absolute bottom-[0.6rem] left-0 right-0 text-cr-white text-13-Medium text-center ">
+                      대표 사진
+                    </div>
+                  )}
+                </div>
 
                 {/* 삭제 아이콘 */}
                 <img
                   src={cancel_dark}
                   alt="삭제 아이콘"
-                  className="w-5 h-5 absolute top-1 right-1 bg-opacity-60 rounded-full p-[2px] cursor-pointer"
+                  className="w-[2rem] h-[2rem] absolute -top-[0.6rem] -right-[0.8rem] z-10 rounded-full cursor-pointer border border-cr-white"
                   onClick={() => handleDelete(idx)}
                 />
-
-                {/* 대표 사진 라벨 */}
-                {idx === 0 && (
-                  <div className="absolute bottom-0 left-0 right-0 bg-black text-white text-xs text-center py-0.5">
-                    대표 사진
-                  </div>
-                )}
               </div>
             ))}
           </div>
@@ -224,13 +256,13 @@ const HostSpaceRegisterInfo = () => {
 
         {/* 공간명 */}
         <div className="flex flex-col gap-[0.8rem]">
-          <label className="text-[1.5rem] font-medium text-black">
-            공간명<span className="text-[#FF3B30]">*</span>
+          <label className="text-13-SemiBold">
+            공간명<span className="text-cr-red">*</span>
           </label>
           <input
             {...register("name")}
             placeholder="공간명을 입력해주세요"
-            className={`w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] 
+            className={`w-full h-[5rem] rounded-[1rem] px-[1.8rem] text-14-Medium bg-cr-100 placeholder:text-cr-500
               ${
                 errors.name
                   ? "border border-[#FF3B30]"
@@ -239,75 +271,76 @@ const HostSpaceRegisterInfo = () => {
             maxLength={30}
           />
           {errors.name && (
-            <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
-              <img src={error} alt="에러 아이콘" className="w-4 h-4" />
-              <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
+            <div className="flex gap-[0.6rem] items-center">
+              <img src={warning} alt="경고 아이콘" />
+              <span className="text-12-Medium text-red-500">
                 {errors.name.message}
-              </p>
+              </span>
             </div>
           )}
         </div>
 
         {/* 사용 용도 */}
         <div className="flex flex-col gap-[0.8rem]">
-          <label className="text-[1.5rem] font-medium text-black">
-            사용 용도
+          <label className="text-13-SemiBold">
+            사용 용도<span className="text-cr-red">*</span>
           </label>
 
-          <div className="relative w-full">
-            <select
-              {...register("useCategory")}
-              className={`w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] pr-[4rem] text-[1.5rem] bg-[#F2F3F6] text-black appearance-none
-        ${
-          errors.useCategory
-            ? "border border-[#FF3B30]"
-            : "border border-transparent"
-        }`}
-              value={selectedPurpose}
-              onChange={(e) => {
-                const value = e.target.value as
-                  | "MEETING"
-                  | "COOKING"
-                  | "BARISTA"
-                  | "FLEA_MARKET"
-                  | "FILMING"
-                  | "ETC";
-                setSelectedPurpose(value);
-                setValue("useCategory", value);
-              }}
+          <div className="relative" ref={dropdownRef}>
+            <button
+              type="button"
+              className={`flex justify-between items-center w-full h-[5.6rem] bg-cr-100 rounded-[1rem] text-14-Medium text-left px-[1.7rem] ${
+                selectedPurpose ? "text-cr-black" : "text-cr-500"
+              } ${errors.useCategory ? "border-2 border-red-500" : ""}`}
+              onClick={() => setIsDropdownOpen((prev) => !prev)}
             >
-              <option value="" disabled hidden>
-                카테고리를 선택해주세요
-              </option>
-              {purposeList.map((p) => (
-                <option key={p.value} value={p.value}>
-                  {p.label}
-                </option>
-              ))}
-            </select>
+              <span>
+                {selectedPurpose
+                  ? purposeList.find((p) => p.value === selectedPurpose)?.label
+                  : "카테고리를 선택해주세요"}
+              </span>
+              <img src={isDropdownOpen ? topArrow : underArrow} alt="화살표" />
+            </button>
 
-            {/* 화살표 아이콘 */}
-            <img
-              src={underArrow}
-              alt="화살표 아이콘"
-              className="absolute right-4 top-1/2 transform -translate-y-1/2 pointer-events-none"
+            {isDropdownOpen && (
+              <ul className="z-10 bg-cr-white absolute mt-[0.8rem] w-full border-cr-300 border rounded-[1rem] px-[1.6rem] py-[1.2rem]">
+                {purposeList.map((purpose) => (
+                  <li
+                    key={purpose.value}
+                    onClick={() => {
+                      setSelectedPurpose(purpose.value);
+                      setValue("useCategory", purpose.value);
+                      setIsDropdownOpen(false);
+                    }}
+                    className="h-[3rem] text-14-Medium flex items-center cursor-pointer hover:bg-cr-100 rounded-[0.5rem] px-[0.5rem]"
+                  >
+                    {purpose.label}
+                  </li>
+                ))}
+              </ul>
+            )}
+
+            <input
+              type="hidden"
+              value={selectedPurpose}
+              {...register("useCategory")}
             />
           </div>
 
           {errors.useCategory && (
-            <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
-              <img src={error} alt="에러 아이콘" className="w-4 h-4" />
-              <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
+            <div className="flex gap-[0.6rem] items-center">
+              <img src={warning} alt="경고 아이콘" />
+              <span className="text-12-Medium text-red-500">
                 {errors.useCategory.message}
-              </p>
+              </span>
             </div>
           )}
         </div>
 
         {/* 수용 인원 */}
         <div className="flex flex-col gap-[0.8rem]">
-          <label className="text-[1.5rem] font-medium text-black">
-            수용 인원<span className="text-[#FF3B30]">*</span>
+          <label className="text-13-SemiBold">
+            수용 인원<span className="text-cr-red">*</span>
           </label>
 
           {/* 숨겨진 input: register 연결 */}
@@ -320,34 +353,34 @@ const HostSpaceRegisterInfo = () => {
           />
 
           <div className="flex items-center justify-between">
-            <span className="text-[1.5rem] font-bold text-black">
+            <span className="text-16-SemiBold text-cr-black whitespace-nowrap">
               최대 {watch("maxCapacity") || 1} 인 수용 가능
             </span>
 
-            <div className="flex items-center gap-[1.2rem] bg-[#F2F3F6] rounded-[1rem] px-[0.8rem] py-[0.4rem]">
+            <div className="flex items-center gap-[1.2rem] bg-cr-100 rounded-[1rem] px-[0.8rem] py-[0.4rem]">
               <button
                 type="button"
-                className="w-[3.2rem] h-[3.2rem] text-[2rem] text-[#868686] flex items-center justify-center"
+                className="w-[3.2rem] h-[3.2rem] text-20-Regular text-cr-600 flex items-center justify-center"
                 onClick={() =>
                   setValue(
                     "maxCapacity",
                     Math.max(1, (watch("maxCapacity") || 1) - 1),
-                    { shouldValidate: true } // 유효성 검사를 다시 트리거
+                    { shouldValidate: true }
                   )
                 }
               >
                 –
               </button>
 
-              <div className="w-[4.8rem] h-[3.2rem] bg-white rounded-[0.8rem] flex items-center justify-center">
-                <span className="text-[1.5rem] text-black font-medium">
+              <div className="w-[4.8rem] h-[3.2rem] bg-cr-white rounded-[0.8rem] flex items-center justify-center">
+                <span className="text-16-SemiBold text-cr-black font-medium">
                   {watch("maxCapacity") || 1}
                 </span>
               </div>
 
               <button
                 type="button"
-                className="w-[3.2rem] h-[3.2rem] text-[2rem] text-[#868686] flex items-center justify-center"
+                className="w-[3.2rem] h-[3.2rem] text-20-Regular text-cr-600 flex items-center justify-center"
                 onClick={() =>
                   setValue("maxCapacity", (watch("maxCapacity") || 1) + 1, {
                     shouldValidate: true,
@@ -360,83 +393,81 @@ const HostSpaceRegisterInfo = () => {
           </div>
 
           {errors.maxCapacity && (
-            <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
-              <img src={error} alt="에러 아이콘" className="w-4 h-4" />
-              <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
+            <div className="flex gap-[0.6rem] items-center">
+              <img src={warning} alt="경고 아이콘" />
+              <span className="text-12-Medium text-red-500">
                 {errors.maxCapacity.message}
-              </p>
+              </span>
             </div>
           )}
         </div>
 
         {/* 가격 */}
         <div className="flex flex-col gap-[0.8rem]">
-          <label className="text-[1.5rem] font-medium text-black">
-            가격<span className="text-[#FF3B30]">*</span>
+          <label className="text-13-SemiBold">
+            가격<span className="text-cr-red">*</span>
           </label>
           <div className="flex items-center gap-[0.8rem]">
             <input
               {...register("pricePerHour", { valueAsNumber: true })}
               placeholder="시간당 가격을 입력해주세요"
-              type="number"
+              type="text"
               min={0}
               step={1000}
-              className={`w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] ${
+              className={`w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-14-Medium bg-cr-100 placeholder:text-cr-500 ${
                 errors.pricePerHour
-                  ? "border border-[#FF3B30]"
+                  ? "border border-cr-red"
                   : "border border-transparent"
               }`}
             />
-            <span className="text-[1.5rem] text-[#868686] whitespace-nowrap">
+            <span className="text-14-SemiBold text-cr-black whitespace-nowrap">
               원/시간
             </span>
           </div>
           {errors.pricePerHour && (
-            <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
-              <img src={error} alt="에러 아이콘" className="w-4 h-4" />
-              <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
+            <div className="flex gap-[0.6rem] items-center">
+              <img src={warning} alt="경고 아이콘" />
+              <span className="text-12-Medium text-red-500">
                 {errors.pricePerHour.message}
-              </p>
+              </span>
             </div>
           )}
         </div>
 
         {/* 기타 가격 안내 */}
         <div className="flex flex-col gap-[0.8rem]">
-          <label className="text-[1.5rem] font-medium text-black">
-            기타 가격 안내
-          </label>
+          <label className="text-13-SemiBold">기타 가격 안내</label>
           <textarea
             {...register("priceGuide")}
             placeholder="ex) 인원 추가시 5000원 추가"
             maxLength={500}
-            className="w-full min-h-[7rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] resize-none"
+            className="w-full min-h-[12rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-14-Medium bg-cr-100 placeholder:text-cr-500 resize-none"
           />
-          <div className="text-right text-[1.2rem] text-[#B0B0B0]">
+          <div className="text-right text-12-Regular text-cr-500">
             {watch("priceGuide")?.length || 0}/500자
           </div>
         </div>
 
         {/* 주소 */}
         <div className="flex flex-col gap-[0.8rem]">
-          <label className="text-[1.5rem] font-medium text-black">
-            주소<span className="text-[#FF3B30]">*</span>
+          <label className="text-13-SemiBold">
+            주소<span className="text-cr-red">*</span>
           </label>
           <div className="flex gap-[0.8rem]">
             <input
               {...register("address")}
               placeholder="주소를 입력해주세요"
-              className={`w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] 
+              className={`w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-14-Medium bg-cr-100 placeholder:text-cr-500 
                 ${
                   errors.address
-                    ? "border border-[#FF3B30]"
+                    ? "border border-cr-red"
                     : "border border-transparent"
                 }`}
               readOnly
             />
             <button
               type="button"
-              className="h-[5.6rem] px-[2.4rem] bg-black text-white rounded-[1rem] text-[1.5rem] font-semibold whitespace-nowrap"
+              className="h-[5.6rem] px-[2.4rem] bg-cr-black text-cr-white rounded-[1rem] text-14-Medium whitespace-nowrap"
               onClick={() => {
                 setIsModalOpen(true);
               }}
@@ -447,14 +478,14 @@ const HostSpaceRegisterInfo = () => {
           <input
             {...register("detailAddress")}
             placeholder="상세 주소를 입력해주세요"
-            className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] mt-[0.8rem]"
+            className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-14-Medium bg-cr-100 placeholder:text-cr-500 mt-[0.8rem]"
           />
           {errors.address && (
-            <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
-              <img src={error} alt="에러 아이콘" className="w-4 h-4" />
-              <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
+            <div className="flex gap-[0.6rem] items-center">
+              <img src={warning} alt="경고 아이콘" />
+              <span className="text-12-Medium text-red-500">
                 {errors.address.message}
-              </p>
+              </span>
             </div>
           )}
 
@@ -484,21 +515,17 @@ const HostSpaceRegisterInfo = () => {
 
         {/* 위치 정보 */}
         <div className="flex flex-col gap-[0.8rem]">
-          <label className="text-[1.5rem] font-medium text-black">
-            위치 정보
-          </label>
+          <label className="text-13-SemiBold">위치 정보</label>
           <input
             {...register("locationDescription")}
             placeholder="위치 정보를 입력해주세요 (ex. 강남역 4번 출구 도보 5분)"
-            className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0]"
+            className="w-full h-[5.6rem] rounded-[1rem] px-[1.7rem] text-14-Medium bg-cr-100 placeholder:text-cr-500"
           />
         </div>
 
         {/* 공간 태그 */}
         <div className="flex flex-col gap-[0.8rem]">
-          <label className="text-[1.5rem] font-medium text-black">
-            공간 태그
-          </label>
+          <label className="text-13-SemiBold">공간 태그</label>
 
           {/* 입력창 + 추가 버튼 */}
           <div className="flex gap-[0.8rem]">
@@ -507,13 +534,13 @@ const HostSpaceRegisterInfo = () => {
               value={tagInput}
               onChange={(e) => setTagInput(e.target.value)}
               placeholder="태그를 추가해주세요"
-              className="flex-1 h-[5.6rem] rounded-[1rem] px-[1.7rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0]"
+              className="flex-1 h-[5.6rem] rounded-[1rem] px-[1.7rem] text-14-Medium bg-cr-100 placeholder:text-cr-500"
             />
             <button
               type="button"
               onClick={handleAddTag}
-              className={`h-[5.6rem] px-[2.4rem] rounded-[1rem] text-[1.5rem] font-semibold whitespace-nowrap
-    ${tagInput.trim() ? "bg-black text-white" : "bg-[#E4E6EB] text-[#868686]"}`}
+              className={`h-[5.6rem] px-[2.4rem] rounded-[1rem] text-14-Medium whitespace-nowrap
+    ${tagInput.trim() ? "bg-cr-black text-cr-white" : "bg-cr-300 text-cr-600"}`}
             >
               태그 추가
             </button>
@@ -524,13 +551,13 @@ const HostSpaceRegisterInfo = () => {
             {tags.map((tag, idx) => (
               <div
                 key={idx}
-                className="bg-cr-500 text-white rounded-full px-[1.6rem] py-[0.9rem] text-[1.3rem] relative"
+                className="bg-cr-500 text-cr-white rounded-full px-[1.6rem] py-[0.9rem] text-[1.3rem] relative"
               >
                 {tag}
                 <img
                   src={cancel_dark}
                   alt="삭제 아이콘"
-                  className="w-[2rem] h-[2rem] cursor-pointer absolute -top-[0.4rem] -right-[0.4rem] rounded-full p-[0.2rem]"
+                  className="w-[2rem] h-[2rem] cursor-pointer absolute -top-[0.6rem] -right-[0.8rem] rounded-full p-[0.2rem]"
                   onClick={() => handleRemoveTag(tag)}
                 />
               </div>
@@ -540,116 +567,120 @@ const HostSpaceRegisterInfo = () => {
 
         {/* 공간 설명 */}
         <div className="flex flex-col gap-[0.8rem]">
-          <label className="text-[1.5rem] font-medium text-black">
-            공간 설명<span className="text-[#FF3B30]">*</span>
+          <label className="text-13-SemiBold">
+            공간 설명<span className="text-cr-red">*</span>
           </label>
           <textarea
             {...register("description")}
             placeholder="공간에 대한 설명을 자세하게 적어주세요 (ex. 공간 분위기, 구비 물품, 위치, 용도 등)"
             maxLength={2000}
-            className={`w-full min-h-[10rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] resize-none
+            className={`w-full leading-[2.2rem] min-h-[15rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-14-Medium bg-cr-100 placeholder:text-cr-500 resize-none
               ${
                 errors.description
-                  ? "border border-[#FF3B30]"
+                  ? "border border-cr-red"
                   : "border border-transparent"
               }`}
           />
-          <div className="text-right text-[1.2rem] text-[#B0B0B0]">
-            {watch("description")?.length || 0}/2000자
-          </div>
-          {errors.description && (
-            <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
-              <img src={error} alt="에러 아이콘" className="w-4 h-4" />
-              <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
-                {errors.description.message}
-              </p>
+          <div className="flex justify-between text-12-Regular text-cr-500">
+            <div>
+              {errors.description && (
+                <div className="flex gap-[0.6rem] items-center">
+                  <img src={warning} alt="경고 아이콘" />
+                  <span className="text-12-Medium text-red-500">
+                    {errors.description.message}
+                  </span>
+                </div>
+              )}
             </div>
-          )}
+            <div>{watch("description")?.length || 0}/2000자</div>
+          </div>
         </div>
 
         {/* 공간 안내 */}
         <div className="flex flex-col gap-[0.8rem]">
-          <label className="text-[1.5rem] font-medium text-black">
-            공간 안내
-          </label>
+          <label className="text-13-SemiBold">공간 안내</label>
           <textarea
             {...register("facilityNotice")}
             placeholder="ex) 재활용 쓰레기 구비 되어있습니다"
             maxLength={500}
-            className="w-full min-h-[7rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] resize-none"
+            className="w-full leading-[2.2rem] min-h-[7rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-14-Medium bg-cr-100 placeholder:text-cr-500 resize-none"
           />
-          <div className="text-right text-[1.2rem] text-[#B0B0B0]">
+          <div className="flex justify-end text-12-Regular text-cr-500">
             {watch("facilityNotice")?.length || 0}/500자
           </div>
         </div>
 
         {/* 주의 사항 */}
         <div className="flex flex-col gap-[0.8rem]">
-          <label className="text-[1.5rem] font-medium text-black">
-            주의 사항<span className="text-[#FF3B30]">*</span>
+          <label className="text-13-SemiBold">
+            주의 사항<span className="text-cr-red">*</span>
           </label>
           <textarea
             {...register("notice")}
             placeholder="ex) 사용 후 청소 부탁드립니다"
             maxLength={500}
-            className={`w-full min-h-[10rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] resize-none
+            className={`w-full leading-[2.2rem] min-h-[10rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-14-Medium bg-cr-100 placeholder:text-cr-500 resize-none
               ${
                 errors.notice
-                  ? "border border-[#FF3B30]"
+                  ? "border border-cr-red"
                   : "border border-transparent"
               }`}
           />
-          <div className="text-right text-[1.2rem] text-[#B0B0B0]">
-            {watch("notice")?.length || 0}/500자
-          </div>
-          {errors.notice && (
-            <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
-              <img src={error} alt="에러 아이콘" className="w-4 h-4" />
-              <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
-                {errors.notice.message}
-              </p>
+          <div className="flex justify-between text-12-Regular text-cr-500">
+            <div>
+              {errors.notice && (
+                <div className="flex gap-[0.6rem] items-center">
+                  <img src={warning} alt="경고 아이콘" />
+                  <span className="text-12-Medium text-red-500">
+                    {errors.notice.message}
+                  </span>
+                </div>
+              )}
             </div>
-          )}
+            <div>{watch("notice")?.length || 0}/500자</div>
+          </div>
         </div>
 
         {/* 환불 정책 */}
         <div className="flex flex-col gap-[0.8rem]">
-          <label className="text-[1.5rem] font-medium text-black">
-            환불 정책<span className="text-[#FF3B30]">*</span>
+          <label className="text-13-SemiBold">
+            환불 정책<span className="text-cr-red">*</span>
           </label>
           <textarea
             {...register("refundPolicy")}
             placeholder="ex) 예약일 1일 전까지 전액 환불"
             maxLength={500}
-            className={`w-full min-h-[10rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-[1.5rem] bg-[#F2F3F6] placeholder:text-[#B0B0B0] resize-none
+            className={`w-full leading-[2.2rem] min-h-[10rem] rounded-[1rem] px-[1.7rem] py-[1.2rem] text-14-Medium bg-cr-100 placeholder:text-cr-500 resize-none
               ${
                 errors.refundPolicy
-                  ? "border border-[#FF3B30]"
+                  ? "border border-cr-red"
                   : "border border-transparent"
               }`}
           />
-          <div className="text-right text-[1.2rem] text-[#B0B0B0]">
-            {watch("refundPolicy")?.length || 0}/500자
-          </div>
-          {errors.refundPolicy && (
-            <div className="flex items-center gap-[0.4rem] mt-[0.2rem]">
-              <img src={error} alt="에러 아이콘" className="w-4 h-4" />
-              <p className="text-[#FF3B30] text-[1.3rem] mt-[0.2rem]">
-                {errors.refundPolicy.message}
-              </p>
+          <div className="flex justify-between text-12-Regular text-cr-500">
+            <div>
+              {errors.refundPolicy && (
+                <div className="flex gap-[0.6rem] items-center">
+                  <img src={warning} alt="경고 아이콘" />
+                  <span className="text-12-Medium text-red-500">
+                    {errors.refundPolicy.message}
+                  </span>
+                </div>
+              )}
             </div>
-          )}
+            <div>{watch("refundPolicy")?.length || 0}/500자</div>
+          </div>
         </div>
 
         {/* 작성 완료 버튼 */}
         <button
           type="submit"
           disabled={!isFormValid}
-          className={`w-full h-[5.6rem] mt-[2.4rem] rounded-[1rem] text-[1.7rem] font-semibold transition
+          className={`w-full h-[5.6rem] my-[2.4rem] rounded-[1rem] text-16-SemiBold transition
     ${
       isFormValid
-        ? "bg-black text-white"
-        : "bg-[#D9D9D9] text-[#868686] cursor-not-allowed"
+        ? "bg-cr-black text-cr-white"
+        : "bg-cr-200 text-cr-600 cursor-not-allowed"
     }
   `}
         >
