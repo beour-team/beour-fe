@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import GuestFooter from "../../components/GuestFooter";
 import ReserveToggle from "./ReserveToggle";
 import CurrentReservations from "./CurrentResrvations";
 import PastReservations from "./PastReservations";
@@ -8,6 +7,7 @@ import { bluecheck, grayArea, notification } from "../../assets/theme";
 import { useLocation, useNavigate } from "react-router-dom";
 import { formatTimeRanges } from "../../utils/format-time-range";
 import type { ReservationCompleteData } from "../../types/reserve-complete-data";
+import GuestFooter from "../../components/footer/GuestFooter";
 
 type ReservationCategory = "current" | "past" | "cancel";
 

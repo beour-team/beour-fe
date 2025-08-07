@@ -29,12 +29,13 @@ const HostFooter = () => {
   const currentPath = location.pathname;
 
   return (
-    <footer className="fixed bottom-0 left-1/2 -translate-x-1/2 w-[43rem]">
+    <footer className="relative w-full bg-transparent flex justify-center">
       <div
         className="
-      h-[9vh] mt-[0.5vh] px-[2vw]
-      flex justify-around items-center py-3 bg-white
-      "
+      fixed bottom-0 left-50% w-full max-w-[43rem] min-w-[32rem] mx-auto h-[5.7rem] flex justify-around items-center bg-white"
+        style={{
+          boxShadow: "0 -5px 14.6px 0 rgba(0, 0, 0, 0.05)",
+        }}
       >
         {footerItems.map((item) => {
           const isClick = currentPath === item.path;
@@ -43,7 +44,7 @@ const HostFooter = () => {
           return (
             <div
               key={item.path}
-              className="flex flex-col items-center cursor-pointer"
+              className="flex flex-col items-center cursor-pointer w-[6rem]"
               onClick={() => {
                 nav(item.path);
               }}
@@ -51,7 +52,7 @@ const HostFooter = () => {
               <img
                 src={iconSrc}
                 alt={item.label}
-                className="w-[2rem] h-[2rem] mb-2"
+                className="w-[2.4rem] h-[2.4rem] mb-2"
               />
 
               <span

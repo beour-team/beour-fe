@@ -1,6 +1,6 @@
 import React from "react";
 import HostHeader from "./HostHeader";
-import HostFooter from "../../components/HostMainPage/HostFooter";
+import HostFooter from "../../components/footer/HostFooter";
 import HostReserveList from "../../components/HostMainPage/HostReserveList";
 import HelloProfile from "../../components/HelloProfile";
 import Banner from "../../components/HostMainPage/Banner";

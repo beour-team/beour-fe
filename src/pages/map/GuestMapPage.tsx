@@ -1,4 +1,4 @@
-import GuestFooter from "../../components/GuestFooter";
+import GuestFooter from "../../components/footer/GuestFooter";
 import MapView from "./MapView";
 
 const GuestMapPage = () => {

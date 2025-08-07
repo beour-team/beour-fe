@@ -65,7 +65,7 @@ import threeDot from "./img/3dot.svg";
 import edit from "./img/pencil.svg";
 import trash from "./img/trash.svg";
 import calendar2 from "./img/calender2.svg";
-import cancel_dark from "./img/cancel_dark.png";
+import cancel_dark from "./img/cancel_dark.svg";
 import error from "./img/error.svg";
 import camera from "./img/Camera.svg";
 import space_cafe from "./img/space_cafe.png";
