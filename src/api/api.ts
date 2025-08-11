@@ -17,8 +17,8 @@ api.interceptors.request.use(
   (config) => {
     // 🔥 중요: 리프레시 토큰 재발급 요청에서는 헤더에 액세스 토큰을 넣지 않음
     // 재발급 API는 쿠키의 refresh 토큰만 사용하고, 헤더의 액세스 토큰은 필요 없음
-    if (config.url && config.url.includes("/api/users/reissue")) {
-      console.log("🔄 리프레시 토큰 재발급 요청 - 헤더에 액세스 토큰 제외");
+    if (config.url && config.url.includes("/api/token/reissue")) {
+      if (config.headers) delete config.headers["Authorization"];
       return config;
     }
 
@@ -27,9 +27,18 @@ api.interceptors.request.use(
 
     // 토큰이 있다면 headers에 Authorization 추가 (일반 API 요청용)
     if (token) {
+      // 헤더 객체가 없으면 생성, 있으면 기존 것 사용
       config.headers = config.headers || {};
-      // localStorage에 저장된 토큰은 이미 Bearer 접두사를 포함하고 있으므로 그대로 사용
       config.headers["Authorization"] = token;
+    }
+    const isFormData =
+      typeof FormData !== "undefined" &&
+      config.data &&
+      (config.data instanceof FormData ||
+        Object.prototype.toString.call(config.data) === "[object FormData]");
+
+    if (isFormData && config.headers) {
+      delete config.headers["Content-Type"];
     }
     // 다시 요청
     return config;
@@ -58,7 +67,7 @@ api.interceptors.response.use(
       try {
         // 🔥 중요: 재발급 요청할 때는 헤더에 액세스 토큰을 넣지 않음
         // 오직 쿠키의 refresh 토큰만 사용
-        const res = await api.post(`/api/token/reissue`, {
+        const res = await api.post(`/api/token/reissue`, null, {
           withCredentials: true, // 쿠키에 담긴 refresh 토큰 보내기
           headers: {}, // Authorization 헤더 명시적으로 비우기
         });
@@ -74,7 +83,13 @@ api.interceptors.response.use(
 
         // 재요청 시 새 토큰으로 Authorization 헤더 갱신
         // 새로 발급받은 토큰도 이미 Bearer 접두사를 포함하고 있으므로 그대로 사용
+        originalRequest.headers = originalRequest.headers || {};
         originalRequest.headers["Authorization"] = newAccessToken;
+
+        // FormData 요청인 경우 Content-Type 보호
+        if (originalRequest.data instanceof FormData) {
+          delete originalRequest.headers["Content-Type"];
+        }
 
         console.log("🚀 새로운 액세스 토큰으로 원래 요청 재시도");
         // 이제 원래 api 다시 시도

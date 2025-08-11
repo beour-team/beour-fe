@@ -18,11 +18,12 @@ export const registerSpace = async (
   formData: FormData
 ): Promise<RegisterSpaceResponse> => {
   try {
-    const response = await api.post<RegisterSpaceResponse>(API_SPACES, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await api.post<RegisterSpaceResponse>(
+      API_SPACES,
+      formData
+      // headers 제거 - FormData 사용 시 브라우저가 자동으로 Content-Type 설정
+      // 브라우저가 "multipart/form-data; boundary=..." 자동 생성
+    );
 
     if (response.data.code === 200) {
       return response.data;
