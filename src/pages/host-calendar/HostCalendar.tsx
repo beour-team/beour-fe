@@ -35,7 +35,7 @@ const HostCalendar = () => {
           onSelect={setSelectedDates}
         />
       </div>
-      <div className="px-[2rem] min-h-screen bg-[#ECEEF1] px-4 py-6">
+      <div className="px-[2rem] min-h-screen bg-[#ECEEF1] py-6">
         <div className="pb-[2rem]">
           <div className="flex items-center">
             <p className="text-13-Medium text-gray-500">총 {cards.length}건</p>
