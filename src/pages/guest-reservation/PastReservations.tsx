@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { formatReservationDateTime } from "../../utils/data-formatter";
 import { usePastReservations } from "../../hooks/guest-reservation/usePastReservations";
+import type { ReservationItem } from "../../types/guest-reservation/reservations";
 // import { pastReservationData } from "../../constants/dummy-data/reserve-data";
 // import { user } from "../../constants/dummy-data/dummy-user";
 
@@ -38,7 +39,7 @@ const PastReservations = () => {
       <div className="border border-[#ECECEC]"></div>
 
       <div>
-        {reservations.map((reservation, index) => (
+        {reservations.map((reservation: ReservationItem, index: number) => (
           <div
             key={reservation.reservationId}
             className={`my-[1rem] py-[2rem] ${
@@ -90,7 +91,6 @@ const PastReservations = () => {
                           `${PATHS.GUEST.RESERVATIONS}/${reservation.reservationId}`,
                           {
                             state: {
-                              reservation,
                               category: "past",
                             },
                           }

@@ -89,10 +89,6 @@ import share from "./img/share.svg";
 import won from "./img/won.svg";
 import subway from "./img/subway.svg";
 import chat from "./img/chat.svg";
-import wifi from "./img/wifi.svg";
-import nopet from "./img/nopet.svg";
-import car from "./img/car.svg";
-import stairs from "./img/stairs.svg";
 import size from "./img/size.svg";
 import how from "./img/how.svg";
 import place from "./img/place.svg";
@@ -199,10 +195,6 @@ export {
   won,
   subway,
   chat,
-  wifi,
-  nopet,
-  car,
-  stairs,
   size,
   how,
   place,

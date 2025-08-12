@@ -5,6 +5,7 @@ import {
 import type {
   CurrentReservation,
   PastReservation,
+  CanceledReservation,
 } from "../../types/guest-reservation/reservations";
 import { api } from "../../api/api";
 
@@ -22,6 +23,15 @@ export const getPastReservations = async (
 ): Promise<PastReservation> => {
   const response = await api.get(API_RESERVATION_PAST, {
     params: { page },
+  });
+  return response.data.data;
+};
+
+export const getCanceledReservations = async (
+  page: number
+): Promise<CanceledReservation> => {
+  const response = await api.get("/api/reservations/status", {
+    params: { status: "REJECTED", page },
   });
   return response.data.data;
 };

@@ -1,6 +1,6 @@
 // api 요청 함수
-import { API_BANNERS,BASE_URL } from "../../constants/endpoint/endpoint";
-import axios from "axios";
+import { API_BANNERS } from "../../constants/endpoint/endpoint";
+import { api } from "../api";
 
 export interface Banner {
   bannerId: number;
@@ -10,10 +10,8 @@ export interface Banner {
 
 // 비동기 함수
 export const fetchBanners = async (): Promise<Banner[]> => {
-  const res = await axios.get(BASE_URL + API_BANNERS); 
-
+  const res = await api.get(API_BANNERS);
   // 명세서 구조 {code, httpStatus, data}여서
 
-  console.log("axios 응답", JSON.stringify(res, null, 2));
   return res.data.data;
 };

@@ -53,7 +53,7 @@ export const API_REVIEW_REPLY = "/api/reviews/{reviewId}/comments";
 export const API_MY_SPACES = "/api/users/me/spaces";
 
 // 마이페이지 - 공간 상세 정보
-export const API_SPACE_DETAIL = "/api/spaces/{spaceId}";
+export const API_SPACE_DETAIL = "/api/spaces";
 export const API_SPACE_DETAIL_ALL = "/api/spaces/{spaceId}"; // 전체 조회(중복)
 
 // 마이페이지 - 공간 정보/상세/태그 수정
@@ -95,6 +95,7 @@ export const API_RESERVATION_CANCEL_GUEST =
 export const API_SPACE_DETAIL_GUEST = "/api/spaces/{spaceId}";
 export const API_RESERVATION_AVAILABLE_TIMES =
   "/api/spaces/reserve/available-times";
+export const API_GUEST_RESERVATION_DETAIL = "api/reservations";
 
 // 찜
 export const API_WISHLIST = "/api/wishlist?spaceId={id}";
