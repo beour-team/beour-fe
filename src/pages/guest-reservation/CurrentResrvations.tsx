@@ -6,6 +6,7 @@ import ReserveTag from "../../components/guest-result/ReserveTag";
 import { formatReservationDateTime } from "../../utils/data-formatter";
 import { PATHS } from "../../routes/paths";
 import { useCurrentReservations } from "../../hooks/guest-reservation/useCurrentReservations";
+import type { ReservationItem } from "../../types/guest-reservation/reservations";
 // import { user } from "../../constants/dummy-data/dummy-user";
 //404일때 화면 만들면 좋을듯 (데이터 없을때 -> 로딩용 컴포넌트)
 
@@ -30,7 +31,7 @@ const CurrentReservations = () => {
       <div className="border border-[#ECECEC]"></div>
 
       <div>
-        {reservations.map((reservation, index) => (
+        {reservations.map((reservation: ReservationItem, index: number) => (
           <div
             key={reservation.reservationId}
             className={`my-[1rem] py-[2rem] ${
@@ -81,7 +82,6 @@ const CurrentReservations = () => {
                           `${PATHS.GUEST.RESERVATIONS}/${reservation.reservationId}`,
                           {
                             state: {
-                              reservation,
                               category: "current",
                             },
                           }

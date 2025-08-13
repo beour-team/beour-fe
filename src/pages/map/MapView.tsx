@@ -123,7 +123,7 @@ const MapView = () => {
           </CustomOverlayMap>
 
           {/* 공간리스트 표시 */}
-          {spaces.map((space) => (
+          {spaces?.map((space) => (
             <CustomOverlayMap
               key={space.spaceId}
               position={{ lat: space.latitude, lng: space.longitude }}

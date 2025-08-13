@@ -1,29 +1,38 @@
-import { err, rightArrow, space3 } from "../../assets/theme";
+import { rightArrow } from "../../assets/theme";
 import ReserveTag from "../../components/guest-result/ReserveTag";
-import { canceledReservationData } from "../../constants/dummy-data/reserve-data";
 import { formatReservationDateTime } from "../../utils/data-formatter";
 import { PATHS } from "../../routes/paths";
 import { useNavigate } from "react-router-dom";
-import { user } from "../../constants/dummy-data/dummy-user";
+import { useState } from "react";
+import { useCanceledReservations } from "../../hooks/guest-reservation/useCanceledReservations";
+import type { ReservationItem } from "../../types/guest-reservation/reservations";
 
-//취소된 예약 목록이 필요해요
 const CanceledReservations = () => {
   const nav = useNavigate();
+  const [page, setPage] = useState(0);
+
+  const { data, isLoading, isError } = useCanceledReservations(page);
+
+  if (isLoading) return <div>로딩중...</div>;
+  if (isError) return <div className="text-center">에러가 발생했습니다.</div>;
+  if (!data) return null;
+
+  const { reservations, totalPage, last } = data;
 
   return (
     <div>
       <div className="mx-[2rem] text-13-Medium text-cr-600 my-[2rem]">
-        총 {canceledReservationData.length}개
+        총 {reservations.length}개
       </div>
 
       <div className="border border-[#ECECEC]"></div>
 
       <div>
-        {canceledReservationData.map((reservation, index) => (
+        {reservations.map((reservation: ReservationItem, index: number) => (
           <div
             key={reservation.reservationId}
             className={`my-[1rem] py-[2rem] ${
-              index !== canceledReservationData.length
+              index !== reservations.length
                 ? "border-b-[0.2rem] border-[#ECECEC]"
                 : ""
             }`}
@@ -38,7 +47,7 @@ const CanceledReservations = () => {
 
               <div className="flex items-center gap-5">
                 <img
-                  src={space3}
+                  src={reservation.spaceThumbImageUrl}
                   alt="공간 사진"
                   className="w-[8.5rem] h-[8.5rem] rounded-[1.2rem]"
                 />
@@ -71,10 +80,6 @@ const CanceledReservations = () => {
                           `${PATHS.GUEST.RESERVATIONS}/${reservation.reservationId}`,
                           {
                             state: {
-                              reservation: {
-                                ...reservation,
-                                user,
-                              },
                               category: "cancel",
                             },
                           }
@@ -91,13 +96,30 @@ const CanceledReservations = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex items-center gap-3 my-[1.2rem]">
-                <img src={err} alt="에러 마크" className="w-[1.5rem]" />
-                <div className="text-12-Medium"> 취소 사유 : 호스트 요청</div>
-              </div>
             </div>
           </div>
         ))}
+      </div>
+
+      {/* 페이징 버튼 */}
+      <div className="flex justify-center gap-2 mt-[2rem] mb-[5rem]">
+        <button
+          onClick={() => setPage((p) => Math.max(p - 1, 0))}
+          disabled={page === 0}
+          className="text-14-Medium text-cr-600"
+        >
+          이전
+        </button>
+        <span className="text-14-Medium text-cr-500">
+          {page + 1} / {totalPage}
+        </span>
+        <button
+          onClick={() => setPage((p) => (last ? p : p + 1))}
+          disabled={last}
+          className="text-14-Medium text-cr-600"
+        >
+          다음
+        </button>
       </div>
     </div>
   );
