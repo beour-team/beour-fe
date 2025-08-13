@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
-// import { RecentReviews } from "../../../constants/dummy-data/recent-reviews-data";
 import RecentReviewCard from "./RecentReviewCard";
 import { fetchRecentReview } from "../../../api/guest-main/recent-review";
 import type { RecentReview } from "../../../types/guest-main/RecentReview";

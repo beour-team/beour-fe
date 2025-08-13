@@ -11,10 +11,14 @@ const CanceledReservations = () => {
   const nav = useNavigate();
   const [page, setPage] = useState(0);
 
-  const { data, isLoading, isError } = useCanceledReservations(page);
+  const { data, isError } = useCanceledReservations(page);
 
-  if (isLoading) return <div>로딩중...</div>;
-  if (isError) return <div className="text-center">에러가 발생했습니다.</div>;
+  if (isError)
+    return (
+      <div className="text-center text-14-Medium text-cr-600">
+        예약이 존재하지 않습니다.
+      </div>
+    );
   if (!data) return null;
 
   const { reservations, totalPage, last } = data;

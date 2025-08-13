@@ -56,15 +56,17 @@ const SearchResultCard = ({ item }: SearchResultCardProps) => {
         <div className="flex text-[1.2rem] pb-[1rem] gap-[0.4rem] items-center">
           <GoStarFill className="text-cr-yellow text-[1.5rem]" />
           <span className="text-13-Bold">{item.average}</span>
+          <span className="text-13-Medium text-cr-600">
+            ({item.reviewCount})
+          </span>
         </div>
-        {/* reviewCount넣기 */}
 
         <div className="w-full overflow-hidden">
           <div className="flex gap-2 overflow-x-auto scrollbar-hide max-w-full pb-[3.5rem]">
             {item.tags.map((tag, index) => (
               <div
                 key={index}
-                className="flex-shrink-0 flex items-center justify-center rounded-[4.9rem] bg-cr-primary px-4 py-1 min-w-[4.4rem] h-[2.5rem]"
+                className="flex-shrink-0 flex items-center justify-center rounded-[4.9rem] bg-cr-primary px-4 py-1 min-w-[3.4rem] h-[2.5rem]"
               >
                 <span className="text-cr-blue text-13-Medium">{tag}</span>
               </div>

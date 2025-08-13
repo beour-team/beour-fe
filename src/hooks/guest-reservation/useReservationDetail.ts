@@ -8,5 +8,6 @@ export const useReservationDetail = (reservationId: number) => {
     queryFn: () => getReservationDetail(reservationId),
     enabled: !!reservationId,
     staleTime: 1000 * 60 * 5,
+    retry: 1,
   });
 };

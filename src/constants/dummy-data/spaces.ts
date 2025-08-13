@@ -1,5 +1,5 @@
 import { space3, space6 } from "../../assets/theme";
-import type { Space } from "../../types/Space";
+import type { Space } from "../../types/space/Space";
 
 export const dummySpace: Space = {
   id: 2001,

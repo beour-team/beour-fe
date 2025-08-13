@@ -14,7 +14,7 @@ const RecentReviewCard = ({ review }: Props) => {
   const nav = useNavigate();
 
   const goToDetail = () => {
-    nav(`${PATHS.SPACE}/${review.reviewId}`); //id로 경로 이동
+    nav(`${PATHS.SPACE}/${review.reviewId}`); //공간 id로 경로 이동 (공간 상세 페이지)
   };
 
   return (

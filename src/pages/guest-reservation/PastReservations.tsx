@@ -7,17 +7,19 @@ import { PATHS } from "../../routes/paths";
 import { formatReservationDateTime } from "../../utils/data-formatter";
 import { usePastReservations } from "../../hooks/guest-reservation/usePastReservations";
 import type { ReservationItem } from "../../types/guest-reservation/reservations";
-// import { pastReservationData } from "../../constants/dummy-data/reserve-data";
-// import { user } from "../../constants/dummy-data/dummy-user";
 
 //백엔드 api에 태그 필요
 const PastReservations = () => {
   const [page, setPage] = useState(0);
-  const { data, isLoading, error } = usePastReservations(page);
+  const { data, error } = usePastReservations(page);
   const nav = useNavigate();
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div>에러가 발생했습니다.</div>;
+  if (error)
+    return (
+      <div className="text-center text-14-Medium text-cr-600">
+        예약이 존재하지 않습니다.
+      </div>
+    );
 
   const reservations = data?.reservations ?? [];
   const last = data?.last ?? true;

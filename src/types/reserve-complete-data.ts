@@ -8,9 +8,4 @@ export interface ReservationCompleteData {
   contact: string;
   pricePerHour: number;
   totalPrice: number;
-  user: {
-    nickname: string;
-    name: string;
-    phone: string;
-  };
 }

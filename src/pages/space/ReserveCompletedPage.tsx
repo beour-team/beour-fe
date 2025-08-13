@@ -4,7 +4,8 @@ import { formatTimeRanges } from "../../utils/format-time-range";
 import { call, checkedBox, how, money, place } from "../../assets/theme";
 import { useState } from "react";
 import { PATHS } from "../../routes/paths";
-import { user } from "../../constants/dummy-data/dummy-user";
+import { useQuery } from "@tanstack/react-query";
+import { getUserDetail } from "../../api/space/user";
 import PageHeader from "../../components/header/PageHeader";
 
 const ReserveCompletePage = () => {
@@ -40,11 +41,19 @@ const ReserveCompletePage = () => {
           contact,
           pricePerHour,
           totalPrice,
-          user,
         },
       },
     });
   };
+
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useQuery({ queryKey: ["userDetail"], queryFn: getUserDetail });
+
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>사용자 정보를 불러오는 중 오류 발생</div>;
 
   return (
     <div>
@@ -84,6 +93,7 @@ const ReserveCompletePage = () => {
               href="tel:01012345678"
               className="text-14-Medium text-cr-blue underline"
             >
+              {/* 여기 연락처 필요 */}
               {contact}
             </a>
           </div>
@@ -96,9 +106,9 @@ const ReserveCompletePage = () => {
         <div className="flex items-center gap-[2rem]">
           <p className="text-13-SemiBold text-cr-500">예약자</p>
           <div className="flex items-center gap-3">
-            <p className="text-14-SemiBold">{user.nickname}</p>
+            <p className="text-14-SemiBold">{user.nickName}</p>
             <p className="text-14-Medium">
-              {user.name} {user.phone}
+              {user.name} {user.phoneNum}
             </p>
           </div>
         </div>

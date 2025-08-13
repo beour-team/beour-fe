@@ -125,7 +125,7 @@ const SpaceReservePage = () => {
                     {hour}
                   </button>
                   <span className="mt-[1rem] text-12-Regular text-cr-700">
-                    {isDisabled ? "대여불가" : "30,000"}
+                    {isDisabled ? "대여불가" : pricePerHour}
                   </span>
                 </div>
               );
