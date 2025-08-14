@@ -1,4 +1,4 @@
-import { rightArrow } from "../../assets/theme";
+import { leftArrow, rightArrow } from "../../assets/theme";
 import ReserveTag from "../../components/guest-result/ReserveTag";
 import { formatReservationDateTime } from "../../utils/data-formatter";
 import { PATHS } from "../../routes/paths";
@@ -105,25 +105,26 @@ const CanceledReservations = () => {
         ))}
       </div>
 
-      {/* 페이징 버튼 */}
-      <div className="flex justify-center gap-2 mt-[2rem] mb-[5rem]">
-        <button
-          onClick={() => setPage((p) => Math.max(p - 1, 0))}
-          disabled={page === 0}
-          className="text-14-Medium text-cr-600"
-        >
-          이전
-        </button>
+      <div className="flex justify-center gap-4 my-[2rem]">
+        {totalPage > 1 && page > 0 && (
+          <img
+            src={leftArrow}
+            alt="이전 페이지"
+            className="cursor-pointer w-[2rem] h-[2rem]"
+            onClick={() => setPage((p) => Math.max(p - 1, 0))}
+          />
+        )}
         <span className="text-14-Medium text-cr-500">
           {page + 1} / {totalPage}
         </span>
-        <button
-          onClick={() => setPage((p) => (last ? p : p + 1))}
-          disabled={last}
-          className="text-14-Medium text-cr-600"
-        >
-          다음
-        </button>
+        {totalPage > 1 && !last && (
+          <img
+            src={rightArrow}
+            alt="다음 페이지"
+            className="cursor-pointer w-[2rem] h-[2rem]"
+            onClick={() => setPage((p) => (last ? p : p + 1))}
+          />
+        )}
       </div>
     </div>
   );

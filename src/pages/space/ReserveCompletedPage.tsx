@@ -7,6 +7,7 @@ import { PATHS } from "../../routes/paths";
 import { useQuery } from "@tanstack/react-query";
 import { getUserDetail } from "../../api/space/user";
 import PageHeader from "../../components/header/PageHeader";
+import { useCreateReservation } from "../../hooks/space/useCreateReservation";
 
 const ReserveCompletePage = () => {
   const location = useLocation();
@@ -20,6 +21,7 @@ const ReserveCompletePage = () => {
     maxCapacity,
     contact,
     pricePerHour,
+    spaceId,
   } = location.state || {};
 
   // 혹시 date 객체로 안넘어올까봐
@@ -28,22 +30,43 @@ const ReserveCompletePage = () => {
   const hourCount = selectedTime?.length || 0;
   const totalPrice = pricePerHour * hourCount;
 
-  const handleComplete = () => {
-    nav(PATHS.GUEST.RESERVATIONS, {
-      state: {
-        reservationCompleteData: {
-          selectedDate,
-          selectedTime,
-          useType,
-          text,
-          name,
-          maxCapacity,
-          contact,
-          pricePerHour,
-          totalPrice,
+  const createReservation = useCreateReservation(spaceId!);
+
+  const handleComplete = async () => {
+    if (!date || !selectedTime || selectedTime.length === 0 || !useType) return;
+
+    try {
+      await createReservation.mutateAsync({
+        spaceId,
+        date: date.toISOString().split("T")[0],
+        startTime: selectedTime[0],
+        endTime: selectedTime[selectedTime.length - 1],
+        price: totalPrice,
+        guestCount: maxCapacity,
+        usagePurpose: useType,
+        requestMessage: text || "",
+      });
+
+      // 예약 성공 시 모달용 데이터 전달
+      nav(PATHS.GUEST.RESERVATIONS, {
+        state: {
+          reservationCompleteData: {
+            selectedDate,
+            selectedTime,
+            useType,
+            text,
+            name,
+            maxCapacity,
+            contact,
+            pricePerHour,
+            totalPrice,
+          },
         },
-      },
-    });
+      });
+    } catch (error) {
+      console.error("예약 생성 실패:", error);
+      alert("예약 생성에 실패했습니다. 다시 시도해주세요.");
+    }
   };
 
   const {

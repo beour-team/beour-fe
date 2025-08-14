@@ -10,27 +10,21 @@ import type { ReservationItem } from "../../types/guest-reservation/reservations
 
 //백엔드 api에 태그 필요
 const PastReservations = () => {
-  const [page, setPage] = useState(0);
-  const { data, error } = usePastReservations(page);
   const nav = useNavigate();
+  const [page, setPage] = useState(0);
 
-  if (error)
+  const { data, isError } = usePastReservations(page);
+
+  if (isError)
     return (
       <div className="text-center text-14-Medium text-cr-600">
         예약이 존재하지 않습니다.
       </div>
     );
 
-  const reservations = data?.reservations ?? [];
-  const last = data?.last ?? true;
+  if (!data) return null;
 
-  const handlePrevPage = () => {
-    if (page > 0) setPage((prev) => prev - 1);
-  };
-
-  const handleNextPage = () => {
-    if (!last) setPage((prev) => prev + 1);
-  };
+  const { reservations, totalPage, last } = data;
 
   return (
     <div>
@@ -118,11 +112,26 @@ const PastReservations = () => {
         ))}
       </div>
 
-      <div className="flex justify-center gap-4 my-[1rem] text-16-Medium cursor-pointer">
-        {page > 0 && (
-          <img src={leftArrow} alt="이전" onClick={handlePrevPage} />
+      <div className="flex justify-center gap-4 my-[2rem]">
+        {totalPage > 1 && page > 0 && (
+          <img
+            src={leftArrow}
+            alt="이전 페이지"
+            className="cursor-pointer w-[2rem] h-[2rem]"
+            onClick={() => setPage((p) => Math.max(p - 1, 0))}
+          />
         )}
-        {!last && <img src={rightArrow} alt="다음" onClick={handleNextPage} />}
+        <span className="text-14-Medium text-cr-500">
+          {page + 1} / {totalPage}
+        </span>
+        {totalPage > 1 && !last && (
+          <img
+            src={rightArrow}
+            alt="다음 페이지"
+            className="cursor-pointer w-[2rem] h-[2rem]"
+            onClick={() => setPage((p) => (last ? p : p + 1))}
+          />
+        )}
       </div>
     </div>
   );

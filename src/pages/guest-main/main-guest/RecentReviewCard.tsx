@@ -19,8 +19,8 @@ const RecentReviewCard = ({ review }: Props) => {
 
   return (
     <div>
-      <div className="bg-cr-100 relative rounded-[1.2rem] w-[32.3rem] h-[20.2rem]">
-        <div className="bg-cr-blue w-[32.3rem] h-[5.1rem] rounded-t-[1.2rem] rounded-b-none">
+      <div className="bg-cr-100 relative rounded-[1.2rem] w-full max-w-[32.3rem] h-[20.2rem]">
+        <div className="bg-cr-blue w-full h-[5.1rem] rounded-t-[1.2rem] rounded-b-none">
           <div className="flex">
             <div
               className="flex items-center gap-2 px-[1.5rem] py-[1.5rem] cursor-pointer"
@@ -65,7 +65,7 @@ const RecentReviewCard = ({ review }: Props) => {
           // 몇 개를 넣든 대표사진만 보이게 해둠
           src={review.images?.[0]}
           alt="공간 사진"
-          className="absolute right-[2rem] top-[1.8rem] w-[6.9rem] h-[6.8rem] z-50 rounded-[1rem]"
+          className="absolute right-[2rem] top-[1.8rem] max-w-[6.9rem] max-h-[6.8rem] z-50 rounded-[1rem]"
         />
       </div>
     </div>

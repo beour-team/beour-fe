@@ -1,6 +1,6 @@
 // 예약 - 예약 신청 단계 페이지
 import { DayPicker } from "react-day-picker";
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import { format } from "date-fns";
 import { hours } from "../../constants/guest-main/hour-data";
 import { ko } from "date-fns/locale";
@@ -11,6 +11,7 @@ import { PATHS } from "../../routes/paths";
 import toast from "react-hot-toast";
 import { warning } from "../../assets/theme";
 import BackButton from "../../components/BackButton";
+import { useAvailableTimes } from "../../hooks/space/useAvailableTimes";
 
 const SpaceReservePage = () => {
   const [text, setText] = useState("");
@@ -21,7 +22,18 @@ const SpaceReservePage = () => {
 
   const nav = useNavigate();
   const location = useLocation();
-  const { name, maxCapacity, contact, pricePerHour } = location.state || {};
+  const { spaceId, name, maxCapacity, contact, pricePerHour } =
+    location.state || {};
+
+  // 선택된 날짜가 있으면 yyyy-MM-dd로 포맷
+  // available-times/date?date={date} 이 양식에 맞추기 위함
+  const formattedDate = useMemo(() => {
+    if (!selectedDate) return undefined;
+    return format(selectedDate, "yyyy-MM-dd");
+  }, [selectedDate]);
+
+  // 가능한 시간 조회
+  const { data: availableTimes } = useAvailableTimes(spaceId, formattedDate);
 
   const handleComplete = () => {
     if (!selectedDate || selectedTime.length === 0) {
@@ -52,11 +64,16 @@ const SpaceReservePage = () => {
         maxCapacity,
         contact,
         pricePerHour,
+        spaceId,
       },
     });
   };
 
-  const disabledTime = ["08:00", "15:00"]; //대여 불가 시간 더미데이터
+  //disabled 여부 계산
+  const disabledTimeSet = useMemo(() => {
+    if (!availableTimes) return new Set(hours);
+    return new Set(hours.filter((h) => !availableTimes.includes(h)));
+  }, [availableTimes]);
 
   return (
     <div>
@@ -96,7 +113,7 @@ const SpaceReservePage = () => {
             className="flex gap-[0.5rem] mb-2 whitespace-nowrap overflow-x-auto scrollbar-hide"
           >
             {hours.map((hour) => {
-              const isDisabled = disabledTime.includes(hour);
+              const isDisabled = disabledTimeSet.has(hour);
               const isSelected = selectedTime.includes(hour);
 
               return (
@@ -136,7 +153,11 @@ const SpaceReservePage = () => {
 
       <div className="mx-[1.5rem] my-[3rem]">
         <p className="text-14-SemiBold my-[2rem]">이용 목적이 어떤 건가요?</p>
-        <UseTypeBtn useType={useType} setUseType={setUseType} />
+        <UseTypeBtn
+          useType={useType}
+          setUseType={setUseType}
+          singleSelect={true}
+        />
       </div>
 
       <div className="mx-[1.5rem] my-[3rem]">

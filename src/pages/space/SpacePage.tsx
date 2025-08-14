@@ -21,7 +21,6 @@ import { useSpaceDetail } from "../../hooks/space/useSpaceDetail";
 
 const SpacePage = () => {
   const { spaceId } = useParams<{ spaceId: string }>();
-  // const [space, setSpace] = useState<Space | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const nav = useNavigate();
 
@@ -176,10 +175,11 @@ const SpacePage = () => {
         <ExpandableTextSection title="환불 정책" content={space.refundPolicy} />
       </div>
 
-      {/* 여기 api 연결 필요 */}
+      {/* contact가 필요함 */}
       <div className="fixed bottom-0 left-1 right-0 z-50 bg-white max-w-[41.5rem] min-w-[32rem] mx-auto rounded-t-[1rem]">
         <SpaceFooter
           space={{
+            spaceId: space.id,
             name: space.name,
             maxCapacity: space.maxCapacity,
             contact: "01012345678",
