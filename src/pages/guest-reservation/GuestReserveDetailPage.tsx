@@ -10,19 +10,23 @@ import {
   warning,
 } from "../../assets/theme";
 import ReserveTag from "../../components/guest-result/ReserveTag";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import toast from "react-hot-toast";
 import { PATHS } from "../../routes/paths";
 import PageHeader from "../../components/header/PageHeader";
 import { useDeleteReservation } from "../../hooks/guest-reservation/useDeleteReservation";
+import { useReservationDetail } from "../../hooks/guest-reservation/useReservationDetail";
 
 const GuestReserveDetailPage = () => {
-  const location = useLocation();
-  const reservation = location.state?.reservation;
-  const category = location.state?.category;
-  const nav = useNavigate();
+  const { reservationId } = useParams<{ reservationId: string }>();
+  const idNum = Number(reservationId);
+  const { data: reservation, isLoading, isError } = useReservationDetail(idNum);
 
+  const nav = useNavigate();
   const { mutate: cancelReservation, isPending } = useDeleteReservation();
+
+  const location = useLocation();
+  const category = location.state?.category ?? "current"; // 기본값 current
 
   const handleCancel = () => {
     if (!reservation?.reservationId) return;
@@ -44,6 +48,10 @@ const GuestReserveDetailPage = () => {
     }
   };
 
+  if (isLoading) return <div>로딩 중...</div>;
+  if (isError || !reservation)
+    return <div className="text-center">예약 정보를 불러올 수 없습니다.</div>;
+
   return (
     <div>
       <div className="mx-[1.5rem]">
@@ -51,7 +59,8 @@ const GuestReserveDetailPage = () => {
       </div>
 
       <div className="mx-[1.8rem] mb-[2rem]">
-        <ReserveTag status={reservation?.status} category={category} />
+        <ReserveTag status={reservation.status} category={category} />
+        {/* 카테고리 임시 하드코딩 */}
       </div>
 
       <div className="mx-[1.8rem] text-24-Bold leading-[3.5rem]">
@@ -61,8 +70,8 @@ const GuestReserveDetailPage = () => {
           {new Date(reservation.date).getDate()}일
         </div>
         <div>
-          {reservation.startTime?.slice(0, 5)} -{" "}
-          {reservation.endTime?.slice(0, 5)}
+          {reservation.startTime.slice(0, 5)} -{" "}
+          {reservation.endTime.slice(0, 5)}
         </div>
       </div>
 
@@ -72,7 +81,7 @@ const GuestReserveDetailPage = () => {
             <div className="flex items-center gap-2">
               <img src={place} alt="공간아이콘" />
               <p className="text-14-Medium text-[#313131]">
-                {reservation?.spaceName}
+                {reservation.spaceName}
               </p>
             </div>
 
@@ -94,7 +103,7 @@ const GuestReserveDetailPage = () => {
           <div className="flex items-center my-[0.3rem] gap-2">
             <img src={how} alt="인원 수" />
             <p className="text-14-Medium text-[#313131]">
-              {reservation?.guestCount}명
+              {reservation.guestCount}명
             </p>
           </div>
 
@@ -106,7 +115,7 @@ const GuestReserveDetailPage = () => {
                 href="tel:01012345678"
                 className="text-14-Medium text-cr-blue underline"
               >
-                010-1234-5678
+                {reservation.spacePhoneNumber}
               </a>
             </div>
           </div>
@@ -120,22 +129,20 @@ const GuestReserveDetailPage = () => {
           <div className="flex items-center gap-[2rem]">
             <p className="text-13-SemiBold text-cr-500">예약자</p>
             <div className="flex items-center gap-3">
-              <p className="text-14-SemiBold">{reservation.user.nickname}</p>
-              <p className="text-14-Medium">
-                {reservation.user.name} {reservation.user.phone}
-              </p>
+              <p className="text-14-SemiBold">{reservation.guestName}</p>
+              <p className="text-14-Medium">{reservation.guestPhoneNumber}</p>
             </div>
           </div>
         )}
 
         <div className="flex items-center gap-[1rem] my-[2rem]">
           <p className="text-13-SemiBold text-cr-500">예약번호</p>
-          <p className="text-14-SemiBold">{reservation?.reservationId}</p>
+          <p className="text-14-SemiBold">{reservation.reservationId}</p>
         </div>
 
         <div className="flex items-center gap-[1rem] my-[2rem]">
           <p className="text-13-SemiBold text-cr-500">이용목적</p>
-          <p className="text-14-SemiBold">베이킹 연습</p>
+          <p className="text-14-SemiBold">{reservation.usagePurpose}</p>
         </div>
 
         <div className="flex items-start gap-[1rem]">
@@ -143,7 +150,7 @@ const GuestReserveDetailPage = () => {
             요청사항
           </p>
           <p className="text-14-Medium flex-1 leading-[2.2rem]">
-            요청사항입니다.
+            {reservation.requestMessage}
           </p>
         </div>
       </div>
@@ -154,7 +161,7 @@ const GuestReserveDetailPage = () => {
 
         <p className="text-13-Bold">1시간</p>
         <p className="text-13-SemiBold text-cr-700 my-[1rem]">
-          {reservation?.price}원 X 1시간
+          {reservation.price}원 X 1시간
         </p>
 
         <div className="px-[1.5rem] flex items-center justify-between bg-cr-200 h-[5rem] rounded-[1rem] my-[1.5rem]">
@@ -177,7 +184,7 @@ const GuestReserveDetailPage = () => {
         )}
       </div>
 
-      <div className="fixed bottom-0 left-[50%] -translate-x-1/2 bg-white z-50 py-[1.5rem]">
+      <div className="fixed bottom-0 left-[50%] -translate-x-1/2 bg-white z-50 pb-[1.5rem]">
         <div className="mt-[2rem]">
           {category === "past" || category === "cancel" ? (
             <button className="text-cr-white text-16-Medium h-[5rem] w-[38.4rem] rounded-[1rem] bg-cr-blue">

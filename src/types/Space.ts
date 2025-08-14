@@ -31,7 +31,6 @@ export interface Space {
   notice: string;
   locationDescription: string;
   refundPolicy: string;
-  websiteUrl: string;
   tags: string[];
   availableTimes: {
     date: string;
@@ -39,5 +38,5 @@ export interface Space {
     endTime: string;
   }[];
   imageUrls: string[];
-  location: string; //이거 추가했어요
+  // location: string; //이거 필요
 }

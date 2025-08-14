@@ -21,7 +21,6 @@ export const dummySpace: Space = {
   locationDescription: "강남역 도보 3분",
   refundPolicy:
     "- 천재 지변 등 불가항력적 사유로 인한 취소 시 : 100% 환불 \n - Be:our 및 호스트의 사유로 인한 취소 시 : 100% 환불 \n - 결제 후, 3시간 이내 취소 시, 100% 환불됩니다. \n(단, 이용시작 시간 12시간 이내에 취소 시에는 환불 불가) \n - 이용일 기준 7일전까지 취소 시 : 100% 환불",
-  websiteUrl: "https://example.com",
   tags: ["파티", "바베큐", "루프탑", "단체 모임"],
   availableTimes: [
     {
@@ -36,5 +35,5 @@ export const dummySpace: Space = {
     },
   ],
   imageUrls: [space6, space3],
-  location: "삼성동",
+  // location: "삼성동",
 };

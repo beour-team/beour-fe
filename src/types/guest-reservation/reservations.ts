@@ -23,3 +23,9 @@ export interface PastReservation {
   totalPage: number;
   last: boolean;
 }
+
+export interface CanceledReservation {
+  reservations: ReservationItem[];
+  totalPage: number;
+  last: boolean;
+}
