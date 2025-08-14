@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getSpaceDetail } from "../../api/space/spaceDetail";
-import type { Space } from "../../types/Space";
+import type { Space } from "../../types/space/Space";
 
 export const useSpaceDetail = (spaceId: string) => {
   return useQuery<Space, Error>({

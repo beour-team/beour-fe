@@ -5,6 +5,7 @@ export const usePastReservations = (page: number) => {
   return useQuery({
     queryKey: ["pastReservations", page],
     queryFn: () => getPastReservations(page),
-    staleTime: 1000 * 60, // 1분 캐싱
+    staleTime: 1000 * 60,
+    retry: 1,
   });
 };

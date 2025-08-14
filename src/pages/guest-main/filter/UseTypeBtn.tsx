@@ -3,9 +3,10 @@ import { useState } from "react";
 interface UseTypeBtnProps {
   useType?: string[];
   setUseType?: React.Dispatch<React.SetStateAction<string[]>>;
+  singleSelect?: boolean;
 }
 
-const UseTypeBtn = ({ useType, setUseType }: UseTypeBtnProps) => {
+const UseTypeBtn = ({ useType, setUseType, singleSelect }: UseTypeBtnProps) => {
   const internalState = useState<string[]>([]);
   const currentUseType = useType ?? internalState[0];
   const currentSetUseType = setUseType ?? internalState[1];
@@ -18,12 +19,16 @@ const UseTypeBtn = ({ useType, setUseType }: UseTypeBtnProps) => {
     "촬영",
     "기타",
   ];
-  // const [useType, setuseType] = useState<string[]>([]);
+
   const toggleSelection = (label: string) => {
-    if (currentUseType.includes(label)) {
-      currentSetUseType(currentUseType.filter((item) => item !== label));
+    if (singleSelect) {
+      currentSetUseType([label]);
     } else {
-      currentSetUseType([...currentUseType, label]);
+      if (currentUseType.includes(label)) {
+        currentSetUseType(currentUseType.filter((item) => item !== label));
+      } else {
+        currentSetUseType([...currentUseType, label]);
+      }
     }
   };
 
