@@ -1,20 +1,45 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PageHeader from "../../../components/header/PageHeader";
 import ReviewableReservationCard from "../review-components/ReviewableReservationCard";
+import WrittenReviewCard from "../review-components/WrittenReviewCard";
 import ReviewTabBar from "../review-components/ReviewTabBar";
+import ReviewPagination from "../review-components/ReviewPagination";
 import { useReviewableList } from "../../../hooks/Review/useReviewableList";
+import { useWrittenReviews } from "../../../hooks/Review/useWrittenReviews";
 import ReviewLoadingState from "../review-components/ReviewLoadingState";
 
 const GuestReview = () => {
   const [activeTab, setActiveTab] = useState("guest");
 
-  // 리뷰 작성 가능한 목록 불러오기
-  const { data: reviewableList, isLoading, error } = useReviewableList();
+  // 리뷰 작성 가능한 목록 불러오기 (페이징 지원)
+  const {
+    data: reviewableList,
+    isLoading: reviewableLoading,
+    error: reviewableError,
+    currentPage,
+    totalPages,
+    isLastPage,
+    goToPage,
+    nextPage,
+    prevPage,
+  } = useReviewableList(10); // 페이지당 10개씩
 
-  // 데이터 콘솔 출력 (디버깅용)
-  useEffect(() => {
-    console.log("📋 리뷰 작성 가능한 목록 데이터:", reviewableList);
-  }, [reviewableList]);
+  // 작성한 리뷰 목록 불러오기 (페이징 지원)
+  const {
+    data: writtenReviewsData,
+    isLoading: writtenLoading,
+    error: writtenError,
+    currentPage: writtenCurrentPage,
+    totalPages: writtenTotalPages,
+    isLastPage: writtenIsLastPage,
+    goToPage: writtenGoToPage,
+    nextPage: writtenNextPage,
+    prevPage: writtenPrevPage,
+  } = useWrittenReviews(10); // 페이지당 10개씩
+
+  // 현재 탭에 따른 로딩 상태 확인
+  const isLoading = activeTab === "guest" ? reviewableLoading : writtenLoading;
+  const error = activeTab === "guest" ? reviewableError : writtenError;
 
   if (isLoading) {
     return <ReviewLoadingState />;
@@ -43,7 +68,11 @@ const GuestReview = () => {
 
       {/* 총 개수 */}
       <div className="my-[1.6rem] text-13-Medium text-cr-600">
-        총 {reviewableList?.length || 0}개
+        총{" "}
+        {activeTab === "guest"
+          ? reviewableList?.length || 0
+          : writtenReviewsData?.reviews?.length || 0}
+        개
       </div>
 
       {/* 탭 컨텐츠 */}
@@ -52,12 +81,23 @@ const GuestReview = () => {
           {/* 리뷰 작성 가능한 예약 목록 */}
           <div>
             {reviewableList && reviewableList.length > 0 ? (
-              reviewableList.map((reservation) => (
-                <ReviewableReservationCard
-                  key={reservation.reservationId}
-                  reservation={reservation}
+              <>
+                {reviewableList.map((reservation) => (
+                  <ReviewableReservationCard
+                    key={reservation.reservationId}
+                    reservation={reservation}
+                  />
+                ))}
+                {/* 페이징 컴포넌트 */}
+                <ReviewPagination
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  isLastPage={isLastPage}
+                  onPageChange={goToPage}
+                  onNextPage={nextPage}
+                  onPrevPage={prevPage}
                 />
-              ))
+              </>
             ) : (
               <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
                 <p className="text-16-Medium text-cr-600 mb-[0.8rem]">
@@ -71,11 +111,37 @@ const GuestReview = () => {
           </div>
         </div>
       ) : (
-        <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
-          <p className="text-16-Medium text-cr-600 mb-[0.8rem]">
-            작성한 리뷰가 없어요
-          </p>
-          <p className="text-14-Medium text-cr-500">먼저 리뷰를 작성해보세요</p>
+        <div>
+          {/* 작성한 리뷰 목록 */}
+          <div>
+            {writtenReviewsData &&
+            writtenReviewsData.reviews &&
+            writtenReviewsData.reviews.length > 0 ? (
+              <>
+                {writtenReviewsData.reviews.map((review) => (
+                  <WrittenReviewCard key={review.reviewId} review={review} />
+                ))}
+                {/* 페이징 컴포넌트 */}
+                <ReviewPagination
+                  currentPage={writtenCurrentPage}
+                  totalPages={writtenTotalPages}
+                  isLastPage={writtenIsLastPage}
+                  onPageChange={writtenGoToPage}
+                  onNextPage={writtenNextPage}
+                  onPrevPage={writtenPrevPage}
+                />
+              </>
+            ) : (
+              <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
+                <p className="text-16-Medium text-cr-600 mb-[0.8rem]">
+                  작성한 리뷰가 없어요
+                </p>
+                <p className="text-14-Medium text-cr-500">
+                  먼저 리뷰를 작성해보세요
+                </p>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </div>

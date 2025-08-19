@@ -68,8 +68,9 @@ export const API_SPACE_AVAILABLE_TIMES_UPDATE =
 export const API_SPACE_IMAGES_UPDATE = "/api/spaces/{spaceId}/images";
 export const API_SPACE_DELETE = "/api/spaces/{spaceId}";
 
-// 마이페이지 - 내가 작성한 대댓글 조회
-export const API_MY_REVIEW_COMMENTS = "/api/review-comments/list/{spaceId}";
+// 마이페이지 - 게스트 리뷰 리스트 조회
+export const API_MY_REVIEWABLE_GUEST = "/api/users/me/reviewable-reservations";
+export const API_MY_REVIEWWRITTEN_GUEST = "/api/users/me/reviews";
 
 // 마이페이지 - 대댓글 수정/삭제
 export const API_REVIEW_COMMENT_UPDATE = "/api/review-comments/{commentId}";
@@ -106,6 +107,16 @@ export const API_SPACE_SIMPLE = "/api/space/{spaceId}/simple";
 
 // 나의 예약
 export const API_REVIEW_WRITE = "/api/reviews/write";
+
+// 리뷰 작성을 위한 예약 정보 조회
+export const API_REVIEW_RESERVATION_DETAIL =
+  "/api/reviews/reservations/{reservationId}";
+
+// 리뷰 작성
+export const API_CREATE_REVIEW = "/api/users/me/reviews";
+
+// 내가 작성한 리뷰 목록 조회 (페이징)
+export const API_MY_WRITTEN_REVIEWS = "/api/users/me/reviews";
 
 // 마이페이지 - 찜 목록 조회 (페이징)
 export const API_WISHLIST_ALL = "/api/likes";
