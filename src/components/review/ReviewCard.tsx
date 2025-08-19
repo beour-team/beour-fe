@@ -17,11 +17,12 @@ const ReviewCard = ({ reviews }: ReviewCardProps) => {
             <div className="flex items-center gap-[0.8rem] h-[7rem] justify-between w-full">
               <div className="flex flex-col justify-between h-full">
                 <div className="flex gap-[0.6rem]">
-                  <img
-                    className="w-[3.6rem] h-[3.6rem] bg-cr-500 rounded-full object-cover"
-                    src=""
-                    alt="프로필"
-                  />
+                  <div className="w-[3.6rem] h-[3.6rem] bg-cr-500 rounded-full flex items-center justify-center">
+                    {/* 프로필 이미지가 없을 때 기본 아바타 */}
+                    <span className="text-white text-16-Medium">
+                      {review.nickname?.charAt(0) || "?"}
+                    </span>
+                  </div>
                   <div className="flex flex-col h-[3.6rem] justify-between">
                     <div className="flex items-center gap-[0.6rem]">
                       <span className="text-[1.5rem] font-semibold">

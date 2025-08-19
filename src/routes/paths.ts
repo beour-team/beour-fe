@@ -33,6 +33,7 @@ export const PATHS = {
     RESERVATIONS: "/reservations",
     WISH_SPACE: "/wishspace",
     REVIEW: "/reviewguest",
+    CREATE_REVIEW: "/review/write",
     SPACERESERVE: "/reserve",
     RESERVECOMPLETED: "/completed",
   },

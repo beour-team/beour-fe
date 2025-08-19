@@ -35,6 +35,7 @@ import GuestReview from "./pages/review/guest/GuestReview";
 // react query 사용을 위한 전역 설정
 // yarn add @tanstack/react-query axios
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import GuestCreateReview from "./pages/create-review/GuestCreateReview";
 
 const queryClient = new QueryClient();
 
@@ -97,6 +98,10 @@ function App() {
               {/* 게스트 페이지 랜더링 */}
               <Route path={PATHS.GUEST.WISH_SPACE} element={<WishSpace />} />
               <Route path={PATHS.GUEST.REVIEW} element={<GuestReview />} />
+              <Route
+                path={`${PATHS.GUEST.CREATE_REVIEW}/:reservationId`}
+                element={<GuestCreateReview />}
+              />
               <Route
                 path={PATHS.GUEST.EDIT_PROFILE}
                 element={<EditProfileGuest />}

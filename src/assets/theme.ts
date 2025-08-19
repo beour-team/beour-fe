@@ -27,6 +27,7 @@ import cancel from "./img/cancel.svg";
 import eyeOpen from "./img/eyeOpen.svg";
 import spot from "./img/spot.svg";
 import star from "./img/Star.svg";
+import emptyStar from "./img/emptyStar.svg";
 import BlackStar from "./img/BlackStar.svg";
 import people from "./img/people.svg";
 import notification from "./img/notification.svg";
@@ -133,6 +134,7 @@ export {
   eyeOpen,
   spot,
   star,
+  emptyStar,
   people,
   BlackStar,
   notification,
