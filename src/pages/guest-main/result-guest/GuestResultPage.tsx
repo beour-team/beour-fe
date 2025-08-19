@@ -30,7 +30,7 @@ const GuestResultPage = () => {
     return q.toString();
   };
 
-  const { spaces, last, loading } = useSpacesSearch({
+  const { spaces, last, totalPage, loading } = useSpacesSearch({
     keyword,
     spacecategory,
     usecategory,
@@ -74,8 +74,12 @@ const GuestResultPage = () => {
       </div>
 
       <div className="flex justify-center gap-4 my-[1rem] text-16-Medium cursor-pointer">
-        {page > 0 && <img src={leftArrow} onClick={handlePrevPage} />}
-        {!last && <img src={rightArrow} onClick={handleNextPage} />}
+        {totalPage > 1 && page > 0 && (
+          <img src={leftArrow} onClick={handlePrevPage} />
+        )}
+        {totalPage > 1 && !last && (
+          <img src={rightArrow} onClick={handleNextPage} />
+        )}
       </div>
     </div>
   );

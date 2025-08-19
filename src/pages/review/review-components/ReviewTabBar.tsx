@@ -12,15 +12,15 @@ const ReviewTabBar = ({ activeTab, onTabChange }: ReviewTabBarProps) => {
           activeTab === "guest" ? "bg-cr-white text-cr-500" : "text-cr-black"
         }`}
       >
-        답글 작성하기
+        리뷰 작성
       </div>
       <div
-        onClick={() => onTabChange("host")}
+        onClick={() => onTabChange("written")}
         className={`text-14-Medium h-[3.8rem] flex items-center w-[17rem] justify-center rounded-full mr-[0.8rem] cursor-pointer ${
-          activeTab === "host" ? "bg-cr-white text-cr-500" : "text-cr-black"
+          activeTab === "written" ? "bg-cr-white text-cr-500" : "text-cr-black"
         }`}
       >
-        작성한 답글
+        작성한 리뷰
       </div>
     </div>
   );

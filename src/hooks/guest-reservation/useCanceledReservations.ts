@@ -6,5 +6,6 @@ export const useCanceledReservations = (page: number) => {
     queryKey: ["canceledReservations", page],
     queryFn: () => getCanceledReservations(page),
     staleTime: 1000 * 60,
+    retry: 1,
   });
 };

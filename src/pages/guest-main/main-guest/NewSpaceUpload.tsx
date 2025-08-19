@@ -33,7 +33,9 @@ const NewSpaceUpload = ({ space }: NewSpaceUploadProps) => {
             alt="파란색 장소마커"
             className="w-[2rem] h-[2rem]"
           />
-          <span className="text-12-Medium text-cr-white">{space.addressAndName}</span>
+          <span className="text-12-Medium text-cr-white">
+            {space.addressAndName}
+          </span>
         </div>
         <div className="text-16-SemiBold py-3 whitespace-pre-line leading-[1.6] text-cr-white">
           {space.description}
