@@ -16,7 +16,7 @@ const ReserveTag = ({
   let displayText = status;
 
   if (category === "current") {
-    if (status === "CONFIRMED") {
+    if (status === "ACCEPTED") {
       displayText = "예약 확정";
       bgColor = "bg-cr-primary";
       textColor = "text-cr-blue";

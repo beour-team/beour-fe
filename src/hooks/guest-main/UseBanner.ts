@@ -7,5 +7,6 @@ export const useBanner = () => {
   return useQuery({
     queryKey: ["banner"], // 캐시 구분 기준으로 같은 키 요청시 캐시에서 불러옴(성능 굿)
     queryFn: fetchBanners, // 실제 데이터 가져오는 함수
+    retry: 1,
   });
 };

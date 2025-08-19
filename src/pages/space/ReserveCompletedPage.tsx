@@ -4,8 +4,10 @@ import { formatTimeRanges } from "../../utils/format-time-range";
 import { call, checkedBox, how, money, place } from "../../assets/theme";
 import { useState } from "react";
 import { PATHS } from "../../routes/paths";
-import { user } from "../../constants/dummy-data/dummy-user";
+import { useQuery } from "@tanstack/react-query";
+import { getUserDetail } from "../../api/space/user";
 import PageHeader from "../../components/header/PageHeader";
+import { useCreateReservation } from "../../hooks/space/useCreateReservation";
 
 const ReserveCompletePage = () => {
   const location = useLocation();
@@ -19,6 +21,7 @@ const ReserveCompletePage = () => {
     maxCapacity,
     contact,
     pricePerHour,
+    spaceId,
   } = location.state || {};
 
   // 혹시 date 객체로 안넘어올까봐
@@ -27,24 +30,53 @@ const ReserveCompletePage = () => {
   const hourCount = selectedTime?.length || 0;
   const totalPrice = pricePerHour * hourCount;
 
-  const handleComplete = () => {
-    nav(PATHS.GUEST.RESERVATIONS, {
-      state: {
-        reservationCompleteData: {
-          selectedDate,
-          selectedTime,
-          useType,
-          text,
-          name,
-          maxCapacity,
-          contact,
-          pricePerHour,
-          totalPrice,
-          user,
+  const createReservation = useCreateReservation(spaceId!);
+
+  const handleComplete = async () => {
+    if (!date || !selectedTime || selectedTime.length === 0 || !useType) return;
+
+    try {
+      await createReservation.mutateAsync({
+        spaceId,
+        date: date.toISOString().split("T")[0],
+        startTime: selectedTime[0],
+        endTime: selectedTime[selectedTime.length - 1],
+        price: totalPrice,
+        guestCount: maxCapacity,
+        usagePurpose: useType,
+        requestMessage: text || "",
+      });
+
+      // 예약 성공 시 모달용 데이터 전달
+      nav(PATHS.GUEST.RESERVATIONS, {
+        state: {
+          reservationCompleteData: {
+            selectedDate,
+            selectedTime,
+            useType,
+            text,
+            name,
+            maxCapacity,
+            contact,
+            pricePerHour,
+            totalPrice,
+          },
         },
-      },
-    });
+      });
+    } catch (error) {
+      console.error("예약 생성 실패:", error);
+      alert("예약 생성에 실패했습니다. 다시 시도해주세요.");
+    }
   };
+
+  const {
+    data: user,
+    isLoading,
+    error,
+  } = useQuery({ queryKey: ["userDetail"], queryFn: getUserDetail });
+
+  if (isLoading) return <div>로딩 중...</div>;
+  if (error) return <div>사용자 정보를 불러오는 중 오류 발생</div>;
 
   return (
     <div>
@@ -84,6 +116,7 @@ const ReserveCompletePage = () => {
               href="tel:01012345678"
               className="text-14-Medium text-cr-blue underline"
             >
+              {/* 여기 연락처 필요 */}
               {contact}
             </a>
           </div>
@@ -96,9 +129,9 @@ const ReserveCompletePage = () => {
         <div className="flex items-center gap-[2rem]">
           <p className="text-13-SemiBold text-cr-500">예약자</p>
           <div className="flex items-center gap-3">
-            <p className="text-14-SemiBold">{user.nickname}</p>
+            <p className="text-14-SemiBold">{user.nickName}</p>
             <p className="text-14-Medium">
-              {user.name} {user.phone}
+              {user.name} {user.phoneNum}
             </p>
           </div>
         </div>

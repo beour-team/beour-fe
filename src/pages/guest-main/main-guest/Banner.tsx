@@ -1,25 +1,38 @@
 // yarn add keen-slider 라이브러리 설치 필요
-import { useKeenSlider } from "keen-slider/react"; //keen-slider 라이브러리 사용
+//keen-slider 라이브러리 사용
 import "keen-slider/keen-slider.min.css";
 import { useBanner } from "../../../hooks/guest-main/UseBanner";
+import { useEffect, useState } from "react";
+import KeenSlider from "keen-slider";
 
 const Banner = () => {
-  const [sliderRef] = useKeenSlider<HTMLDivElement>({
-    loop: true,
-    slides: { perView: 1 },
-    drag: true,
-    created: (slider) => {
-      setInterval(() => slider.next(), 3000);
-    },
-  });
+  const { data, isError } = useBanner();
+  const [sliderRef, setSliderRef] = useState<HTMLDivElement | null>(null);
 
-  const { data, isLoading, isError } = useBanner();
-  if (isLoading) return <div>배너 로딩 중...</div>;
-  if (isError) return <div> </div>;
+  useEffect(() => {
+    if (sliderRef && data && data.length > 0) {
+      const slider = new KeenSlider(sliderRef, {
+        loop: true,
+        slides: { perView: 1 },
+        drag: true,
+      });
+
+      const interval = setInterval(() => slider.next(), 3000);
+      return () => {
+        clearInterval(interval);
+        slider.destroy();
+      };
+    }
+  }, [sliderRef, data]);
+
+  if (isError || !data) return <div> </div>;
 
   return (
     <div className="py-[2rem]">
-      <div ref={sliderRef} className="keen-slider rounded-lg overflow-hidden">
+      <div
+        ref={setSliderRef}
+        className="keen-slider rounded-lg overflow-hidden"
+      >
         {data?.map((banner, index) => (
           <div
             key={banner.bannerId}

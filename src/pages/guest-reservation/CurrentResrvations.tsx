@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { rightArrow } from "../../assets/theme";
+import { leftArrow, rightArrow } from "../../assets/theme";
 import ReserveTag from "../../components/guest-result/ReserveTag";
 // import { currentReservationData } from "../../constants/dummy-data/reserve-data";
 import { formatReservationDateTime } from "../../utils/data-formatter";
 import { PATHS } from "../../routes/paths";
 import { useCurrentReservations } from "../../hooks/guest-reservation/useCurrentReservations";
+import type { ReservationItem } from "../../types/guest-reservation/reservations";
 // import { user } from "../../constants/dummy-data/dummy-user";
 //404일때 화면 만들면 좋을듯 (데이터 없을때 -> 로딩용 컴포넌트)
 
@@ -13,10 +14,14 @@ const CurrentReservations = () => {
   const nav = useNavigate();
   const [page, setPage] = useState(0);
 
-  const { data, isLoading, isError } = useCurrentReservations(page);
+  const { data, isError } = useCurrentReservations(page);
 
-  if (isLoading) return <div>화면 로딩</div>;
-  if (isError) return <div className="text-center">에러가 발생했습니다.</div>;
+  if (isError)
+    return (
+      <div className="text-center text-14-Medium text-cr-600">
+        예약이 존재하지 않습니다.
+      </div>
+    );
   if (!data) return null;
 
   const { reservations, totalPage, last } = data;
@@ -30,7 +35,7 @@ const CurrentReservations = () => {
       <div className="border border-[#ECECEC]"></div>
 
       <div>
-        {reservations.map((reservation, index) => (
+        {reservations.map((reservation: ReservationItem, index: number) => (
           <div
             key={reservation.reservationId}
             className={`my-[1rem] py-[2rem] ${
@@ -81,7 +86,6 @@ const CurrentReservations = () => {
                           `${PATHS.GUEST.RESERVATIONS}/${reservation.reservationId}`,
                           {
                             state: {
-                              reservation,
                               category: "current",
                             },
                           }
@@ -104,25 +108,26 @@ const CurrentReservations = () => {
         ))}
       </div>
 
-      {/* Pagination 버튼 */}
-      <div className="flex justify-center gap-2 mt-[2rem] mb-[5rem]">
-        <button
-          onClick={() => setPage((p) => Math.max(p - 1, 0))}
-          disabled={page === 0}
-          className="text-14-Medium text-cr-600"
-        >
-          이전
-        </button>
+      <div className="flex justify-center gap-4 my-[2rem]">
+        {totalPage > 1 && page > 0 && (
+          <img
+            src={leftArrow}
+            alt="이전 페이지"
+            className="cursor-pointer w-[2rem] h-[2rem]"
+            onClick={() => setPage((p) => Math.max(p - 1, 0))}
+          />
+        )}
         <span className="text-14-Medium text-cr-500">
           {page + 1} / {totalPage}
         </span>
-        <button
-          onClick={() => setPage((p) => (last ? p : p + 1))}
-          disabled={last}
-          className="text-14-Medium text-cr-600"
-        >
-          다음
-        </button>
+        {totalPage > 1 && !last && (
+          <img
+            src={rightArrow}
+            alt="다음 페이지"
+            className="cursor-pointer w-[2rem] h-[2rem]"
+            onClick={() => setPage((p) => (last ? p : p + 1))}
+          />
+        )}
       </div>
     </div>
   );

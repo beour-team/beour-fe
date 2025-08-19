@@ -6,28 +6,25 @@ import { useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import { formatReservationDateTime } from "../../utils/data-formatter";
 import { usePastReservations } from "../../hooks/guest-reservation/usePastReservations";
-// import { pastReservationData } from "../../constants/dummy-data/reserve-data";
-// import { user } from "../../constants/dummy-data/dummy-user";
+import type { ReservationItem } from "../../types/guest-reservation/reservations";
 
 //백엔드 api에 태그 필요
 const PastReservations = () => {
-  const [page, setPage] = useState(0);
-  const { data, isLoading, error } = usePastReservations(page);
   const nav = useNavigate();
+  const [page, setPage] = useState(0);
 
-  if (isLoading) return <div>로딩 중...</div>;
-  if (error) return <div>에러가 발생했습니다.</div>;
+  const { data, isError } = usePastReservations(page);
 
-  const reservations = data?.reservations ?? [];
-  const last = data?.last ?? true;
+  if (isError)
+    return (
+      <div className="text-center text-14-Medium text-cr-600">
+        예약이 존재하지 않습니다.
+      </div>
+    );
 
-  const handlePrevPage = () => {
-    if (page > 0) setPage((prev) => prev - 1);
-  };
+  if (!data) return null;
 
-  const handleNextPage = () => {
-    if (!last) setPage((prev) => prev + 1);
-  };
+  const { reservations, totalPage, last } = data;
 
   return (
     <div>
@@ -38,7 +35,7 @@ const PastReservations = () => {
       <div className="border border-[#ECECEC]"></div>
 
       <div>
-        {reservations.map((reservation, index) => (
+        {reservations.map((reservation: ReservationItem, index: number) => (
           <div
             key={reservation.reservationId}
             className={`my-[1rem] py-[2rem] ${
@@ -90,7 +87,6 @@ const PastReservations = () => {
                           `${PATHS.GUEST.RESERVATIONS}/${reservation.reservationId}`,
                           {
                             state: {
-                              reservation,
                               category: "past",
                             },
                           }
@@ -116,11 +112,26 @@ const PastReservations = () => {
         ))}
       </div>
 
-      <div className="flex justify-center gap-4 my-[1rem] text-16-Medium cursor-pointer">
-        {page > 0 && (
-          <img src={leftArrow} alt="이전" onClick={handlePrevPage} />
+      <div className="flex justify-center gap-4 my-[2rem]">
+        {totalPage > 1 && page > 0 && (
+          <img
+            src={leftArrow}
+            alt="이전 페이지"
+            className="cursor-pointer w-[2rem] h-[2rem]"
+            onClick={() => setPage((p) => Math.max(p - 1, 0))}
+          />
         )}
-        {!last && <img src={rightArrow} alt="다음" onClick={handleNextPage} />}
+        <span className="text-14-Medium text-cr-500">
+          {page + 1} / {totalPage}
+        </span>
+        {totalPage > 1 && !last && (
+          <img
+            src={rightArrow}
+            alt="다음 페이지"
+            className="cursor-pointer w-[2rem] h-[2rem]"
+            onClick={() => setPage((p) => (last ? p : p + 1))}
+          />
+        )}
       </div>
     </div>
   );

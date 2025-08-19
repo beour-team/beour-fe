@@ -41,7 +41,7 @@ const GuestFooter = () => {
     <footer className="relative w-full bg-transparent flex justify-center ">
       <div
         className="
-      fixed bottom-0 left-50% w-full max-w-[43rem] min-w-[32rem] mx-auto h-[5.7rem] flex justify-around items-center bg-white"
+      fixed bottom-0 left-50% w-full max-w-[43rem] min-w-[32rem] mx-auto h-[5.7rem] flex justify-around items-center bg-white z-10"
         style={{
           boxShadow: "0 -5px 14.6px 0 rgba(0, 0, 0, 0.05)",
         }}
