@@ -72,6 +72,19 @@ export const API_SPACE_DELETE = "/api/spaces/{spaceId}";
 export const API_MY_REVIEWABLE_GUEST = "/api/users/me/reviewable-reservations";
 export const API_MY_REVIEWWRITTEN_GUEST = "/api/users/me/reviews";
 
+// 마이페이지 - 호스트가 답글 작성 가능한 리뷰 목록 조회
+export const API_HOST_COMMENTABLE_REVIEWS = "/api/users/me/commentable-reviews";
+
+// 마이페이지 - 호스트가 리뷰에 답글 작성
+export const API_CREATE_REVIEW_COMMENT = "/api/users/me/review-comments";
+
+// 마이페이지 - 호스트가 작성한 답글 목록 조회
+export const API_HOST_WRITTEN_COMMENTS = "/api/users/me/review-comments";
+
+// 마이페이지 - 호스트가 작성한 답글 삭제
+export const API_DELETE_REVIEW_COMMENT =
+  "/api/users/me/review-comments/{commentId}";
+
 // 마이페이지 - 대댓글 수정/삭제
 export const API_REVIEW_COMMENT_UPDATE = "/api/review-comments/{commentId}";
 export const API_REVIEW_COMMENT_DELETE = "/api/review-comments/{commentId}";
