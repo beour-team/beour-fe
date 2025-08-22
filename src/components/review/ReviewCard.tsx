@@ -1,11 +1,37 @@
 import ReviewComment from "./ReviewComment";
 import type { ReviewCardData } from "../../types/Review";
+import type { WrittenComment } from "../../api/Review/WrittenComments";
 
 interface ReviewCardProps {
   reviews: ReviewCardData[];
+  onCommentCreated?: () => void; // 답글 작성 성공 시 호출될 콜백
+  writtenComments?: WrittenComment[]; // 작성한 답글 데이터 (호스트 탭에서 사용)
+  showWrittenReplies?: boolean; // 작성한 답글을 표시할지 여부
+  onCommentDeleted?: () => void; // 답글 삭제 성공 시 호출될 콜백
 }
 
-const ReviewCard = ({ reviews }: ReviewCardProps) => {
+const ReviewCard = ({
+  reviews,
+  onCommentCreated,
+  writtenComments,
+  showWrittenReplies,
+  onCommentDeleted,
+}: ReviewCardProps) => {
+  // 상대적 시간 계산 (1일 전, 2일 전 등)
+  const getRelativeTime = (dateString: string) => {
+    const now = new Date();
+    const date = new Date(dateString);
+    const diffInMs = now.getTime() - date.getTime();
+    const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+
+    if (diffInDays === 0) {
+      return "오늘";
+    } else if (diffInDays === 1) {
+      return "1일 전";
+    } else {
+      return `${diffInDays}일 전`;
+    }
+  };
   return (
     <>
       {reviews.map((review) => (
@@ -41,7 +67,9 @@ const ReviewCard = ({ reviews }: ReviewCardProps) => {
                         ))}
                       </div>
                     </div>
-                    <div className="text-[1.3rem] text-cr-600">1일 전</div>
+                    <div className="text-[1.3rem] text-cr-600">
+                      {getRelativeTime(review.created_at)}
+                    </div>
                   </div>
                 </div>
                 <div className="text-13-Medium flex items-center gap-[0.4rem]">
@@ -75,7 +103,13 @@ const ReviewCard = ({ reviews }: ReviewCardProps) => {
             </div>
 
             {/* 리뷰 내용 */}
-            <ReviewComment review={review} />
+            <ReviewComment
+              review={review}
+              onCommentCreated={onCommentCreated}
+              writtenComment={writtenComments?.[reviews.indexOf(review)]}
+              showWrittenReply={showWrittenReplies}
+              onCommentDeleted={onCommentDeleted}
+            />
           </div>
         </div>
       ))}
