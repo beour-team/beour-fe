@@ -1,9 +1,5 @@
 import { api } from "../api";
 
-interface UploadImagesRequest {
-  images: File[];
-}
-
 interface UploadImagesResponse {
   code: number;
   httpStatus: string;

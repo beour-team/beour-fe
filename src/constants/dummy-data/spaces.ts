@@ -8,8 +8,8 @@ export const dummySpace: Space = {
   detailAddress: "2호선 강남역 4번 출구 도보 5분",
   pricePerHour: 99000,
   maxCapacity: 3,
-  spaceCategory: "COOKING",
-  useCategory: "COOKING",
+  spaceCategory: "쿠킹 공방",
+  useCategory: "요리 연습",
   avgRating: 4.2,
   description:
     "커다란 스크린이 구비되어 있는 넓은 공간과, 위에는 비어퐁을 즐길 수 있는, 아래는 닌텐도와 추억을 올가을 즐길 수 있는 공간으로 나누어져있어요. \n 방문해주신 고객님께 차별화된 서비스를 제공할 수 있도록 항상 노력하겠습니다 :)",

@@ -14,8 +14,7 @@ export type UseCategory =
   | "바리스타 실습"
   | "플리마켓"
   | "촬영"
-  | "기타"
-  | "STUDY"; // API 응답에 맞게 추가
+  | "기타";
 
 export interface Space {
   id: number;
