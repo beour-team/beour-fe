@@ -3,6 +3,7 @@ import type {
   UseFormRegister,
   UseFormSetValue,
   FieldErrors,
+  UseFormWatch,
 } from "react-hook-form";
 import { warning, topArrow, underArrow } from "../../../../assets/theme";
 import type { HostSpaceInfo } from "../../../../types/HostSpaceInfo";
@@ -11,21 +12,39 @@ interface UseCategoryProps {
   register: UseFormRegister<HostSpaceInfo>;
   setValue: UseFormSetValue<HostSpaceInfo>;
   errors: FieldErrors<HostSpaceInfo>;
+  watch?: UseFormWatch<HostSpaceInfo>;
 }
 
-const UseCategory = ({ register, setValue, errors }: UseCategoryProps) => {
+const UseCategory = ({
+  register,
+  setValue,
+  errors,
+  watch,
+}: UseCategoryProps) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [selectedPurpose, setSelectedPurpose] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const purposeList = [
-    { value: "MEETING", label: "미팅" },
-    { value: "COOKING", label: "쿠킹" },
-    { value: "BARISTA", label: "바리스타" },
-    { value: "FLEA_MARKET", label: "플리마켓" },
-    { value: "FILMING", label: "촬영" },
-    { value: "ETC", label: "기타" },
+    { value: "단체 모임", label: "단체 모임" },
+    { value: "요리 연습", label: "요리 연습" },
+    { value: "바리스타 실습", label: "바리스타 실습" },
+    { value: "플리마켓", label: "플리마켓" },
+    { value: "촬영", label: "촬영" },
+    { value: "기타", label: "기타" },
   ] as const;
+
+  // react-hook-form의 useCategory 값 감지
+  const useCategoryValue = watch ? watch("useCategory") : "";
+
+  // useCategory 값이 변경될 때 selectedPurpose 업데이트
+  useEffect(() => {
+    if (useCategoryValue && useCategoryValue !== selectedPurpose) {
+      console.log("UseCategory - useCategory 값 감지:", useCategoryValue);
+      setSelectedPurpose(useCategoryValue);
+      console.log("UseCategory - 한글 값 설정:", useCategoryValue);
+    }
+  }, [useCategoryValue, selectedPurpose]);
 
   // 드롭다운 외부 클릭 시 닫기
   useEffect(() => {
@@ -56,11 +75,7 @@ const UseCategory = ({ register, setValue, errors }: UseCategoryProps) => {
           } ${errors.useCategory ? "border-2 border-red-500" : ""}`}
           onClick={() => setIsDropdownOpen((prev) => !prev)}
         >
-          <span>
-            {selectedPurpose
-              ? purposeList.find((p) => p.value === selectedPurpose)?.label
-              : "카테고리를 선택해주세요"}
-          </span>
+          <span>{selectedPurpose || "카테고리를 선택해주세요"}</span>
           <img src={isDropdownOpen ? topArrow : underArrow} alt="화살표" />
         </button>
 

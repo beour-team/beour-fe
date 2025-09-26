@@ -36,6 +36,7 @@ import GuestReview from "./pages/review/guest/GuestReview";
 // yarn add @tanstack/react-query axios
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import GuestCreateReview from "./pages/create-review/GuestCreateReview";
+import SpaceEdit from "./pages/space-edit/SpaceEdit";
 
 const queryClient = new QueryClient();
 
@@ -98,6 +99,7 @@ function App() {
               {/* 게스트 페이지 랜더링 */}
               <Route path={PATHS.GUEST.WISH_SPACE} element={<WishSpace />} />
               <Route path={PATHS.GUEST.REVIEW} element={<GuestReview />} />
+              <Route path={PATHS.HOST.SPACE_EDIT} element={<SpaceEdit />} />
               <Route
                 path={`${PATHS.GUEST.CREATE_REVIEW}/:reservationId`}
                 element={<GuestCreateReview />}

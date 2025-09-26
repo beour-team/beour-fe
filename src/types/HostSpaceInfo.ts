@@ -15,7 +15,7 @@ export interface HostSpaceInfo {
   notice: string;
   locationDescription?: string;
   refundPolicy: string;
-  // websiteUrl: string;
+  websiteUrl?: string;
 
   tags?: string[];
   imageUrls: File[]; // 이미지 파일 배열

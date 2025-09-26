@@ -13,9 +13,14 @@ export interface HostSpacesResponse {
 }
 
 // host.ts
-export const getHostSpaces = async (): Promise<{ spaceId: number; spaceName: string }[]> => {
+export const getHostSpaces = async (): Promise<
+  { spaceId: number; spaceName: string }[]
+> => {
   try {
-    console.log("accessToken in localStorage:", localStorage.getItem("accessToken"));
+    console.log(
+      "accessToken in localStorage:",
+      localStorage.getItem("accessToken")
+    );
 
     const response = await api.get(API_HOST_SPACES);
     return response.data.data;

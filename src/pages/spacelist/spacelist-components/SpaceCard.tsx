@@ -44,7 +44,7 @@ const SpaceCard: React.FC<SpaceCardProps> = ({
               className="ml-[0.8rem] p-[0.4rem ]"
               onClick={() => onMenuOpen(space.spaceId)}
             >
-              <img src={threeDot} alt="3점 아이콘" />
+              <img src={threeDot} alt="더보기 아이콘" />
             </button>
 
             {menuOpen && (
