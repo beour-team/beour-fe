@@ -1,19 +1,20 @@
 export type SpaceCategory =
-  | "CAFE"
-  | "RESTAURANT"
-  | "COOKING"
-  | "LEATHER"
-  | "COSTUME"
-  | "ART"
-  | "ETC";
+  | "카페"
+  | "식당"
+  | "쿠킹 공방"
+  | "가죽 공방"
+  | "의상 공방"
+  | "아트 공방"
+  | "기타"
+  | "MEETING_ROOM"; // API 응답에 맞게 추가
 
 export type UseCategory =
-  | "MEETING"
-  | "COOKING"
-  | "BARISTA"
-  | "FLEA_MARKET"
-  | "FILMING"
-  | "ETC";
+  | "단체 모임"
+  | "요리 연습"
+  | "바리스타 실습"
+  | "플리마켓"
+  | "촬영"
+  | "기타";
 
 export interface Space {
   id: number;
@@ -31,6 +32,8 @@ export interface Space {
   notice: string;
   locationDescription: string;
   refundPolicy: string;
+  websiteUrl?: string; // API 응답에 맞게 추가
+  thumbnailUrl?: string; // 썸네일 이미지 URL
   tags: string[];
   availableTimes: {
     date: string;

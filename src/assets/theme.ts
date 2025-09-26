@@ -103,6 +103,8 @@ import bubble from "./img/bubble.svg";
 import blackPlace from "./img/blackPlace.svg";
 import plus from "./img/plusIcon.svg";
 import hostmainbanner from "./img/hostmainbanner.png";
+import plusIcon from "./img/plus.svg";
+import minusIcon from "./img/minus.svg";
 
 export {
   nearby,
@@ -209,5 +211,7 @@ export {
   bubble,
   blackPlace,
   plus,
+  plusIcon,
+  minusIcon,
   hostmainbanner,
 };

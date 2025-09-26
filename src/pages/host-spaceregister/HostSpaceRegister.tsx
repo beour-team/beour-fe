@@ -30,22 +30,22 @@ const spaceTypes = [
     selectedImage: space_food_selected,
   },
   {
-    label: "쿠킹_공방",
+    label: "쿠킹 공방",
     image: space_cooking,
     selectedImage: space_cooking_selected,
   },
   {
-    label: "가죽_공방",
+    label: "가죽 공방",
     image: space_leather,
     selectedImage: space_leather_selected,
   },
   {
-    label: "의상_공방",
+    label: "의상 공방",
     image: space_cloth,
     selectedImage: space_cloth_selected,
   },
   {
-    label: "아트_공방",
+    label: "아트 공방",
     image: space_drawing,
     selectedImage: space_drawing_selected,
   },
@@ -59,15 +59,7 @@ const spaceTypes = [
 const HostSpaceRegister = () => {
   const navigate = useNavigate();
   const [selected, setSelected] = useState("");
-  const spaceTypeMap: Record<string, string> = {
-    카페: "CAFE",
-    식당: "RESTAURANT",
-    쿠킹_공방: "COOKING_WORKSHOP",
-    가죽_공방: "LEATHER_WORKSHOP",
-    의상_공방: "CLOTH_WORKSHOP",
-    아트_공방: "ART_WORKSHOP",
-    기타: "ETC",
-  };
+  // 이제 한글 값을 직접 사용하므로 spaceTypeMap 제거
   return (
     <div className="min-h-screen bg-white px-[2rem] relative">
       <PageHeader>공간 등록</PageHeader>
@@ -114,7 +106,7 @@ const HostSpaceRegister = () => {
         onClick={() =>
           navigate("/hostspaceregisterinfo", {
             state: {
-              spaceCategory: spaceTypeMap[selected],
+              spaceCategory: selected,
             },
           })
         }

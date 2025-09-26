@@ -5,7 +5,7 @@ import { useMySpaceList } from "../../hooks/MySpace/useMySpaceList";
 import { useDeleteMySpace } from "../../hooks/MySpace/useDeleteMySpace";
 import Modal from "../../components/modal/Modal";
 import { plus } from "../../assets/theme";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import FloatingAddButton from "./spacelist-components/FloatingAddButton";
 import SpaceSchedule from "../space-schedule/SpaceSchedule";
@@ -13,6 +13,7 @@ import SimplePagination from "./spacelist-components/SimplePagination";
 import type { MySpace } from "../../types/MySpace";
 
 const SpaceList = () => {
+  const navigate = useNavigate();
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedSpaceId, setSelectedSpaceId] = useState<number | null>(null);
@@ -50,7 +51,12 @@ const SpaceList = () => {
 
   const handleEdit = (id: number) => {
     console.log(`공간 수정: ${id}`);
-    // 추후 수정 페이지로 이동하는 로직 추가
+    // SpaceEdit 페이지로 이동하면서 spaceId만 전달
+    navigate(PATHS.HOST.SPACE_EDIT, {
+      state: {
+        spaceId: id,
+      },
+    });
     setOpenMenuId(null);
   };
 
