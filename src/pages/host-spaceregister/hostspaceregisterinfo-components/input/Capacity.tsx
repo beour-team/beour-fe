@@ -4,7 +4,7 @@ import type {
   UseFormWatch,
   FieldErrors,
 } from "react-hook-form";
-import { warning } from "../../../../assets/theme";
+import { minusIcon, plusIcon, warning } from "../../../../assets/theme";
 import type { HostSpaceInfo } from "../../../../types/HostSpaceInfo";
 
 interface CapacityProps {
@@ -47,7 +47,7 @@ const Capacity = ({ register, setValue, watch, errors }: CapacityProps) => {
               )
             }
           >
-            –
+            <img src={minusIcon} alt="minus" />
           </button>
 
           <div className="w-[4.8rem] h-[3.2rem] bg-cr-white rounded-[0.8rem] flex items-center justify-center">
@@ -65,7 +65,7 @@ const Capacity = ({ register, setValue, watch, errors }: CapacityProps) => {
               })
             }
           >
-            +
+            <img src={plusIcon} alt="plus" />
           </button>
         </div>
       </div>
