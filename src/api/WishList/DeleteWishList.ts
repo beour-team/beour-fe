@@ -29,9 +29,9 @@ export const deleteWishList = async (spaceId: number): Promise<string> => {
       message: error?.message,
     });
 
-    if (error?.response?.status === 401 || error?.response?.status === 403) {
-      throw new Error("로그인이 필요합니다.");
-    }
+    // if (error?.response?.status === 401 || error?.response?.status === 403) {
+    //   throw new Error("로그인이 필요합니다.");
+    // }
 
     if (error?.response?.status === 404) {
       throw new Error("찜한 공간을 찾을 수 없습니다.");

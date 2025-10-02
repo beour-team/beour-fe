@@ -2,6 +2,7 @@ import MypageHeader from "../MypageHeader";
 import { useMypage } from "../../../hooks/Mypage/useMypage";
 import MypageMenuList from "../MypageMenuList";
 import MypageProfile from "../MypageProfile";
+import HostFooter from "../../../components/footer/HostFooter";
 
 const MypageHost: React.FC = () => {
   const { data, isLoading, error } = useMypage();
@@ -21,6 +22,7 @@ const MypageHost: React.FC = () => {
       />
 
       <MypageMenuList />
+      <HostFooter />
     </div>
   );
 };

@@ -15,8 +15,9 @@ interface Props {
 }
 
 const MypageProfile: React.FC<Props> = ({ userName, userEmail }) => {
-  // 로컬스토리지에서 role 가져오기
+  // 로컬스토리지에서 role과 accessToken 가져오기
   const role = localStorage.getItem("role");
+  const isLoggedIn = !!localStorage.getItem("accessToken");
 
   return (
     <div className="flex flex-col gap-[2.6rem] mt-[2rem]">
@@ -24,13 +25,13 @@ const MypageProfile: React.FC<Props> = ({ userName, userEmail }) => {
         {role === "HOST" ? (
           <img
             className="min-w-[6.2rem] h-[6.2rem] rounded-full"
-            src={userEmail ? profileOn : profileOff}
+            src={isLoggedIn ? profileOn : profileOff}
             alt="프로필 이미지"
           />
         ) : (
           <img
             className="min-w-[6.2rem] h-[6.2rem] rounded-full"
-            src={userEmail ? guestProfileOn : guestProfileOff}
+            src={isLoggedIn ? guestProfileOn : guestProfileOff}
             alt="프로필 이미지"
           />
         )}
@@ -38,7 +39,7 @@ const MypageProfile: React.FC<Props> = ({ userName, userEmail }) => {
           <div className="flex items-center justify-between">
             <p className="text-24-Bold pt-[0.4rem]">{userName}</p>
             <div>
-              {userEmail && (
+              {isLoggedIn && (
                 <Link
                   to={"/editprofilehost"}
                   className="text-13-Medium text-cr-500"

@@ -6,8 +6,6 @@ import home from "./img/home.svg";
 import home_click from "./img/home_click.svg";
 import reservations from "./img/reservations.svg";
 import reservations_click from "./img/reservations_click.svg";
-import banner from "./img/bannerImg.png";
-import banner2 from "./img/banner2.png";
 import newspace from "./img/newspace1.png";
 import newspace2 from "./img/newspace2.png";
 import art from "./img/art.svg";
@@ -29,6 +27,7 @@ import cancel from "./img/cancel.svg";
 import eyeOpen from "./img/eyeOpen.svg";
 import spot from "./img/spot.svg";
 import star from "./img/Star.svg";
+import emptyStar from "./img/EmptyStar.svg";
 import BlackStar from "./img/BlackStar.svg";
 import people from "./img/people.svg";
 import notification from "./img/notification.svg";
@@ -67,9 +66,9 @@ import threeDot from "./img/3dot.svg";
 import edit from "./img/pencil.svg";
 import trash from "./img/trash.svg";
 import calendar2 from "./img/calender2.svg";
-import cancel_dark from "./img/cancel_dark.png";
+import cancel_dark from "./img/cancel_dark.svg";
 import error from "./img/error.svg";
-import camera from "./img/camera.svg";
+import camera from "./img/Camera.svg";
 import space_cafe from "./img/space_cafe.png";
 import space_cloth from "./img/space_cloth.png";
 import space_cooking from "./img/space_cooking.png";
@@ -91,10 +90,6 @@ import share from "./img/share.svg";
 import won from "./img/won.svg";
 import subway from "./img/subway.svg";
 import chat from "./img/chat.svg";
-import wifi from "./img/wifi.svg";
-import nopet from "./img/nopet.svg";
-import car from "./img/car.svg";
-import stairs from "./img/stairs.svg";
 import size from "./img/size.svg";
 import how from "./img/how.svg";
 import place from "./img/place.svg";
@@ -107,6 +102,9 @@ import moneyGray from "./img/moneyGray.svg";
 import bubble from "./img/bubble.svg";
 import blackPlace from "./img/blackPlace.svg";
 import plus from "./img/plusIcon.svg";
+import hostmainbanner from "./img/hostmainbanner.png";
+import plusIcon from "./img/plus.svg";
+import minusIcon from "./img/minus.svg";
 
 export {
   nearby,
@@ -117,8 +115,6 @@ export {
   home_click,
   reservations,
   reservations_click,
-  banner,
-  banner2,
   newspace,
   newspace2,
   art,
@@ -140,6 +136,7 @@ export {
   eyeOpen,
   spot,
   star,
+  emptyStar,
   people,
   BlackStar,
   notification,
@@ -202,10 +199,6 @@ export {
   won,
   subway,
   chat,
-  wifi,
-  nopet,
-  car,
-  stairs,
   size,
   how,
   place,
@@ -218,4 +211,7 @@ export {
   bubble,
   blackPlace,
   plus,
+  plusIcon,
+  minusIcon,
+  hostmainbanner,
 };

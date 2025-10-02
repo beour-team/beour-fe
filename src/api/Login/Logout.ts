@@ -8,7 +8,12 @@ interface LogoutResponse {
 
 export const Logout = async (): Promise<LogoutResponse> => {
   try {
-    const response = await api.post(`${API_LOGOUT}`);
+    // localStorage에서 refresh 토큰 가져오기
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    const response = await api.post(`${API_LOGOUT}`, {
+      refreshToken: refreshToken,
+    });
     return response.data;
   } catch (err) {
     const error = err as AxiosError;

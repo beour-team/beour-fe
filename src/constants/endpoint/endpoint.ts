@@ -9,25 +9,26 @@ export const BASE_URL = "https://beour.store/";
 export const API_LOGIN = "/api/login";
 export const API_FIND_ID = "/api/users/find-login-id";
 export const API_RESET_PW = "/api/users/reset-pw";
-export const API_LOGOUT = "/logout";
-export const API_CHECK_LOGIN_ID = "/api/users/signup/check/loginId";
-export const API_CHECK_NICKNAME = "/api/users/signup/check/nickname";
-export const API_SIGNUP = "/api/users/signup";
+export const API_LOGOUT = "/api/logout";
+export const API_CHECK_LOGIN_ID = "/api/signup/check-duplicate/login-id";
+export const API_CHECK_NICKNAME = "/api/signup/check-duplicate/nickname";
+export const API_SIGNUP = "/api/signup";
 
 // 마이페이지 관련
 export const API_WITHDRAW = "/api/mypage/withdraw";
-export const API_MYPAGE = "/api/mypage";
-export const API_MYPAGE_DETAIL = "/api/mypage/detail";
-export const API_UPDATE_PROFILE = "/api/mypage/detail"; // 닉네임, 핸드폰 번호 변경
-export const API_UPDATE_PASSWORD = "/api/mypage/password";
+export const API_MYPAGE = "/api/users/me";
+export const API_MYPAGE_DETAIL = "/api/users/me/detail";
+export const API_UPDATE_PROFILE = "/api/users/me/detail"; // 닉네임, 핸드폰 번호 변경
+export const API_UPDATE_PASSWORD = "/api/users/me/password";
 
 // 배너 관련
-export const API_BANNERS = "/api/banners";
+export const API_BANNERS = "/api/users/banners";
 export const API_BANNER_CLICK = "/api/banners/{bannerId}/click";
 
 // 메인화면 - 예약 데이터
 export const API_RESERVATION_SUMMARY =
   "/api/reservations/summary?spaceId={spaceId}&date={date}";
+export const API_HOST_SPACES = "/api/host/spaces";
 
 // 공간 등록
 export const API_SPACES = "/api/spaces";
@@ -51,10 +52,10 @@ export const API_RESERVATION_FILTER = "/api/reservations/filter"; // (필터링/
 export const API_REVIEW_REPLY = "/api/reviews/{reviewId}/comments";
 
 // 마이페이지 - 내가 등록한 공간 리스트 (수정됨)
-export const API_MY_SPACES = "/api/spaces/my-spaces";
+export const API_MY_SPACES = "/api/users/me/spaces";
 
 // 마이페이지 - 공간 상세 정보
-export const API_SPACE_DETAIL = "/api/spaces/{spaceId}";
+export const API_SPACE_DETAIL = "/api/spaces";
 export const API_SPACE_DETAIL_ALL = "/api/spaces/{spaceId}"; // 전체 조회(중복)
 
 // 마이페이지 - 공간 정보/상세/태그 수정
@@ -69,8 +70,22 @@ export const API_SPACE_AVAILABLE_TIMES_UPDATE =
 export const API_SPACE_IMAGES_UPDATE = "/api/spaces/{spaceId}/images";
 export const API_SPACE_DELETE = "/api/spaces/{spaceId}";
 
-// 마이페이지 - 내가 작성한 대댓글 조회
-export const API_MY_REVIEW_COMMENTS = "/api/review-comments/list/{spaceId}";
+// 마이페이지 - 게스트 리뷰 리스트 조회
+export const API_MY_REVIEWABLE_GUEST = "/api/users/me/reviewable-reservations";
+export const API_MY_REVIEWWRITTEN_GUEST = "/api/users/me/reviews";
+
+// 마이페이지 - 호스트가 답글 작성 가능한 리뷰 목록 조회
+export const API_HOST_COMMENTABLE_REVIEWS = "/api/users/me/commentable-reviews";
+
+// 마이페이지 - 호스트가 리뷰에 답글 작성
+export const API_CREATE_REVIEW_COMMENT = "/api/users/me/review-comments";
+
+// 마이페이지 - 호스트가 작성한 답글 목록 조회
+export const API_HOST_WRITTEN_COMMENTS = "/api/users/me/review-comments";
+
+// 마이페이지 - 호스트가 작성한 답글 삭제
+export const API_DELETE_REVIEW_COMMENT =
+  "/api/users/me/review-comments/{commentId}";
 
 // 마이페이지 - 대댓글 수정/삭제
 export const API_REVIEW_COMMENT_UPDATE = "/api/review-comments/{commentId}";
@@ -80,39 +95,47 @@ export const API_REVIEW_COMMENT_DELETE = "/api/review-comments/{commentId}";
 // 게스트(사용자) 관련
 // =====================
 // 메인화면 - 공간 검색
-export const API_SPACE_SEARCH = "/api/space/search?request={keyword}";
+export const API_SPACE_SEARCH = "/api/spaces/keyword";
 export const API_SPACE_SEARCH_FILTER = "/api/spaces/search/filter";
-export const API_SPACE_SEARCH_CATEGORY =
-  "/api/spaces/search/spacecategory?spacecategory={value}";
-export const API_SPACE_SEARCH_USE_CATEGORY =
-  "/api/spaces/search/usecategory?usecategory={value}";
+export const API_SPACE_CATEGORY = "/api/spaces/spacecategory";
+export const API_SPACE_USE_CATEGORY = "/api/spaces/usecategory";
 export const API_SPACES_NEW = "/api/spaces/new";
 export const API_REVIEWS_NEW = "/api/reviews/new";
 
 // 공간예약
 export const API_SPACE_RESERVE = "/api/spaces/reserve";
-export const API_RESERVATION_CURRENT = "/api/reservation?guestId={guestId}";
-export const API_RESERVATION_PAST = "/api/reservation/past?guestId={guestId}";
+export const API_RESERVATION_CURRENT = "/api/reservations/current";
+export const API_RESERVATION_PAST = "/api/reservations/past";
 export const API_RESERVATION_CANCEL_GUEST =
   "/api/reservation/cancel?reservationId={reservationId}";
 export const API_SPACE_DETAIL_GUEST = "/api/spaces/{spaceId}";
 export const API_RESERVATION_AVAILABLE_TIMES =
   "/api/spaces/reserve/available-times";
+export const API_GUEST_RESERVATION_DETAIL = "api/reservations";
 
 // 찜
 export const API_WISHLIST = "/api/wishlist?spaceId={id}";
-export const API_WISHLIST_DELETE = "/api/wishlist?spaceId={id}";
+export const API_WISHLIST_DELETE = "/api/spaces/{id}/likes";
 
 // 내 주변
-export const API_SPACES_NEARBY =
-  "/api/spaces/nearby?latitude={latitude}&longitude={longitude}&radiusKm={km}&userId={id}";
+export const API_SPACES_NEARBY = "/api/spaces/nearby";
 export const API_SPACE_SIMPLE = "/api/space/{spaceId}/simple";
 
 // 나의 예약
 export const API_REVIEW_WRITE = "/api/reviews/write";
 
-// 마이페이지 - 찜 목록 조회
-export const API_WISHLIST_ALL = "/api/wishlist/all";
+// 리뷰 작성을 위한 예약 정보 조회
+export const API_REVIEW_RESERVATION_DETAIL =
+  "/api/reviews/reservations/{reservationId}";
+
+// 리뷰 작성
+export const API_CREATE_REVIEW = "/api/users/me/reviews";
+
+// 내가 작성한 리뷰 목록 조회 (페이징)
+export const API_MY_WRITTEN_REVIEWS = "/api/users/me/reviews";
+
+// 마이페이지 - 찜 목록 조회 (페이징)
+export const API_WISHLIST_ALL = "/api/likes";
 
 // 마이페이지 - 리뷰 관련
 export const API_REVIEW_LIST = "/api/reviews/list";

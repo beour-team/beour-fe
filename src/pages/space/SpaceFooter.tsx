@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 interface SpaceFooterProps {
   space: {
+    spaceId: number;
     name: string;
     maxCapacity: number;
     contact: string; //백엔드 필요?
@@ -51,7 +52,7 @@ const SpaceFooter = ({ space }: SpaceFooterProps) => {
             },
           })
         }
-        className="bg-black text-white text-16-Medium px-[13rem] py-[1.8rem] rounded-[1rem]"
+        className="bg-black text-white text-16-Medium px-[12rem] py-[1.8rem] rounded-[1rem]"
       >
         예약하기
       </button>

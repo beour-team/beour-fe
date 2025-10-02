@@ -5,7 +5,7 @@ export const PATHS = {
   HOME: "/",
   LOGIN: "/login",
   SIGNUP: "/signup",
-  SPACE: "/space",
+  SPACE: "/spaces",
   SIGNUPFORM: "/signup/form",
   SIGNUPCOMPLETE: "/signup/complete",
 
@@ -20,12 +20,13 @@ export const PATHS = {
     SPACE_LIST: "/spacelist",
     CALENDAR: "/hostcalendar",
     SPACE_SCHEDULE: "/hostspaceschedule",
+    SPACE_EDIT: "/hostspaceedit",
   },
 
   GUEST: {
     MAIN: "/guest",
     SEARCH: "/search",
-    RESULT: "/space/search",
+    RESULT: "/spaces/search",
     FILTER: "/filter",
     MAP: "/nearby",
     MYPAGE: "/mypageguest",
@@ -33,6 +34,7 @@ export const PATHS = {
     RESERVATIONS: "/reservations",
     WISH_SPACE: "/wishspace",
     REVIEW: "/reviewguest",
+    CREATE_REVIEW: "/review/write",
     SPACERESERVE: "/reserve",
     RESERVECOMPLETED: "/completed",
   },

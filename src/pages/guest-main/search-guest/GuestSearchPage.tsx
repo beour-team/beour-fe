@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
 import Searchbar from "../../../components/Searchbar";
 import BackButton from "../../../components/BackButton";
+import { PATHS } from "../../../routes/paths";
 
 //최근 검색어랑 검색어 자동완성은 나중에 구현할게요
 const GuestSearchPage = () => {
   const nav = useNavigate();
   const handleSearch = (keyword: string) => {
-    nav(`/space/search?request=${encodeURIComponent(keyword)}`);
+    nav(`${PATHS.GUEST.RESULT}?request=${encodeURIComponent(keyword)}`);
   };
 
   return (

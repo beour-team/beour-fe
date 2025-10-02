@@ -2,7 +2,7 @@ import MypageHeader from "../MypageHeader";
 import { useMypage } from "../../../hooks/Mypage/useMypage";
 import MypageMenuList from "../MypageMenuList";
 import MypageProfile from "../MypageProfile";
-import GuestFooter from "../../../components/GuestFooter";
+import GuestFooter from "../../../components/footer/GuestFooter";
 
 const MypageGuest: React.FC = () => {
   const { data, isLoading, error } = useMypage();

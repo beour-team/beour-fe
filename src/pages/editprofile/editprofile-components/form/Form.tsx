@@ -5,6 +5,8 @@ import type {
   UseFormRegister,
   UseFormSetValue,
   UseFormWatch,
+  UseFormSetError,
+  UseFormClearErrors,
 } from "react-hook-form";
 import Email from "../input/Email";
 import Name from "../input/Name";
@@ -21,6 +23,8 @@ interface Props {
   watch: UseFormWatch<EditProfile>;
   isSubmitting?: boolean;
   errors?: FieldErrors<EditProfile>;
+  setError: UseFormSetError<EditProfile>;
+  clearErrors: UseFormClearErrors<EditProfile>;
 }
 
 const Form = ({
@@ -30,6 +34,8 @@ const Form = ({
   setValue,
   watch,
   errors,
+  setError,
+  clearErrors,
 }: Props) => {
   return (
     <form
@@ -37,7 +43,13 @@ const Form = ({
       onSubmit={handleSubmit(onSubmit)}
     >
       <div className="flex flex-col gap-[1.6rem]">
-        <Nickname register={register} errors={errors} />
+        <Nickname
+          register={register}
+          errors={errors}
+          setError={setError}
+          clearErrors={clearErrors}
+          watch={watch}
+        />
 
         <Password
           register={register}
@@ -48,7 +60,13 @@ const Form = ({
 
         <Name register={register} readOnly />
 
-        <Phone register={register} errors={errors} />
+        <Phone
+          register={register}
+          errors={errors}
+          watch={watch}
+          setError={setError}
+          clearErrors={clearErrors}
+        />
 
         <Email watch={watch} readOnly />
       </div>

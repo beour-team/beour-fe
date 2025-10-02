@@ -1,16 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import HostReservationCard from "./HostReservationCard";
 import SpaceListDown from "../../components/HostMainPage/SpaceListDown";
-import HostFooter from "../../components/HostMainPage/HostFooter";
-import {
-  DragHandle,
-  ScheduleHeader,
-  CalendarSection,
-  HolidayCheckbox,
-  TimeSelection,
-  ApplyAllCheckbox,
-  ApplyButton,
-} from "../space-schedule/components";
+import HostFooter from "../../components/footer/HostFooter";
+import { CalendarSection } from "../space-schedule/components";
 
 const HostCalendar = () => {
   const [selected, setSelected] = useState("스윗라운지");
@@ -22,12 +14,11 @@ const HostCalendar = () => {
       time: "18:00 - 19:00",
       people: "3",
       reserveId: "01234567",
-      initialStatus: "pending",
+      initialStatus: "pending" as const,
     },
-    // ...다른 카드들
   ]);
 
-  const handleDelete = (id) => {
+  const handleDelete = (id: number) => {
     setCards(cards.filter((card) => card.id !== id));
   };
 
@@ -44,7 +35,7 @@ const HostCalendar = () => {
           onSelect={setSelectedDates}
         />
       </div>
-      <div className="px-[2rem] min-h-screen bg-[#ECEEF1] px-4 py-6">
+      <div className="px-[2rem] min-h-screen bg-[#ECEEF1] py-6">
         <div className="pb-[2rem]">
           <div className="flex items-center">
             <p className="text-13-Medium text-gray-500">총 {cards.length}건</p>

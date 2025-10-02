@@ -1,10 +1,10 @@
-import GuestFooter from "../../components/GuestFooter";
+import GuestFooter from "../../components/footer/GuestFooter";
 import MapView from "./MapView";
 
 const GuestMapPage = () => {
   return (
     <div>
-      <div className="w-full h-screen">
+      <div className="w-full h-[80%]">
         <MapView />
       </div>
       <GuestFooter />

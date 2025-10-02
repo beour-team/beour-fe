@@ -4,19 +4,19 @@ import HelloProfile from "../../../components/HelloProfile";
 import Banner from "./Banner";
 import SpaceType from "./SpaceType";
 import NewSpace from "./NewSpace";
-import GuestFooter from "../../../components/GuestFooter";
 import Searchbar from "../../../components/Searchbar";
 import RecentReview from "./RecentReView";
-// import { guestLogo } from "../../../assets/theme";
+import { PATHS } from "../../../routes/paths";
+import GuestFooter from "../../../components/footer/GuestFooter";
 
 const GuestMainPage = () => {
   const nav = useNavigate();
   const handleSearch = (keyword: string) => {
-    nav(`/space/search?request=${encodeURIComponent(keyword)}`);
+    nav(`${PATHS.GUEST.RESULT}?keyword=${encodeURIComponent(keyword)}`);
   };
 
   return (
-    <div className="px-[2rem] pb-[8rem] overflow-x-hidden">
+    <div className="px-[2rem] pb-[8rem] overflow-x-hidden w-full relative">
       <GuestHeader /> {/*로고 부분*/}
       <HelloProfile userType="guest" /> {/*안녕하세요 부분*/}
       {/* <img src={guestLogo} alt="게스트 로고" className=" " /> */}

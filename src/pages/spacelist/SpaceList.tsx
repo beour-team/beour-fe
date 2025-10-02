@@ -5,23 +5,41 @@ import { useMySpaceList } from "../../hooks/MySpace/useMySpaceList";
 import { useDeleteMySpace } from "../../hooks/MySpace/useDeleteMySpace";
 import Modal from "../../components/modal/Modal";
 import { plus } from "../../assets/theme";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { PATHS } from "../../routes/paths";
 import FloatingAddButton from "./spacelist-components/FloatingAddButton";
 import SpaceSchedule from "../space-schedule/SpaceSchedule";
+import SimplePagination from "./spacelist-components/SimplePagination";
 import type { MySpace } from "../../types/MySpace";
 
 const SpaceList = () => {
+  const navigate = useNavigate();
   const [openMenuId, setOpenMenuId] = useState<number | null>(null);
   const [deleteModalOpen, setDeleteModalOpen] = useState(false);
   const [selectedSpaceId, setSelectedSpaceId] = useState<number | null>(null);
   const [selectedSpaceName, setSelectedSpaceName] = useState<string>("");
   const [scheduleModalOpen, setScheduleModalOpen] = useState(false);
   const [selectedSpace, setSelectedSpace] = useState<MySpace | null>(null);
+  const [currentPage, setCurrentPage] = useState(1); // 페이징 상태 (1부터 시작)
 
-  // API 호출
-  const { data: spaceList, isLoading, error } = useMySpaceList();
+  // API 호출 (UI는 1부터 시작하지만 API는 0부터 시작하므로 -1)
+  const {
+    data: spaceListData,
+    isLoading,
+    error,
+  } = useMySpaceList(currentPage - 1);
   const { mutate: deleteSpace, isPending: isDeleting } = useDeleteMySpace();
+
+  // API 응답에서 데이터 추출
+  const spaces = spaceListData?.spaces || [];
+  const totalPage = spaceListData?.totalPage || 1;
+
+  // 페이지 변경 핸들러
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    setOpenMenuId(null); // 페이지 변경 시 열린 메뉴 닫기
+    console.log(`페이지 ${page}로 이동 (API 파라미터: ${page - 1})`);
+  };
 
   const handleMenuOpen = (id: number) => {
     setOpenMenuId(id);
@@ -33,12 +51,17 @@ const SpaceList = () => {
 
   const handleEdit = (id: number) => {
     console.log(`공간 수정: ${id}`);
-    // 추후 수정 페이지로 이동하는 로직 추가
+    // SpaceEdit 페이지로 이동하면서 spaceId만 전달
+    navigate(PATHS.HOST.SPACE_EDIT, {
+      state: {
+        spaceId: id,
+      },
+    });
     setOpenMenuId(null);
   };
 
   const handleDelete = (id: number) => {
-    const space = spaceList?.find((space) => space.spaceId === id);
+    const space = spaces.find((space) => space.spaceId === id);
     setSelectedSpaceId(id);
     setSelectedSpaceName(space?.spaceName || "");
     setDeleteModalOpen(true);
@@ -81,7 +104,7 @@ const SpaceList = () => {
   if (isLoading) {
     return (
       <div className="relative px-[2rem] min-h-screen pb-[8rem] bg-cr-white">
-        <PageHeader>내 공간</PageHeader>
+        <PageHeader backTo={PATHS.HOST.MYPAGE}>내 공간</PageHeader>
         <div className="flex flex-col justify-center items-center min-h-[calc(100vh-160px)] gap-[1.2rem]">
           <div className="text-18-SemiBold text-cr-black">
             공간을 불러오는 중...
@@ -98,7 +121,7 @@ const SpaceList = () => {
   if (error) {
     return (
       <div className="relative px-[2rem] min-h-screen pb-[8rem] bg-white">
-        <PageHeader>내 공간</PageHeader>
+        <PageHeader backTo={PATHS.HOST.MYPAGE}>내 공간</PageHeader>
         <div className="flex flex-col justify-center items-center min-h-[calc(100vh-160px)] gap-[1.2rem]">
           <div className="text-18-SemiBold text-cr-black">
             문제가 발생했어요
@@ -111,11 +134,9 @@ const SpaceList = () => {
     );
   }
 
-  const spaces = spaceList || [];
-
   return (
     <div className="relative px-[2rem] min-h-screen pb-[8rem] bg-white">
-      <PageHeader>내 공간</PageHeader>
+      <PageHeader backTo={PATHS.HOST.MYPAGE}>내 공간</PageHeader>
       <div className="w-full text-13-Medium text-cr-600 mb-[1.2rem]">
         총 {spaces.length}개
       </div>
@@ -139,25 +160,37 @@ const SpaceList = () => {
           </Link>
         </div>
       ) : (
-        spaces.map((space) => (
-          <SpaceCard
-            key={space.spaceId}
-            space={space}
-            menuOpen={openMenuId === space.spaceId}
-            onMenuOpen={handleMenuOpen}
-            onMenuClose={handleMenuClose}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-            onScheduleOpen={handleScheduleOpen}
+        <>
+          {/* 공간 목록 */}
+          <div className="space-y-[1.6rem]">
+            {spaces.map((space) => (
+              <SpaceCard
+                key={space.spaceId}
+                space={space}
+                menuOpen={openMenuId === space.spaceId}
+                onMenuOpen={handleMenuOpen}
+                onMenuClose={handleMenuClose}
+                onEdit={handleEdit}
+                onDelete={handleDelete}
+                onScheduleOpen={handleScheduleOpen}
+              />
+            ))}
+          </div>
+
+          {/* 페이징 UI */}
+          <SimplePagination
+            currentPage={currentPage}
+            totalPage={totalPage}
+            onPageChange={handlePageChange}
           />
-        ))
+        </>
       )}
 
       {/* 삭제 확인 모달 */}
       <Modal
         isOpen={deleteModalOpen}
         onClose={handleDeleteCancel}
-        title={`[ ${selectedSpaceName} ]을\n내 공간에서 삭제하시겠어요?\n\n삭제 후엔 복구가 불가능해요`}
+        title={`[ ${selectedSpaceName} ]`}
         confirmText={isDeleting ? "삭제 중..." : "삭제하기"}
         cancelText="닫기"
         onConfirm={handleDeleteConfirm}

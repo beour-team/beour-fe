@@ -1,27 +1,45 @@
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { rightArrow, space3 } from "../../assets/theme";
+import { leftArrow, rightArrow } from "../../assets/theme";
 import ReserveTag from "../../components/guest-result/ReserveTag";
-import { currentReservationData } from "../../constants/dummy-data/reserve-data";
+// import { currentReservationData } from "../../constants/dummy-data/reserve-data";
 import { formatReservationDateTime } from "../../utils/data-formatter";
 import { PATHS } from "../../routes/paths";
-import { user } from "../../constants/dummy-data/dummy-user";
+import { useCurrentReservations } from "../../hooks/guest-reservation/useCurrentReservations";
+import type { ReservationItem } from "../../types/guest-reservation/reservations";
+// import { user } from "../../constants/dummy-data/dummy-user";
+//404일때 화면 만들면 좋을듯 (데이터 없을때 -> 로딩용 컴포넌트)
 
 const CurrentReservations = () => {
   const nav = useNavigate();
+  const [page, setPage] = useState(0);
+
+  const { data, isError } = useCurrentReservations(page);
+
+  if (isError)
+    return (
+      <div className="text-center text-14-Medium text-cr-600">
+        예약이 존재하지 않습니다.
+      </div>
+    );
+  if (!data) return null;
+
+  const { reservations, totalPage, last } = data;
+
   return (
     <div>
       <div className="mx-[2rem] text-13-Medium text-cr-600 my-[2rem]">
-        총 {currentReservationData.length}개
+        총 {reservations.length}개
       </div>
 
       <div className="border border-[#ECECEC]"></div>
 
       <div>
-        {currentReservationData.map((reservation, index) => (
+        {reservations.map((reservation: ReservationItem, index: number) => (
           <div
             key={reservation.reservationId}
             className={`my-[1rem] py-[2rem] ${
-              index !== currentReservationData.length
+              index !== reservations.length
                 ? "border-b-[0.2rem] border-[#ECECEC]"
                 : ""
             }`}
@@ -36,7 +54,7 @@ const CurrentReservations = () => {
 
               <div className="flex items-center gap-5">
                 <img
-                  src={space3}
+                  src={reservation.spaceThumbImageUrl}
                   alt="공간 사진"
                   className="w-[8.5rem] h-[8.5rem] rounded-[1.2rem]"
                 />
@@ -68,10 +86,6 @@ const CurrentReservations = () => {
                           `${PATHS.GUEST.RESERVATIONS}/${reservation.reservationId}`,
                           {
                             state: {
-                              reservation: {
-                                ...reservation,
-                                user,
-                              },
                               category: "current",
                             },
                           }
@@ -92,6 +106,28 @@ const CurrentReservations = () => {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="flex justify-center gap-4 my-[2rem]">
+        {totalPage > 1 && page > 0 && (
+          <img
+            src={leftArrow}
+            alt="이전 페이지"
+            className="cursor-pointer w-[2rem] h-[2rem]"
+            onClick={() => setPage((p) => Math.max(p - 1, 0))}
+          />
+        )}
+        <span className="text-14-Medium text-cr-500">
+          {page + 1} / {totalPage}
+        </span>
+        {totalPage > 1 && !last && (
+          <img
+            src={rightArrow}
+            alt="다음 페이지"
+            className="cursor-pointer w-[2rem] h-[2rem]"
+            onClick={() => setPage((p) => (last ? p : p + 1))}
+          />
+        )}
       </div>
     </div>
   );

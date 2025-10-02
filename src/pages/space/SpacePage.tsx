@@ -1,8 +1,8 @@
 // 매장 상세 페이지
 import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { dummySpace } from "../../constants/dummy-data/spaces";
-import type { Space } from "../../types/Space";
+import { useState } from "react";
+// import { dummySpace } from "../../constants/dummy-data/spaces";
+// import type { Space } from "../../types/Space";
 import SpaceImageSlider from "./SpaceImageSlider";
 import FavoriteIcon from "../../components/FavoriteIcon";
 import { area, share, subway, won } from "../../assets/theme";
@@ -14,14 +14,13 @@ import { GoStarFill } from "react-icons/go";
 import { FiChevronRight } from "react-icons/fi";
 import { PATHS } from "../../routes/paths";
 import SpaceFooter from "./SpaceFooter";
-import SpaceInformation from "./SpaceInformation";
 import SpaceLocation from "../../components/map/SpaceLocation";
 import ExpandableTextSection from "./ExpandableTextSection";
 import SpaceReviewSlider from "./SpaceReviewSlider";
+import { useSpaceDetail } from "../../hooks/space/useSpaceDetail";
 
 const SpacePage = () => {
   const { spaceId } = useParams<{ spaceId: string }>();
-  const [space, setSpace] = useState<Space | null>(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const nav = useNavigate();
 
@@ -30,15 +29,10 @@ const SpacePage = () => {
     setIsFavorite((prev) => !prev);
   };
 
-  useEffect(() => {
-    if (spaceId && Number(spaceId) === dummySpace.id) {
-      setSpace(dummySpace);
-    } else {
-      setSpace(null);
-    }
-  }, [spaceId]);
+  const { data: space, isLoading, isError } = useSpaceDetail(spaceId ?? "");
 
-  if (!space)
+  if (isLoading) return <div className="text-14-Medium">로딩 중...</div>;
+  if (isError || !space)
     return <div className="text-14-Medium">매장을 찾을 수 없습니다.</div>;
 
   return (
@@ -85,7 +79,8 @@ const SpacePage = () => {
             <div className="flex gap-[0.4rem] items-center">
               <FaMapMarkerAlt className="text-cr-700 text-[1.5rem]" />
               <span className="text-cr-600 text-13-Medium">
-                {space.location}
+                삼성동
+                {/* {space.location} 여기 데이터 필요 */}
               </span>
             </div>
             <div className="flex gap-[0.4rem] items-center">
@@ -114,6 +109,7 @@ const SpacePage = () => {
         </div>
         <div className="border-cr-100 border-[0.4rem]" />
 
+        {/* 리뷰 부분 api 연결 */}
         <div className="flex items-center gap-4 mx-[1.5rem] my-[2rem]">
           <div className="text-13-SemiBold">리뷰</div>
           <div className="flex text-[1.2rem] gap-[0.4rem] items-center">
@@ -135,14 +131,6 @@ const SpacePage = () => {
 
         <ExpandableTextSection title="공간 소개" content={space.description} />
 
-        {/* 기타가격 안내, 공간정보는 호스트에서 입력이 없어요.. */}
-
-        <div className="mx-[1.5rem] my-[2rem]">
-          <span className="text-13-SemiBold">공간 정보</span>
-          <div className="my-[1rem]">
-            <SpaceInformation />
-          </div>
-        </div>
         <ExpandableTextSection
           title="공간 안내"
           content={space.facilityNotice}
@@ -187,9 +175,11 @@ const SpacePage = () => {
         <ExpandableTextSection title="환불 정책" content={space.refundPolicy} />
       </div>
 
+      {/* contact가 필요함 */}
       <div className="fixed bottom-0 left-1 right-0 z-50 bg-white max-w-[41.5rem] min-w-[32rem] mx-auto rounded-t-[1rem]">
         <SpaceFooter
           space={{
+            spaceId: space.id,
             name: space.name,
             maxCapacity: space.maxCapacity,
             contact: "01012345678",

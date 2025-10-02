@@ -11,3 +11,10 @@ export interface WishSpaceItem {
   reviewCount: number;
   tags: string[];
 }
+
+// 페이징 응답 인터페이스 추가
+export interface WishSpaceResponse {
+  spaces: WishSpaceItem[];
+  totalPage: number;
+  last: boolean;
+}

@@ -8,7 +8,7 @@ const SignUpPage: React.FC = () => {
   const userType = location.state?.userType ?? null;
 
   return (
-    <div className="h-screen w-full px-[2rem] flex flex-col  pb-[2.5rem]">
+    <div className="min-h-screen w-full px-[2rem] flex flex-col  pb-[2.5rem]">
       <PageHeader>회원가입</PageHeader>
 
       <div className="pt-[1.6rem] pb-[2.8rem]">

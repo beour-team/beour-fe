@@ -1,4 +1,5 @@
 import { clock, person, rightArrow } from "../../assets/theme";
+import type { ReservationCardProps } from "../../types/ReservationCardProps";
 
 const ReservationCard = ({
   name,
@@ -6,8 +7,7 @@ const ReservationCard = ({
   time,
   people,
   reserveId,
-  initialStatus,
-}) => {
+}: ReservationCardProps) => {
   return (
     <div className="rounded-[12px] p-6 w-full space-y-5 bg-white text-black">
       {/* 1. 이름 + 상태 버튼 */}

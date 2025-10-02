@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import FilterText from "./FilterText";
 import FilterFooter from "./FilterFooter";
 import PageHeader from "../../../components/header/PageHeader";
+import { PATHS } from "../../../routes/paths";
 
 const GuestFilterPage = () => {
   const nav = useNavigate();
@@ -35,7 +36,7 @@ const GuestFilterPage = () => {
     spaceType.forEach((type) => params.append("spaceType", type));
     useType.forEach((type) => params.append("useType", type));
 
-    nav(`/space/search?${params.toString()}`);
+    nav(`${PATHS.GUEST.RESULT}?${params.toString()}`);
   };
 
   return (

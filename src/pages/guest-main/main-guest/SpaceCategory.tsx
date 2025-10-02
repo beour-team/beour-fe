@@ -6,7 +6,7 @@ const SpaceCategory = () => {
     <div className="flex flex-wrap justify-start gap-6">
       {SpaceCategoryData.map((item) => (
         <div key={item.label}>
-          <CategoryIcon imgSrc={item.imgSrc} label={item.label} />
+          <CategoryIcon imgSrc={item.imgSrc} label={item.label} spaceCategoryCode={item.code} />
         </div>
       ))}
     </div>

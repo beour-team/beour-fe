@@ -21,7 +21,6 @@ const GuestHeader = () => {
         src={notification}
         alt="알림"
         className="w-[2rem] object-contain cursor-pointer"
-        onClick={() => nav(PATHS.GUEST.SEARCH)} //어디로 가야하죠
       />
     </div>
   );

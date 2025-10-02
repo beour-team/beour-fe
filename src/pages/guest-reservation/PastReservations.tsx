@@ -1,29 +1,45 @@
-import { rightArrow, space3 } from "../../assets/theme";
+import { useState } from "react";
+import { rightArrow, leftArrow } from "../../assets/theme";
 import ReserveTag from "../../components/guest-result/ReserveTag";
-import { pastReservationData } from "../../constants/dummy-data/reserve-data";
-import { formatReservationDateTime } from "../../utils/data-formatter";
 import ReviewButton from "./ReviewButton";
-import { PATHS } from "../../routes/paths";
 import { useNavigate } from "react-router-dom";
-import { user } from "../../constants/dummy-data/dummy-user";
+import { PATHS } from "../../routes/paths";
+import { formatReservationDateTime } from "../../utils/data-formatter";
+import { usePastReservations } from "../../hooks/guest-reservation/usePastReservations";
+import type { ReservationItem } from "../../types/guest-reservation/reservations";
 
 //백엔드 api에 태그 필요
 const PastReservations = () => {
   const nav = useNavigate();
+  const [page, setPage] = useState(0);
+
+  const { data, isError } = usePastReservations(page);
+
+  if (isError)
+    return (
+      <div className="text-center text-14-Medium text-cr-600">
+        예약이 존재하지 않습니다.
+      </div>
+    );
+
+  if (!data) return null;
+
+  const { reservations, totalPage, last } = data;
+
   return (
     <div>
       <div className="mx-[2rem] text-13-Medium text-cr-600 my-[2rem]">
-        총 {pastReservationData.length}개
+        총 {reservations.length}개
       </div>
 
       <div className="border border-[#ECECEC]"></div>
 
       <div>
-        {pastReservationData.map((reservation, index) => (
+        {reservations.map((reservation: ReservationItem, index: number) => (
           <div
             key={reservation.reservationId}
             className={`my-[1rem] py-[2rem] ${
-              index !== pastReservationData.length
+              index !== reservations.length
                 ? "border-b-[0.2rem] border-[#ECECEC]"
                 : ""
             }`}
@@ -38,7 +54,7 @@ const PastReservations = () => {
 
               <div className="flex items-center gap-5">
                 <img
-                  src={space3}
+                  src={reservation.spaceThumbImageUrl}
                   alt="공간 사진"
                   className="w-[8.5rem] h-[8.5rem] rounded-[1.2rem]"
                 />
@@ -71,10 +87,6 @@ const PastReservations = () => {
                           `${PATHS.GUEST.RESERVATIONS}/${reservation.reservationId}`,
                           {
                             state: {
-                              reservation: {
-                                ...reservation,
-                                user,
-                              },
                               category: "past",
                             },
                           }
@@ -93,11 +105,33 @@ const PastReservations = () => {
               </div>
               <ReviewButton
                 date={reservation.date}
-                hasReview={reservation.hasReview}
+                hasReview={reservation.reviewId !== 0}
               />
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="flex justify-center gap-4 my-[2rem]">
+        {totalPage > 1 && page > 0 && (
+          <img
+            src={leftArrow}
+            alt="이전 페이지"
+            className="cursor-pointer w-[2rem] h-[2rem]"
+            onClick={() => setPage((p) => Math.max(p - 1, 0))}
+          />
+        )}
+        <span className="text-14-Medium text-cr-500">
+          {page + 1} / {totalPage}
+        </span>
+        {totalPage > 1 && !last && (
+          <img
+            src={rightArrow}
+            alt="다음 페이지"
+            className="cursor-pointer w-[2rem] h-[2rem]"
+            onClick={() => setPage((p) => (last ? p : p + 1))}
+          />
+        )}
       </div>
     </div>
   );

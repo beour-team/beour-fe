@@ -1,5 +1,5 @@
 import { space3, space6 } from "../../assets/theme";
-import type { Space } from "../../types/Space";
+import type { Space } from "../../types/space/Space";
 
 export const dummySpace: Space = {
   id: 2001,
@@ -8,8 +8,8 @@ export const dummySpace: Space = {
   detailAddress: "2호선 강남역 4번 출구 도보 5분",
   pricePerHour: 99000,
   maxCapacity: 3,
-  spaceCategory: "COOKING",
-  useCategory: "COOKING",
+  spaceCategory: "쿠킹 공방",
+  useCategory: "요리 연습",
   avgRating: 4.2,
   description:
     "커다란 스크린이 구비되어 있는 넓은 공간과, 위에는 비어퐁을 즐길 수 있는, 아래는 닌텐도와 추억을 올가을 즐길 수 있는 공간으로 나누어져있어요. \n 방문해주신 고객님께 차별화된 서비스를 제공할 수 있도록 항상 노력하겠습니다 :)",
@@ -21,7 +21,6 @@ export const dummySpace: Space = {
   locationDescription: "강남역 도보 3분",
   refundPolicy:
     "- 천재 지변 등 불가항력적 사유로 인한 취소 시 : 100% 환불 \n - Be:our 및 호스트의 사유로 인한 취소 시 : 100% 환불 \n - 결제 후, 3시간 이내 취소 시, 100% 환불됩니다. \n(단, 이용시작 시간 12시간 이내에 취소 시에는 환불 불가) \n - 이용일 기준 7일전까지 취소 시 : 100% 환불",
-  websiteUrl: "https://example.com",
   tags: ["파티", "바베큐", "루프탑", "단체 모임"],
   availableTimes: [
     {
@@ -36,5 +35,5 @@ export const dummySpace: Space = {
     },
   ],
   imageUrls: [space6, space3],
-  location: "삼성동",
+  // location: "삼성동",
 };
