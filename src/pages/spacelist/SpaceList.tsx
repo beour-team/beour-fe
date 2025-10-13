@@ -210,12 +210,14 @@ const SpaceList = () => {
       <FloatingAddButton />
 
       {/* 스케줄 팝업 */}
-      <SpaceSchedule
-        isOpen={scheduleModalOpen}
-        onClose={handleScheduleClose}
-        spaceName={selectedSpace?.spaceName}
-        spaceId={selectedSpace?.spaceId}
-      />
+      {scheduleModalOpen && selectedSpace && (
+        <SpaceSchedule
+          isOpen={scheduleModalOpen}
+          onClose={handleScheduleClose}
+          spaceName={selectedSpace?.spaceName}
+          spaceId={selectedSpace.spaceId}
+        />
+      )}
     </div>
   );
 };

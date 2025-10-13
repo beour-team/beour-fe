@@ -8,14 +8,17 @@ import {
   ApplyAllCheckbox,
   ApplyButton,
 } from "./components";
-import { useSpaceSchedule } from "../../hooks/space/useSpaceSchedule";
+import {
+  useGetSpaceAvailableTimes,
+  useUpdateSpaceAvailableTimes,
+} from "../../hooks/space/useSpaceSchedule";
 
 // 팝업창에 필요한 데이터 타입 정의
 interface SpaceScheduleProps {
   isOpen: boolean; // 팝업이 열려있는지 여부
   onClose: () => void; // 팝업을 닫는 함수
   spaceName?: string; // 공간 이름 (선택사항)
-  spaceId?: number; // 공간 ID (API 호출용)
+  spaceId: number; // 공간 ID (API 호출용)
 }
 
 // 스케줄 팝업 컴포넌트 시작
@@ -25,15 +28,16 @@ const SpaceSchedule: React.FC<SpaceScheduleProps> = ({
   spaceName = "게임 파티룸 플레이에 상성역점", // 기본 공간 이름
   spaceId, // 공간 ID
 }) => {
-  // 🌟 API 데이터를 가져오는 훅
-  const {
-    data: spaceScheduleData,
-    loading,
-    error,
-    updateAvailableTimes,
-    updating,
-    // refetch, // 나중에 데이터 새로고침이 필요할 때 사용
-  } = useSpaceSchedule(spaceId);
+  // 공간 대여 가능 시간 조회 훅
+  const { data: spaceScheduleData } = useGetSpaceAvailableTimes(spaceId);
+
+  console.log("🌟 spaceScheduleData", spaceScheduleData);
+
+  // 공간 대여 가능 시간 업데이트 훅
+  const { mutateAsync: updateAvailableTimes, isPending: isUpdating } =
+    useUpdateSpaceAvailableTimes(spaceId);
+
+  console.log("🌟 isUpdating", isUpdating);
 
   // 선택된 날짜를 저장하는 상태 (단일 선택 모드)
   const [selectedDates, setSelectedDates] = useState<Date | undefined>(
@@ -61,63 +65,6 @@ const SpaceSchedule: React.FC<SpaceScheduleProps> = ({
 
   // 현재 드래그 중인지 여부를 저장하는 상태
   const [isDragging, setIsDragging] = useState(false);
-
-  const handleApply = async () => {
-    // 선택된 데이터들과 API 데이터를 콘솔에 출력
-    console.log("🎯 적용하기 - 선택된 설정:", {
-      selectedDates, // 선택된 날짜들
-      selectedTime, // 선택된 시간들
-      isHoliday, // 휴무일 설정 여부
-      applyToAll, // 모든 일자 적용 여부
-    });
-
-    // spaceId가 없으면 업데이트 불가능
-    if (!spaceId) {
-      console.error("❌ spaceId가 없어서 업데이트 불가능");
-      alert("공간 정보를 찾을 수 없어요. 다시 시도해주세요.");
-      return;
-    }
-
-    // 선택된 날짜와 시간으로 업데이트할 데이터 생성
-    const availableTimes: {
-      date: string;
-      startTime: string;
-      endTime: string;
-    }[] = [];
-
-    if (selectedDates && selectedTime.length > 0) {
-      // 선택된 날짜를 YYYY-MM-DD 형식으로 변환
-      const dateString = selectedDates.toISOString().split("T")[0];
-
-      // 선택된 각 시간을 시간대로 변환 (예: 09:00 → 09:00-10:00)
-      selectedTime.forEach((time) => {
-        const [hours, minutes] = time.split(":");
-        const startTime = `${hours}:${minutes}`;
-        const endHour = parseInt(hours) + 1;
-        const endTime = `${endHour.toString().padStart(2, "0")}:${minutes}`;
-
-        availableTimes.push({
-          date: dateString,
-          startTime,
-          endTime,
-        });
-      });
-    }
-
-    console.log("📝 서버에 전송할 데이터:", { availableTimes });
-
-    try {
-      // API 호출로 대여 가능 시간 업데이트
-      const result = await updateAvailableTimes({ availableTimes });
-      console.log("✅ 대여 가능 시간 업데이트 성공:", result);
-
-      // 성공 시 팝업 닫기
-      onClose();
-    } catch (err) {
-      console.error("❌ 대여 가능 시간 업데이트 실패:", err);
-      // 에러 발생 시 팝업은 닫지 않고 사용자가 다시 시도할 수 있도록 함
-    }
-  };
 
   const handleBackgroundClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
@@ -152,6 +99,104 @@ const SpaceSchedule: React.FC<SpaceScheduleProps> = ({
     setIsDragging(false);
     setDragStartY(0);
     setDragCurrentY(0);
+  };
+
+  // YYYY-MM-DD (로컬)
+  const formatDateLocal = (d: Date) => {
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    return `${y}-${m}-${day}`;
+  };
+
+  // "HH:mm:ss" → ["13:00","14:00", ...]  (정시 기준, [start,end) 반개구간)
+  const expandAnchors = (start: string, end: string) => {
+    const sh = Number(start.slice(0, 2));
+    const eh = Number(end.slice(0, 2));
+    const out: string[] = [];
+    for (let h = sh; h < eh; h++) out.push(String(h).padStart(2, "0") + ":00");
+    return out;
+  };
+
+  const toHHMMSS = (t: string) => `${t}:00`;
+
+  // 하루 기본 표시 시간대
+  const ALL_HOURS = React.useMemo(() => {
+    const arr: string[] = [];
+    for (let h = 8; h <= 22; h++) arr.push(String(h).padStart(2, "0") + ":00"); // ✅ 22까지
+    return arr;
+  }, []);
+
+  const [disabledTimes, setDisabledTimes] = useState<string[]>([]);
+
+  // 날짜나 서버 데이터가 바뀔 때마다 세팅
+  React.useEffect(() => {
+    if (!spaceScheduleData || !selectedDates) {
+      setSelectedTime([]);
+      setDisabledTimes([]);
+      return;
+    }
+
+    const dateKey = formatDateLocal(selectedDates);
+
+    const editable = (spaceScheduleData.editableTimeSlots ?? []).filter(
+      (s) => s.date === dateKey
+    );
+    const nonEditable = (spaceScheduleData.nonEditableTimeSlots ?? []).filter(
+      (s) => s.date === dateKey
+    );
+
+    const allowed = new Set<string>();
+    editable.forEach((s) =>
+      expandAnchors(s.startTime, s.endTime).forEach((t) => allowed.add(t))
+    );
+    const blocked = new Set<string>();
+    nonEditable.forEach((s) =>
+      expandAnchors(s.startTime, s.endTime).forEach((t) => blocked.add(t))
+    );
+
+    // 예약된 시간은 최우선으로 막기
+    blocked.forEach((t) => allowed.delete(t));
+
+    setSelectedTime(Array.from(allowed)); // 기본 선택값
+    setDisabledTimes(Array.from(blocked)); // 비활성 목록
+  }, [spaceScheduleData, selectedDates]);
+
+  // [NEW] 적용(업데이트) 핸들러 ---------------------------------------
+  const handleApply = async () => {
+    if (!selectedDates) {
+      alert("날짜를 먼저 선택해주세요.");
+      return;
+    }
+    if (selectedTime.length === 0) {
+      alert("열어줄 시간을 선택해주세요.");
+      return;
+    }
+
+    const date = formatDateLocal(selectedDates);
+
+    // 간단 버전: 1시간 단위로 그대로 전송 (필요하면 연속 구간 병합 가능)
+    const availableTimes = [...selectedTime].sort().map((start) => {
+      // ✅ 복사 후 정렬
+      const [h, mm] = start.split(":").map(Number);
+      const end = `${String(h + 1).padStart(2, "0")}:${String(mm).padStart(
+        2,
+        "0"
+      )}`;
+      return { date, startTime: toHHMMSS(start), endTime: toHHMMSS(end) }; // ✅ 헬퍼 사용
+    });
+
+    try {
+      await updateAvailableTimes({
+        availableTimes,
+        isHoliday,
+        applyToAll,
+      });
+      onClose();
+    } catch (e) {
+      console.error("❌ 대여 가능 시간 업데이트 실패:", e);
+      alert("업데이트에 실패했습니다.");
+    }
   };
 
   // 팝업이 닫혀있으면 아무것도 보여주지 않음
@@ -189,35 +234,6 @@ const SpaceSchedule: React.FC<SpaceScheduleProps> = ({
 
         {/* 팝업 내용 영역 */}
         <div className="w-full relative">
-          {/* 🔄 로딩 상태 표시 */}
-          {loading && (
-            <div className="text-center py-4 text-gray-500">
-              공간 스케줄 정보를 불러오는 중...
-            </div>
-          )}
-
-          {/* ❌ 에러 상태 표시 */}
-          {error && (
-            <div className="text-center py-4 text-red-500 bg-red-50 rounded-lg mb-4">
-              {error}
-            </div>
-          )}
-
-          {/* 📊 API 데이터 정보 표시 (개발용) */}
-          {spaceScheduleData && (
-            <div className="mb-4 p-3 bg-blue-50 rounded-lg text-sm text-blue-700">
-              <div>📊 현재 공간 ID: {spaceScheduleData.spaceId}</div>
-              <div>
-                ✅ 수정 가능한 시간:{" "}
-                {spaceScheduleData.editableTimeSlots?.length ?? 0}개
-              </div>
-              <div>
-                🔒 수정 불가능한 시간:{" "}
-                {spaceScheduleData.nonEditableTimeSlots?.length ?? 0}개
-              </div>
-            </div>
-          )}
-
           {/* 달력 영역 - 날짜 선택 */}
           <CalendarSection
             selectedDates={selectedDates}
@@ -232,8 +248,14 @@ const SpaceSchedule: React.FC<SpaceScheduleProps> = ({
 
           {/* 시간 선택 영역 - 대여 가능한 시간 선택 */}
           <TimeSelection
-            selectedTime={selectedTime}
-            onTimeSelect={setSelectedTime}
+            options={ALL_HOURS} // 항상 보일 시간대
+            selectedTime={selectedTime} // 기본 선택값 (editable)
+            onTimeSelect={(times) => {
+              // 비활성 시간 선택 방지 (이중 안전장치)
+              const filtered = times.filter((t) => !disabledTimes.includes(t));
+              setSelectedTime(filtered);
+            }}
+            disabledTimes={disabledTimes} // 예약되어 비활성
           />
 
           {/* 모든 일자 적용 체크박스 */}
@@ -242,15 +264,11 @@ const SpaceSchedule: React.FC<SpaceScheduleProps> = ({
             onToggle={() => setApplyToAll(!applyToAll)}
           />
 
-          {/* 업데이트 중일 때 로딩 표시 */}
-          {updating && (
-            <div className="text-center py-4 text-blue-500">
-              📝 대여 가능 시간을 업데이트 중...
-            </div>
-          )}
-
           {/* 적용하기 버튼 - 설정 완료 */}
-          <ApplyButton onApply={handleApply} />
+          <ApplyButton
+            onApply={handleApply}
+            disabled={isUpdating || !selectedDates || selectedTime.length === 0}
+          />
         </div>
       </div>
     </div>
