@@ -1,5 +1,5 @@
 // 서버 배포 후 수정 필요
-export const BASE_URL = "https://beour.store/";
+export const BASE_URL = "https://beour.store";
 // export const BASE_URL = "https://3.35.1.103:8080";
 // export const BASE_URL = "http://beour-bucket.s3-website.ap-northeast-2.amazonaws.com/";
 
@@ -65,8 +65,11 @@ export const API_SPACE_DESCRIPTION_UPDATE =
 export const API_SPACE_TAGS_UPDATE = "/api/spaces/{spaceId}/tags";
 
 // 마이페이지 - 공간 이용 가능 시간, 이미지 수정, 공간 삭제
-export const API_SPACE_AVAILABLE_TIMES_UPDATE =
-  "/api/spaces/{spaceId}/available-times";
+export const API_SPACE_AVAILABLE_TIMES_GET = (spaceId: number) =>
+  `/api/spaces/${spaceId}/available-times`;
+export const API_SPACE_AVAILABLE_TIMES_UPDATE = (spaceId: number) =>
+  `/api/spaces/${spaceId}/available-times`;
+
 export const API_SPACE_IMAGES_UPDATE = "/api/spaces/{spaceId}/images";
 export const API_SPACE_DELETE = "/api/spaces/{spaceId}";
 

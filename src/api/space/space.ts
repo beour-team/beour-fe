@@ -1,10 +1,15 @@
 import type {
-  SpaceAvailableTimesResponse,
+  ApiResponse,
+  SpaceAvailableTimes,
   UpdateAvailableTimesRequest,
   UpdateAvailableTimesResponse,
 } from "../../types/SpaceSchedule";
 import { api } from "../api";
-import { API_SPACES } from "../../constants/endpoint/endpoint";
+import {
+  API_SPACE_AVAILABLE_TIMES_GET,
+  API_SPACE_AVAILABLE_TIMES_UPDATE,
+  API_SPACES,
+} from "../../constants/endpoint/endpoint";
 import type { AxiosError } from "axios";
 // import type { HostSpaceInfo } from "../../types/HostSpaceInfo";
 
@@ -53,40 +58,34 @@ export const registerSpace = async (
   }
 };
 
+// 공간 대여 가능 시간 조회
 export const getSpaceAvailableTimes = async (
   spaceId: number
-): Promise<SpaceAvailableTimesResponse> => {
+): Promise<SpaceAvailableTimes> => {
   try {
-    const response = await api.get(
-      `/api/host/available-times/space/${spaceId}`
+    const response = await api.get<ApiResponse<SpaceAvailableTimes>>(
+      `${API_SPACE_AVAILABLE_TIMES_GET(spaceId)}`
     );
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error("공간 대여 가능 시간 조회 실패:", error);
     throw error;
   }
 };
 
+// 공간 대여 가능 시간 업데이트
 export const updateSpaceAvailableTimes = async (
   spaceId: number,
-  availableTimes: UpdateAvailableTimesRequest
+  body: UpdateAvailableTimesRequest
 ): Promise<UpdateAvailableTimesResponse> => {
   try {
-    console.log("📝 [API] 공간 스케줄 업데이트 요청:", {
-      spaceId,
-      availableTimes,
-      timestamp: new Date().toLocaleString(),
-    });
-
-    const response = await api.patch(
-      `/api/host/available-times/space/${spaceId}`,
-      availableTimes
+    const response = await api.patch<ApiResponse<UpdateAvailableTimesResponse>>(
+      API_SPACE_AVAILABLE_TIMES_UPDATE(spaceId),
+      body
     );
-
-    console.log("📝 [API] 공간 스케줄 업데이트 성공:", response.data);
-    return response.data;
+    return response.data.data;
   } catch (error) {
-    console.error("📝 [API] 공간 스케줄 업데이트 실패:", error);
+    console.error("공간 대여 가능 시간 업데이트 실패:", error);
     throw error;
   }
 };

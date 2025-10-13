@@ -31,3 +31,38 @@ export interface UpdateAvailableTimesResponse {
   message: string; // 응답 메시지
   data: null; // 응답 데이터 (없음)
 }
+
+// src/types/SpaceSchedule.ts
+export interface TimeSlot {
+  date: string; // "YYYY-MM-DD"
+  startTime: string; // "HH:mm:ss"
+  endTime: string; // "HH:mm:ss"
+}
+
+export interface SpaceAvailableTimes {
+  spaceId: number;
+  editableTimeSlots: TimeSlot[];
+  nonEditableTimeSlots: TimeSlot[];
+}
+
+export interface ApiResponse<T> {
+  code: number;
+  httpStatus: string;
+  data: T;
+}
+export interface UpdateAvailableTimesRequest {
+  availableTimes: { date: string; startTime: string; endTime: string }[];
+  isHoliday?: boolean;
+  applyToAll?: boolean;
+}
+
+export interface UpdateAvailableTimesResponse {
+  // 백엔드 응답 스펙에 맞춰 필요시 추가
+  success?: boolean;
+}
+
+export interface ApiResponse<T> {
+  code: number;
+  httpStatus: string;
+  data: T;
+}

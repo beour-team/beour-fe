@@ -5,12 +5,9 @@ import { PATHS } from "../../routes/paths";
 import { useLogOut } from "../../hooks/Login/useLogOut";
 import { ToolTip } from "../../components/tooltip/Tooltip";
 
-interface Props {
-  userEmail?: string;
-}
-
-const MypageMenuList: React.FC<Props> = ({ userEmail }) => {
+const MypageMenuList: React.FC = () => {
   const { mutate: logout } = useLogOut();
+  const accessToken = localStorage.getItem("accessToken");
 
   return (
     <div className="pt-[3rem]">
@@ -32,7 +29,7 @@ const MypageMenuList: React.FC<Props> = ({ userEmail }) => {
           );
         })}
 
-        {userEmail ? (
+        {!accessToken ? (
           <Link
             to={PATHS.LOGIN}
             className="flex justify-between items-center text-18-SemiBold cursor-pointer"
